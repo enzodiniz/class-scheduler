@@ -1,11 +1,11 @@
-<md-dialog flex="30" ng-controller="homeCtrl as h">
+<md-dialog flex="30">
   <form ng-cloak>
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>{{h.pessoa.nome}}</h2>
+        <h2>{{pessoa.nome}} {{pessoa.sobrenome}}</h2>
         <span flex></span>
-        <md-button class="md-raised md-accent" ng-click="h.removerPessoa()">
-          Excluir essa pessoa
+        <md-button class="md-raised md-accent" ng-click="removerPessoa()">
+          Excluir
         </md-button>
       </div>
     </md-toolbar>
@@ -24,7 +24,7 @@
     </md-dialog-content>
 
     <md-dialog-actions layout="row">
-      <md-button class="md-raised" ng-click="h.cancel()">Cancelar</md-button>
+      <md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
       <md-button class="md-raised md-primary" ng-click="">Salvar</md-button>
     </md-dialog-actions>
   </form>

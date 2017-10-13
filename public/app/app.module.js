@@ -1,5 +1,16 @@
 angular
   .module("class-scheduler", ['ngRoute', 'ngMaterial', 'firebase'])
+  .service('$mdClassSchedulerToast', function($mdToast) {
+    return {
+      show: function(content) {
+      return $mdToast.show(
+        $mdToast.simple()
+          .content(content)
+          .position('bottom left')
+          .hideDelay(1200)
+      )}
+    };
+  })
   .config(function ($routeProvider) {
     $routeProvider
     .when('/home', {

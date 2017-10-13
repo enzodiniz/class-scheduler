@@ -34,9 +34,9 @@ function homeCtrl ($scope, $location, $firebaseArray, $mdDialog) {
   self.salvarPessoa = function () {
     if (self.nome == "" || self.sobrenome == "")
       return;
-    var pessoasRef = self.database.ref('pessoas');
 
-    pessoasRef.push({
+    //var pessoasRef = self.database.ref('pessoas');
+    self.pessoas.$add({
       nome: self.nome,
       sobrenome: self.sobrenome
     }).then(function () {
@@ -73,12 +73,35 @@ function homeCtrl ($scope, $location, $firebaseArray, $mdDialog) {
     self.sobrenome = "";
   }
 
-  self.editarPessoa = function (ev, pessoa) {
-    console.log("pessoa:", pessoa);
-    self.pessoaId = pessoa.$id;
+  self.editarPessoa = function (ev, _pessoa) {
+    console.log("event:", ev);
+    console.log("pessoa:", _pessoa);
+    self.pessoaId = _pessoa.$id;
     console.log("self pessoaId:", self.pessoaId);
     $mdDialog.show({
-      controller: homeCtrl,
+      locals: {
+        pessoa: _pessoa
+      },
+      controller: ['$scope', 'pessoa', '$mdClassSchedulerToast',
+        function($scope, pessoa, $mdClassSchedulerToast) {
+
+          $scope.pessoa = pessoa;
+
+          $scope.removerPessoa = function () {
+            self.pessoas.$remove(pessoa).then(function(reference) {
+              if (reference.key == pessoa.$id) {
+                $mdClassSchedulerToast.show("Pessoa removida.");
+                $scope.cancel();
+              } else {
+                $mdClassSchedulerToast.show("Erro ao remover pessoa.");
+              }
+            });
+          };
+
+          $scope.cancel = function () {
+            $mdDialog.cancel();
+          }
+      }],
       templateUrl: 'app/routes/editPessoa.tmpl.html',
       parent: angular.element(document.body),
       targetEvent: ev,
@@ -92,34 +115,32 @@ function homeCtrl ($scope, $location, $firebaseArray, $mdDialog) {
     })
   }
 
-  self.removerPessoa = function () {
-      console.log("id:", self.pessoaId);
-      // var pessoasRef = self.database.ref('pessoas');
-      // for (var i = 0; i < pessoasRef.length; i++) {
-      //   if (pessoasRef[i].$id == self.pessoa.$id) {
-      //     pessoasRef.splice(i, 1).then(function () {
-      //       console.log("pessoa removida");
-      //     }.bind(this)).catch(function (erro) {
-      //       console.log("erro ao remover pessoa", erro);
-      //     });
-      //   }
-      // }
+  // self.removerPessoa = function () {
+  //     console.log('remover pessoa: ' + pessoinha);
 
-      
-      for (var i = 0; i < self.pessoas.length; i++) {
-        console.log("self.pessoa(remover):", self.pessoaId);
-        if (self.pessoas[i].$id == self.pessoaId) {
-          self.pessoas.splice(i, 1);
-          var pessoasRef = self.database.ref("pessoas");
-          pessoasRef = self.pessoas;
-          return;
-        }
-      }
-  }
+  //     // var pessoasRef = self.database.ref('pessoas');
+  //     // for (var i = 0; i < pessoasRef.length; i++) {
+  //     //   if (pessoasRef[i].$id == self.pessoa.$id) {
+  //     //     pessoasRef.splice(i, 1).then(function () {
+  //     //       console.log("pessoa removida");
+  //     //     }.bind(this)).catch(function (erro) {
+  //     //       console.log("erro ao remover pessoa", erro);
+  //     //     });
+  //     //   }
+  //     // }
+  //
+  //
+  //     for (var i = 0; i < self.pessoas.length; i++) {
+  //       console.log("self.pessoa(remover):", self.pessoaId);
+  //       if (self.pessoas[i].$id == self.pessoaId) {
+  //         self.pessoas.splice(i, 1);
+  //         var pessoasRef = self.database.ref("pessoas");
+  //         pessoasRef = self.pessoas;
+  //         return;
+  //       }
+  //     }
+  // }
 
-  self.cancel = function () {
-    $mdDialog.cancel();
-  }
 
   self.hide = function () {
     $mdDialog.hide();
