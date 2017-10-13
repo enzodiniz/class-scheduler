@@ -1,0 +1,26 @@
+<md-dialog ng-controller="homeCtrl as c">
+  <form>
+    <md-toolbar>
+      <h2>Adicionar Pessoa</h2>
+    </md-toolbar>
+
+    <md-dialog-content flex>
+      <div class="md-dialog-content">
+        <md-input-container>
+          <label>Nome</label>
+          <input ng-model="c.nome" type="text" ng-required="true">
+        </md-input-container>
+
+        <md-input-container>
+          <label>Sobrenome</label>
+          <input ng-model="c.sobrenome" type="text" ng-required="true">
+        </md-input-container>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions>
+      <md-button class="md-raised" ng-click="c.cancel()">Cancelar</md-button>
+      <md-button class="md-primary md-raised" ng-click="c.salvarPessoa()">Salvar</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

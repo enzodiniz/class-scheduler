@@ -1,0 +1,31 @@
+<md-dialog flex="30" ng-controller="homeCtrl as h">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{h.pessoa.nome}}</h2>
+        <span flex></span>
+        <md-button class="md-raised md-accent" ng-click="h.removerPessoa()">
+          Excluir essa pessoa
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content flex>
+      <div class="md-dialog-content" layout="column" layout-align="start">
+        <form class="">
+          <md-input-container flex>
+            <input type="text" ng-model="h.nome" placeholder="Nome...">
+          </md-input-container>
+          <md-input-container flex>
+            <input type="text" ng-model="h.sobrenome" placeholder="Sobrenome...">
+          </md-input-container>
+        </form>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button class="md-raised" ng-click="h.cancel()">Cancelar</md-button>
+      <md-button class="md-raised md-primary" ng-click="">Salvar</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

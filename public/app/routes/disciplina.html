@@ -1,0 +1,21 @@
+<div ng-controller = "discCtrl as c">
+	<md-card>
+		<md-list ng-cloak="" class="listdemoListControls">
+			<md-toolbar layout="row" class="md-hue-3">
+				<div class="md-toolbar-tools">
+					<span>Disciplinas</span>
+				</div>
+				<md-button class="md-raised md-primary" ng-click="c.criarDisc()">Add disciplina</md-button>
+			</md-toolbar>
+			<md-list-item class="secondary-button-padding" ng-click="null"
+			ng-show="c.disciplinas.length == 0" ng-cloak="">
+				Nenhuma disciplina cadastrada.
+		  </md-list-item>
+		  <md-list-item class="secondary-button-padding item-de-lista" ng-repeat="d in c.disciplinas"
+			ng-click="null">
+				<b>{{d.titulo}}</b>&nbsp
+				turma: {{d.turma}}
+		  </md-list-item>
+		</md-list>
+	</md-card>
+</div>

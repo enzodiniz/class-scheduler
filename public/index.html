@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet"  href="/node_modules/angular-material/angular-material.css"> -->
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
+    <title>Welcome to Firebase Hosting</title>
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/4.3.0/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/4.3.0/firebase-auth.js"></script>
+    <script defer src="/__/firebase/4.3.0/firebase-database.js"></script>
+    <!-- <script defer src="/__/firebase/4.3.0/firebase-messaging.js"></script> -->
+    <script defer src="/__/firebase/4.3.0/firebase-storage.js"></script>
+    <!-- initialize the SDK after all desired features are loaded -->
+    <script defer src="/__/firebase/init.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
+    <!-- <script defer src="app.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular-route.min.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+    <script src="./app/app.module.js"></script>
+    <script src="app/controllers/mainController.js"></script>
+    <script src="app/controllers/authController.js"></script>
+    <script src="app/controllers/homeController.js"></script>
+    <script src="app/controllers/disc.controller.js"></script>
+    <script src="app/controllers/turma.controller.js"></script>
+    <style type="text/css">
+      .item-de-lista {
+        font-size: 15px;
+      }
+      .item-de-lista:hover {
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body ng-app="class-scheduler" ng-controller="MainController as c" ng-cloak>
+
+    <!-- Começo da modificação -->
+    <div ng-show="c.logado" class="fabToolbardemoBasicUsage">
+      <md-fab-toolbar md-open="c.demo.isOpen" count="c.demo.count"
+      md-direction="c.demo.selectedDirection">
+        <md-fab-trigger class="align-with-text">
+          <md-button aria-label="menu" class="md-fab md-primary">
+            <md-icon md-svg-src="app/img/menu_48.svg"></md-icon>
+          </md-button>
+        </md-fab-trigger>
+
+        <md-toolbar>
+          <md-fab-actions class="md-toolbar-tools">
+            <md-button ng-click="" href="http://localhost:5000" class="md-icon-button">
+              <md-icon md-svg-src="app/img/home.svg"></md-icon>
+            </md-button>
+            <md-button ng-click="c.redirecionarTurma()">
+              Turmas
+            </md-button>
+            <md-button ng-click="c.redirecionarDisc()">
+              Disciplinas
+            </md-button>
+            <md-button ng-click="c.logOut()">
+              Sair
+            </md-button>
+          </md-fab-actions>
+        </md-toolbar>
+      </md-fab-toolbar>
+    </div>
+    <!-- Fim da modificação -->
+    <!-- Templates -->
+    <div ng-view></div>
+  </body>
+</html>

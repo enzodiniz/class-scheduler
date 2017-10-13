@@ -1,0 +1,23 @@
+<div ng-controller="turmaCtrl as c">
+  <md-card>
+    <md-toolbar layout="row" class="md-hue-3">
+      <div class="md-toolbar-tools">
+        <span>Turmas</span>
+      </div>
+      <md-button class="md-raised" ng-click="c.criarTurma()">Add turma</md-button>
+    </md-toolbar>
+
+    <md-content>
+      <md-list>
+        <md-list-item class="secondary-button-padding" ng-click="null"
+  			ng-show="c.turmas.length == 0" ng-cloak="">
+  				Nenhuma turma cadastrada.
+  		  </md-list-item>
+        <md-list-item ng-repeat="t in c.turmas | orderBy:'t.serie'" ng-click="null"
+        class="item-de-lista">
+          {{t.serie}}º de {{t.curso}}
+        </md-list-item>
+      </md-list>
+    </md-content>
+  </md-card>
+</div>

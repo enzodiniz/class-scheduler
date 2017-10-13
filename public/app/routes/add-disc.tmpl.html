@@ -1,0 +1,42 @@
+<md-dialog ng-controller="discCtrl as c" ng-init="c.obterTurmas()">
+  <form>
+    <md-toolbar>
+      <h2>Adicionar nova disciplina</h2>
+    </md-toolbar>
+
+    <md-dialog-content flex>
+      <div class="md-dialog-content">
+        <md-input-container>
+          <label>Título</label>
+          <input ng-model="c.titulo" type="text" ng-required="true">
+        </md-input-container>
+
+        <md-input-container>
+          <label>Turma temporária</label>
+          <input list="turmas" ng-model="c.turma" type="text" ng-required="true">
+          <datalist id="turmas">
+            <option value="{{t.serie}}º de {{t.curso}}" ng-repeat="t in c.turmas">
+          </datalist>
+        </md-input-container>
+
+        <md-input-container flex>
+    			<div layout="row" ng-cloak="" class="autocompletedemoFloatingLabel">
+    				<md-autocomplete flex="" required="" md-input-name="autocompleteField"
+            md-selected-item="c.selectedItem" md-search-text="c.searchText"
+            md-items="item in c.querySearch(c.searchText)" md-item-text="item.display"
+            md-require-match="" md-floating-label="Turmas">
+  			      <md-item-template>
+  			        <span md-highlight-text="ctrl.searchText">{{item.display}}</span>
+  			      </md-item-template>
+  			    </md-autocomplete>
+    			</div>
+    		</md-input-container>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions>
+      <md-button class="md-raised" ng-click="c.cancel()">Cancelar</md-button>
+      <md-button class="md-primary md-raised" ng-click="c.salvarDisc()">Salvar</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
