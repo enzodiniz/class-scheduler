@@ -1,4 +1,4 @@
-<md-dialog ng-controller="discCtrl as c" ng-init="c.obterTurmas()">
+<md-dialog>
   <form>
     <md-toolbar>
       <h2>Adicionar nova disciplina</h2>
@@ -8,14 +8,15 @@
       <div class="md-dialog-content">
         <md-input-container>
           <label>Título</label>
-          <input ng-model="c.titulo" type="text" ng-required="true">
+          <input ng-model="titulo" type="text" ng-required="true">
         </md-input-container>
 
         <md-input-container>
           <label>Turma temporária</label>
-          <input list="turmas" ng-model="c.turma" type="text" ng-required="true">
+          <input list="turmas" ng-model="turma" type="text" ng-required="true">
           <datalist id="turmas">
-            <option value="{{t.serie}}º de {{t.curso}}" ng-repeat="t in c.turmas">
+            <!-- <option value="{{t.serie}}º de {{t.curso}}" ng-repeat="t in turmas"> -->
+            <option value="{{t.id}}" ng-repeat="t in turmas">
           </datalist>
         </md-input-container>
 
@@ -35,8 +36,8 @@
     </md-dialog-content>
 
     <md-dialog-actions>
-      <md-button class="md-raised" ng-click="c.cancel()">Cancelar</md-button>
-      <md-button class="md-primary md-raised" ng-click="c.salvarDisc()">Salvar</md-button>
+      <md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
+      <md-button class="md-primary md-raised" ng-click="salvar()">Salvar</md-button>
     </md-dialog-actions>
   </form>
 </md-dialog>

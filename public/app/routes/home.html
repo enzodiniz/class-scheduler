@@ -1,25 +1,5 @@
 <div ng-controller="homeCtrl as c">
 
-  <!-- Form de adicionar pessoa -->
-  <!-- <div layout="column" ng-show="c.adicionando" class="md-inline-form">
-    <md-card>
-      <md-content>
-        <md-input-container>
-          <label>Nome</label>
-          <input ng-model="c.nome" type="text" ng-required="true">
-        </md-input-container>
-
-        <md-input-container>
-          <label>Sobrenome</label>
-          <input ng-model="c.sobrenome" type="text" ng-required="true">
-        </md-input-container>
-      </md-content>
-      <md-card-action layout="row" layout-align="end center">
-        <md-button class="md-primary md-raised" ng-click="c.salvarPessoa()">Salvar</md-button>
-      </md-card-action>
-    </md-card>
-  </div> -->
-
   <!-- Lista de pessoas -->
   <md-card>
     <div layout-gt-sm="row" layout="column" class="listdemoBasicUsage">
@@ -28,12 +8,9 @@
           <div class="md-toolbar-tools">
             <span>Pessoas</span>
           </div>
-          <md-button ng-click="c.mostrarForm()" ng-show="!c.adicionando">
+          <md-button class="md-raised md-primary" ng-click="c.salvarPessoa($event)">
             Add pessoa
           </md-button>
-          <!-- <md-button ng-click="c.mostrarForm()" ng-show="c.adicionando">
-            Cancelar
-          </md-button> -->
         </md-toolbar>
 
         <md-content>
@@ -45,9 +22,12 @@
             <md-list-item class="md-3-line item-de-lista" ng-repeat="p in c.pessoas"
             ng-click="c.editarPessoa($event, p)">
               <div class="md-list-item-text" layout="column">
-                {{p.nome}}
-                {{p.sobrenome}}
+                {{p.data().nome}}
+                {{p.data().sobrenome}}
               </div>
+              <!-- <md-button ng-click="c.editarPessoa($event, p)" class="md-icon-button">
+                <md-icon></md-icon>
+              </md-button> -->
             </md-list-item>
           </md-list>
         </md-content>

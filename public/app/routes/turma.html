@@ -4,7 +4,7 @@
       <div class="md-toolbar-tools">
         <span>Turmas</span>
       </div>
-      <md-button class="md-raised" ng-click="c.criarTurma()">Add turma</md-button>
+      <md-button class="md-raised md-primary" ng-click="c.salvarTurma()">Add turma</md-button>
     </md-toolbar>
 
     <md-content>
@@ -13,9 +13,9 @@
   			ng-show="c.turmas.length == 0" ng-cloak="">
   				Nenhuma turma cadastrada.
   		  </md-list-item>
-        <md-list-item ng-repeat="t in c.turmas | orderBy:'t.serie'" ng-click="null"
-        class="item-de-lista">
+        <md-list-item ng-repeat="t in c.turmas" ng-click="null" class="item-de-lista">
           {{t.serie}}º de {{t.curso}}
+          <md-button class="end md-raised md-danger">Excluir</md-button>
         </md-list-item>
       </md-list>
     </md-content>

@@ -1,0 +1,53 @@
+<md-dialog>
+  <form>
+    <md-toolbar>
+      <h2>Adicionar Professor</h2>
+    </md-toolbar>
+
+    <md-dialog-content flex>
+      <div class="md-dialog-content">
+        <md-input-container>
+          <label>Nome</label>
+          <input ng-model="nome" type="text" ng-required="true">
+        </md-input-container>
+
+        <md-input-container>
+          <label>Sobrenome</label>
+          <input ng-model="sobrenome" type="text" ng-required="true">
+        </md-input-container>
+
+        <md-input-container>
+          <label>Email</label>
+          <input ng-model="email" type="email" ng-required="true">
+        </md-input-container>
+
+        <md-input-container>
+          <md-radio-group ng-model="isAdmin">
+		        <md-radio-button value="true" class="md-primary">
+		      	 Professor Administrador
+		        </md-radio-button>
+		        <md-radio-button value="false"> Professor Comum </md-radio-button>
+		      </md-radio-group>
+        </md-input-container>
+
+        <md-input-container>
+          <fieldset class="standard">
+            <legend>Disciplinas</legend>
+            <div layout="row" layout-wrap="" flex="">
+              <div flex="50" ng-repeat="item in disciplinas">
+                <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)">
+                  {{ item.data().titulo }} <span ng-if="exists(item, selected)">selected</span>
+                </md-checkbox>
+              </div>
+            </div>
+          </fieldset>
+        </md-input-container>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions>
+      <md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
+      <md-button class="md-primary md-raised" ng-click="salvarProf()">Salvar</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

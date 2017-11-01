@@ -4,50 +4,65 @@ angular
 
 function turmaCtrl ($scope, $firebaseArray, $mdDialog) {
   var self = this;
+
   self.noCache = true;
   self.turmas = [];
-  self.cursos = ['Geologia', 'Informática', 'Edificações'];
 
   self.initFirebase = function () {
-    self.database = firebase.database();
-    self.carregarTurmas();
+    self.db = firebase.firestore();
+    self.getRealtimeUpdates();
   }
 
-  self.carregarTurmas = function () {
-    self.turmas = $firebaseArray(self.database.ref().child("turmas"));
-  }
-
-  self.salvarTurma = function () {
-    let ref = self.database.ref("turmas");
-    ref.push({
-      curso: self.curso,
-      serie: self.serie
-    }).then(function () {
-      console.log("a turma foi salva");
-      self.hide();
-    }.bind(this)).catch(function (erro) {
-      console.log("erro ao salvar a turma", erro);
+  self.getRealtimeUpdates = function () {
+    self.db.collection("turmas").onSnapshot(function (querySnapshot) {
+      let turmasTemp = [];
+      querySnapshot.forEach(function (doc) {
+        turmasTemp.push(doc.data());
+      });
+      $scope.$apply(function () {
+        self.turmas = turmasTemp;        
+      });
     })
   }
 
-  self.criarTurma = function () {
+  self.salvarTurma = function (ev) {
     $mdDialog.show({
-      controller: turmaCtrl,
       templateUrl: 'app/routes/add-turma.tmpl.html',
-      clickOutsideToClose: true
+      clickOutsideToClose: true,
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      fullscreen: $scope.customFullscreen,
+      controller: ['$scope', '$mdClassSchedulerToast', function ($scope, $mdClassSchedulerToast) {
+
+        self.series = ['1', '2', '3', '4'];
+        self.cursos = ['Geologia', 'Informática', 'Edificações'];
+
+        $scope.salvar = function () {
+          self.db.collection("turmas").add({
+            curso: $scope.curso,
+            serie: $scope.serie
+          }).then(function (docRef) {
+            $mdClassSchedulerToast.show("Uma nova turma foi salva");
+            $scope.hide();
+          }).catch(function (error) {
+            console.log("Ocorreu um erro ao salvar turma: ", error);
+            $mdClassSchedulerToast.show("Erro ao salvar a turma");
+          });
+        }
+
+        $scope.cancel = function () {
+          $mdDialog.cancel();
+        }
+
+        $scope.hide = function () {
+          $mdDialog.hide();
+        }
+      }]
     }).then(function (resposta) {
       console.log("resposta", resposta);
     }, function () {
         console.log("cancelled dialog");
     })
-  }
-
-  self.cancel = function () {
-    $mdDialog.cancel();
-  }
-
-  self.hide = function () {
-    $mdDialog.hide();
   }
 
   self.querySearch = function (query) {

@@ -8,50 +8,69 @@ function discCtrl ($scope, $firebaseArray, $mdDialog) {
   self.turmas = [];
 
   self.initFirebase = function () {
-    self.database = firebase.database();
-    self.loadDisc();
+    self.db = firebase.firestore();
+    self.getRealtimeUpdates();
   }
 
-  self.loadDisc = function () {
-    self.disciplinas = $firebaseArray(self.database.ref().child("disciplinas"));
-  }
-
-  self.salvarDisc = function () {
-    console.log("chegou no salvar disciplina");
-    var discRef = self.database.ref("disciplinas");
-    discRef.push({
-      titulo: self.titulo,
-      turma: self.turma
-    }).then(function () {
-      console.log("disciplina foi salva");
-      self.hide();
-    }.bind(this)).catch(function (erro) {
-      console.log("erro ao salvar a disciplina:", erro);
+  self.getRealtimeUpdates = function () {
+    self.db.collection("disciplinas").onSnapshot(function (querySnapshot) {
+      let discs = [];
+      querySnapshot.forEach(function (doc) {
+        discs.push(doc.data());
+      });
+      $scope.$apply(function () {
+        self.disciplinas = discs;
+      });
     })
   }
 
-  self.criarDisc = function () {
+  self.salvarDisciplina = function (ev) {
     $mdDialog.show({
-      controller: discCtrl,
+      templateUrl: 'app/routes/add-disc.tmpl.html',
       clickOutsideToClose: true,
-      templateUrl: 'app/routes/add-disc.tmpl.html'
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      fullscreen: $scope.customFullscreen,
+      controller: ['$scope', '$mdClassSchedulerToast', function ($scope, $mdClassSchedulerToast) {
+        
+        $scope.salvar = function () {
+          self.db.collection("disciplinas").add({
+            titulo: $scope.titulo,
+            turma: $scope.turma
+          }).then(function (docRef) {
+            $mdClassSchedulerToast.show("Uma nova disciplina foi salva");
+            $scope.cancel();
+          }).catch(function (error) {
+            console.log("Ocorreu um erro ao salvar disciplina: ", error);
+            $mdClassSchedulerToast.show("Erro ao salvar a disciplina");
+          });
+        }
+
+        $scope.getTurmas = function () {
+          let temp = [];
+          self.db.collection("turmas").get().then(function (querySnapshot) {
+            querySnapshot.forEach((doc) => {
+              temp.push(doc);
+            });
+          })
+          $scope.turmas = temp;
+        }
+
+        $scope.cancel = function () {
+          $mdDialog.cancel();
+        }
+
+        $scope.hide = function () {
+          $mdDialog.hide();
+        }
+
+        $scope.getTurmas();
+      }]
     }).then(function (resposta) {
       console.log("resposta", resposta);
     }, function () {
       console.log("cancelled dialog");
     });
-  }
-
-  self.cancel = function () {
-    $mdDialog.cancel();
-  }
-
-  self.hide = function () {
-    $mdDialog.hide();
-  }
-
-  self.obterTurmas = function () {
-    self.turmas = $firebaseArray(self.database.ref().child("turmas"));
   }
 
   self.initFirebase();
