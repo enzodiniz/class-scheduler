@@ -1,0 +1,30 @@
+<div ng-controller="aulaCtrl as c" class="carddemoInCardActions">
+	<md-card>
+		<md-toolbar>
+			<md-card-title>
+				<md-card-title-text>
+        	<span class="md-headline">Aulas</span>
+      	</md-card-title-text>
+      	<md-card-actions layout-align="end">
+      		<md-button class="md-raised" ng-click="c.salvarAula()">Add aula</md-button>
+      	</md-card-actions>
+			</md-card-title>
+		</md-toolbar>
+
+		<md-card-content>
+			<md-list flex="">
+	        	<md-list-item class="md-2-line item-de-lista" ng-repeat="a in c.aulas" 
+	        	ng-click="null">
+	          		<div class="md-list-item-text" layout="column">
+	          			<h3> Dia: {{ a.data().start | date:'dd/MM/yyyy' }} </h3>
+	            		<h4> 
+	            			De: {{ a.data().start | date:' hh:mm' }} hs 
+	            			às: {{ a.data().end | date:' hh:mm' }} hs
+	            		</h4>
+	            		<h4> Status: {{ a.data().status }} </h4>
+	          		</div>
+	        	</md-list-item>
+	      	</md-list>
+		</md-card-content>
+	</md-card>
+</div>

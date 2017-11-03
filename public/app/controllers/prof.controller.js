@@ -20,7 +20,7 @@ function profCtrl ($scope, $firebaseArray, $mdDialog) {
 			$scope.$apply(function () {
 				self.profs = teachers;		
 			});
-		})
+		});
 	}
 
   	self.salvarProf = function (ev) {
@@ -50,11 +50,11 @@ function profCtrl ($scope, $firebaseArray, $mdDialog) {
 				  	disciplinas: $scope.selected
 				}).then(function (docRef) {
 				  	$mdClassSchedulerToast.show("Um novo professor foi salvo");
-				  	$scope.cancel();
+				  	$scope.hide();
 				}).catch(function (error) {
 					console.log("Ocorreu um erro ao salvar professor: ", error);
 					$mdClassSchedulerToast.show("Ocorreu um erro ao salvar professor");
-				})
+				});
 	        }
 
 	        $scope.getDisciplinas = function () {
@@ -80,6 +80,10 @@ function profCtrl ($scope, $firebaseArray, $mdDialog) {
 
 	        $scope.exists = function (item, list) {
 	        	return list.indexOf(item.id) > -1;
+	        }
+
+	        $scope.hide = function () {
+	        	$mdDialog.hide();
 	        }
 
 	        $scope.cancel = function () {

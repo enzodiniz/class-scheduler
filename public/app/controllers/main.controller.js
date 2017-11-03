@@ -67,6 +67,14 @@ function mainCtrl($scope, $location, $mdSidenav, $firebaseArray) {
     $location.path('/disciplinas');
   }
 
+  self.redirecionarAula = function () {
+    $location.path('/aulas');
+  }
+
+  self.redirecionarProf = function () {
+    $location.path('/professores');
+  }
+
   self.logOut = function () {
     self.auth.signOut();
   }

@@ -34,6 +34,7 @@
     <script defer src="app/controllers/disc.controller.js"></script>
     <script defer src="app/controllers/turma.controller.js"></script>
     <script defer src="app/controllers/prof.controller.js"></script>
+    <script defer src="app/controllers/aula.controller.js"></script>
     <style type="text/css">
       .item-de-lista {
         font-size: 15px;
@@ -72,8 +73,11 @@
             <md-button class="md-raised" ng-click="c.redirecionarDisc()">
               Disciplinas
             </md-button>
-            <md-button class="md-raised" href="http://localhost:5000/#!/professores">
+            <md-button class="md-raised" ng-click="c.redirecionarProf()">
               Professores
+            </md-button>
+            <md-button class="md-raised" ng-click="c.redirecionarAula()">
+              Aulas
             </md-button>
             <md-button class="md-raised" ng-click="c.logOut()">
               Sair

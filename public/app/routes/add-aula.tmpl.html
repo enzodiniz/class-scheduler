@@ -1,0 +1,55 @@
+<md-dialog>
+  <form ng-submit="salvar()">
+    <md-toolbar>
+      <h2>Adicionar aula</h2>
+    </md-toolbar>
+
+    <md-content>
+      <h4>Dia</h4>
+      <md-input-container>
+        <label for="inicio-data">Data</label>
+        <input type="Date" name="inicio-data" ng-model="day">
+      </md-input-container>
+
+      <h4>Início</h4>
+      <md-input-container>
+        <!-- <label for="inicio-horario">Horário</label> -->
+        <!-- <input type="time" name="inicio-horario" ng-model="data"> -->
+        <label for="inicio-horario">Hora</label>
+        <input type="Number" max="23" min="00" name="" ng-model="hrI">
+      </md-input-container>
+
+      <md-input-container>
+        <label>Min</label>
+        <input type="Number" max="59" min="00" ng-model="mnI">
+      </md-input-container>
+
+
+      <h4>Fim</h4>
+      <md-input-container>
+        <label for="fim-horario">Hora</label>
+        <input type="Number" max="23" min="00" name="" ng-model="hrF">
+      </md-input-container>
+
+      <md-input-container>
+        <label>Min</label>
+        <input type="Number" max="59" min="00" ng-model="mnF">
+      </md-input-container>
+
+      <p>Status: <span class="radioValue">{{ status }}</span> </p>
+
+      <md-radio-group ng-model="status">
+
+        <md-radio-button value="Ok">Ok</md-radio-button>
+        <md-radio-button value="Disponível" class="md-primary"> Disponível </md-radio-button>
+        <md-radio-button value="Substituída" class="md-primary">Substituída</md-radio-button>
+
+      </md-radio-group>
+    </md-content>
+
+    <md-actions>
+      <md-button layout-align="end" class="md-raised" ng-click="cancel()">Cancelar</md-button>
+      <md-button layout-align="end" class="md-raised" type="submit">Salvar</md-button>
+    </md-actions>
+  </form>
+</md-dialog>

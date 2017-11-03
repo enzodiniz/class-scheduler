@@ -28,6 +28,9 @@ angular
     .when('/professores', {
       templateUrl: 'app/routes/professor.html'
     })
+    .when('/aulas', {
+      templateUrl: 'app/routes/aula.html'
+    })
 		.otherwise({
 			redirectTo: '/home'
 		});
