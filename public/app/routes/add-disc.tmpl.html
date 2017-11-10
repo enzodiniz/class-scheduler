@@ -32,6 +32,21 @@
   			    </md-autocomplete>
     			</div>
     		</md-input-container>
+
+        <md-input-container>
+          <fieldset class="standard">
+            <legend>Aulas</legend>
+            <div layout="row" layout-wrap="" flex="">
+              <div flex="50" ng-repeat="item in aulas">
+                <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)">
+                  {{ item.data().start | date:'dd/MM/yyyy hh:mm' }}hs às 
+                  {{ item.data().end | date:'dd/MM/yyyy hh:mm' }}hs
+                  <span ng-if="exists(item, selected)">selected</span>
+                </md-checkbox>
+              </div>
+            </div>
+          </fieldset>
+        </md-input-container>
       </div>
     </md-dialog-content>
 

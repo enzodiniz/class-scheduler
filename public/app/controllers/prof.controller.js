@@ -33,7 +33,7 @@ function profCtrl ($scope, $firebaseArray, $mdDialog) {
 	    controller: ['$scope', '$mdClassSchedulerToast',
 	      function ($scope, $mdClassSchedulerToast) {
 
-	      	$scope.isAdmin = false;
+	      	$scope.isAdmin = "false";
 	      	$scope.selected = [];
 	      	
 	        $scope.salvarProf = function () {

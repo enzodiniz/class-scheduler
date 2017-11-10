@@ -3,18 +3,17 @@
 		<md-toolbar>
 			<md-card-title>
 				<md-card-title-text>
-        	<span class="md-headline">Aulas</span>
-      	</md-card-title-text>
-      	<md-card-actions layout-align="end">
-      		<md-button class="md-raised" ng-click="c.salvarAula()">Add aula</md-button>
-      	</md-card-actions>
+        			<span class="md-headline">Aulas</span>
+      			</md-card-title-text>
+      			<md-card-actions layout-align="end">
+      				<md-button class="md-raised" ng-click="c.salvarAula()">Add aula</md-button>
+      			</md-card-actions>
 			</md-card-title>
 		</md-toolbar>
 
 		<md-card-content>
-			<md-list flex="">
-	        	<md-list-item class="md-2-line item-de-lista" ng-repeat="a in c.aulas" 
-	        	ng-click="null">
+			<md-list flex="" ng-repeat="a in c.aulas">
+	        	<md-list-item class="md-2-line item-de-lista" ng-click="null">
 	          		<div class="md-list-item-text" layout="column">
 	          			<h3> Dia: {{ a.data().start | date:'dd/MM/yyyy' }} </h3>
 	            		<h4> 
@@ -24,6 +23,7 @@
 	            		<h4> Status: {{ a.data().status }} </h4>
 	          		</div>
 	        	</md-list-item>
+	        	<md-divider md-inset ng-if="!$last"></md-divider>
 	      	</md-list>
 		</md-card-content>
 	</md-card>

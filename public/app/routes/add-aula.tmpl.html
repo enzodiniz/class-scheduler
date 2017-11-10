@@ -4,11 +4,13 @@
       <h2>Adicionar aula</h2>
     </md-toolbar>
 
-    <md-content>
+    <md-dialog-content>
       <h4>Dia</h4>
+      <label for="inicio-data">Data</label>
+      <md-datepicker ng-model="day"></md-datepicker>
       <md-input-container>
-        <label for="inicio-data">Data</label>
-        <input type="Date" name="inicio-data" ng-model="day">
+        
+        <!-- <input type="Date" name="inicio-data" ng-model="day"> -->
       </md-input-container>
 
       <h4>Início</h4>
@@ -45,11 +47,11 @@
         <md-radio-button value="Substituída" class="md-primary">Substituída</md-radio-button>
 
       </md-radio-group>
-    </md-content>
+    </md-dialog-content>
 
-    <md-actions>
+    <md-dialog-actions>
       <md-button layout-align="end" class="md-raised" ng-click="cancel()">Cancelar</md-button>
-      <md-button layout-align="end" class="md-raised" type="submit">Salvar</md-button>
-    </md-actions>
+      <md-button layout-align="end" class="md-raised md-primary" type="submit">Salvar</md-button>
+    </md-dialog-actions>
   </form>
 </md-dialog>

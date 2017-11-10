@@ -32,6 +32,7 @@ function discCtrl ($scope, $firebaseArray, $mdDialog) {
       targetEvent: ev,
       fullscreen: $scope.customFullscreen,
       controller: ['$scope', '$mdClassSchedulerToast', function ($scope, $mdClassSchedulerToast) {
+        $scope.aulas = [];
         
         $scope.salvar = function () {
           self.db.collection("disciplinas").add({
@@ -56,6 +57,30 @@ function discCtrl ($scope, $firebaseArray, $mdDialog) {
           $scope.turmas = temp;
         }
 
+        $scope.getAulas = function () {
+          //let temp = [];
+          self.db.collection("aulas").get().then(function (querySnapshot) {
+            querySnapshot.forEach((doc) => {
+              $scope.aulas.push(doc);
+            });
+          });
+          //$scope.aulas = temp;
+        }
+
+        $scope.toggle = function (item, list) {
+          let idx = list.indexOf(item);
+
+          if (idx > -1) {
+            list.splice(idx, 1);
+          } else {
+            list.push(item);
+          }
+        }
+
+        $scope.exists = function (item, list) {
+          return list.indexOf(item) > -1;
+        }
+
         $scope.cancel = function () {
           $mdDialog.cancel();
         }
@@ -65,6 +90,7 @@ function discCtrl ($scope, $firebaseArray, $mdDialog) {
         }
 
         $scope.getTurmas();
+        $scope.getAulas();
       }]
     }).then(function (resposta) {
       console.log("resposta", resposta);
