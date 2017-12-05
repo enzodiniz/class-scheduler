@@ -5,10 +5,16 @@ angular
 function aulaCtrl ($scope, $firebaseArray, $mdDialog) {
   var self = this;
   self.aulas = [];
+  self.default = [];
+  self.available = [];
+  self.replaced = [];
 
   self.initFirebase = function () {
     self.db = firebase.firestore();
     self.getRealtimeUpdates();
+    self.getAulas("ok", self.default);
+    self.getAulas("disponivel", self.available);
+    self.getAulas("substituida", self.replaced);
   }
 
   self.getRealtimeUpdates = function () {
@@ -21,6 +27,23 @@ function aulaCtrl ($scope, $firebaseArray, $mdDialog) {
         self.aulas = temp;
       });
     });
+  }
+
+  self.getAulas = function (status, list) {
+    self.db.collection("aulas")
+      .where('status.' + status, '==', true)
+      .get()
+      .then((query) => {
+        let temp = [];
+        query.forEach(function (doc) {
+          temp.push(doc.id);
+        });
+        //aula.docs é um array que tem as aulas da consulta.
+        $scope.$apply(function () {
+          list = temp;
+          console.log("list: ", list);
+        });
+      })
   }
 
   self.salvarAula = function (ev) {
@@ -94,6 +117,22 @@ function aulaCtrl ($scope, $firebaseArray, $mdDialog) {
     }, function () {
       console.log("cancelled dialog");
     })
+  }
+
+  self.containInAulas = function (item, list) {
+    console.log("item: ", item);
+    // list.forEach(function (a) {
+    //   if (a == item.id) {
+    //     return true;
+    //   }
+    // });
+    for (a of list) {
+      console.log("asdf");
+      if (a == item.id) {
+        return true;
+      }
+    }
+    return false;
   }
 
   // self.salvarAula = function () {

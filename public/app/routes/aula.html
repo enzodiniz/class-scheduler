@@ -27,4 +27,31 @@
 	      	</md-list>
 		</md-card-content>
 	</md-card>
+
+	<md-card>
+		<md-toolbar>
+			<md-card-title>
+				<md-card-title-text>
+        			<span class="md-headline">Ok</span>
+      			</md-card-title-text>
+			</md-card-title>
+		</md-toolbar>
+
+		<md-card-content>
+			<md-list flex="">
+	        	<md-list-item class="md-2-line item-de-lista" ng-click="null" 
+	        	ng-repeat="d in c.aulas" ng-show="c.containInAulas(d, c.default)">
+	          		<div class="md-list-item-text" layout="column">
+	          			<h3> Dia: {{ d.data().start | date: 'DD/MM/YYYY' }} </h3>
+	            		<h4> 
+	            			De: {{ d.data().start | date:' hh:mm' }} hs 
+	            			às: {{ d.data().end | date:' hh:mm' }} hs
+	            		</h4>
+	            		<h4> Status: {{ d.data().status }} </h4>
+	          		</div>
+	        	</md-list-item>
+	        	<md-divider md-inset ng-if="!$last"></md-divider>
+	      	</md-list>
+		</md-card-content>
+	</md-card>	
 </div>

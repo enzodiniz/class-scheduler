@@ -51,7 +51,7 @@ function mainCtrl($scope, $location, $mdSidenav, $firebaseArray) {
         self.userName = user.displayName;
         self.img = user.photoURL;
         self.logado = true;
-        $location.path('/home');
+        //$location.path('/home');
       } else {
         self.logado = false;
         $location.path('/login');
