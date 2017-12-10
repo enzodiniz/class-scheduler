@@ -1,18 +1,38 @@
 <md-dialog flex="30">
 	<md-toolbar>
-		<h2>Adicionar turma</h2>
+		<div class="md-toolbar-tools">
+			<h2>Adicionar turma</h2>
+			<span flex></span>
+			<md-button class="md-icon-button" ng-click="cancel()">
+            	<md-icon md-svg-src="../app/img/close.svg" aria-label="Close dialog"></md-icon>
+        	</md-button>
+		</div>
 	</md-toolbar>
 
 	<md-dialog-content>
-		<md-input-container flex>
-			<label>Série</label>
-			<input list="series" required="true" ng-model="serie">
-			<datalist id="series">
-				<option value="{{s}}" ng-repeat="s in series"></option>
-			</datalist>
-		</md-input-container>
+		<span flex></span>
 
-		<md-input-container flex>
+    	<h4>Série</h4>
+        <md-input-container layout="row">
+			<md-radio-group ng-model="serie" layout="row"">
+		      	<md-radio-button ng-repeat="s in series" value="{{s}}">{{s}}</md-radio-button>
+		      	<md-radio-button value="1"> 1º </md-radio-button>
+		      	<md-radio-button value="2"> 2º </md-radio-button>
+		      	<md-radio-button value="3"> 3º </md-radio-button>
+		      	<md-radio-button value="4"> 4º </md-radio-button>
+	    	</md-radio-group>        	
+        </md-input-container>
+
+    	<h4>Curso</h4>
+        <md-input-container layout="row">
+			<md-radio-group ng-model="curso" >
+		      	<md-radio-button value="Edificações">Edificações</md-radio-button>
+		      	<md-radio-button value="Geologia">Geologia</md-radio-button>
+		      	<md-radio-button value="Informática">Informática</md-radio-button>
+	    	</md-radio-group>        	
+        </md-input-container>
+
+		<!-- <md-input-container flex>
 			<label>Curso temporário</label>
 			<input list="cursos" ng-required="true" ng-model="curso">
 			<datalist id="cursos">
@@ -33,7 +53,7 @@
 			    </md-autocomplete>
 			</div>
 		</md-input-container>
-	</md-dialog-content>
+	</md-dialog-content> -->
 
 	<md-dialog-actions>
 		<md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>

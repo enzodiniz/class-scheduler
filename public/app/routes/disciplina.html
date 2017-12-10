@@ -4,10 +4,11 @@
 			<md-toolbar layout="row" class="md-hue-3">
 				<div class="md-toolbar-tools">
 					<span>Disciplinas</span>
+					<span flex></span>
+					<md-button class="md-raised md-primary" ng-click="c.salvarDisciplina($event)">
+						Add disciplina
+					</md-button>
 				</div>
-				<md-button class="md-raised md-primary" ng-click="c.salvarDisciplina($event)">
-					Add disciplina
-				</md-button>
 			</md-toolbar>
 			<md-list-item class="secondary-button-padding" ng-click="null"
 			ng-show="c.disciplinas.length == 0" ng-cloak="">
@@ -17,6 +18,7 @@
 			ng-click="null">
 				<b>{{d.titulo}}</b>&nbsp
 				turma: {{d.turma}}
+				<md-divider md-inset ng-if="!$last"></md-divider>
 		  </md-list-item>
 		</md-list>
 	</md-card>

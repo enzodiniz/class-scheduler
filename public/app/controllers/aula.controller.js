@@ -32,19 +32,45 @@ function aulaCtrl ($scope, $firebaseArray, $mdDialog) {
   self.getAulas = function (status, list) {
     self.db.collection("aulas")
       .where('status.' + status, '==', true)
-      .get()
-      .then((query) => {
+      .onSnapshot(function (querySnapshot) {
         let temp = [];
-        query.forEach(function (doc) {
-          temp.push(doc.id);
+        querySnapshot.forEach(function (doc) {
+          temp.push(doc);
         });
-        //aula.docs é um array que tem as aulas da consulta.
         $scope.$apply(function () {
           list = temp;
-          console.log("list: ", list);
-        });
-      })
+          if (status == "ok") {
+            self.default = list;       
+          } else if (status == "disponivel") {
+            self.available = list;
+          } else {
+            self.replaced = list;
+          }
+        });  
+      });
   }
+
+  // self.getAulas = function (status, list) {
+  //   self.db.collection("aulas")
+  //     .where('status.' + status, '==', true)
+  //     .get()
+  //     .then((query) => {
+  //       let temp = [];
+  //       query.forEach(function (doc) {
+  //         temp.push(doc);
+  //       });
+  //       $scope.$apply(function () {
+  //         list = temp;
+  //         if (status == "ok") {
+  //           self.default = list;       
+  //         } else if (status == "disponivel") {
+  //           self.available = list;
+  //         } else {
+  //           self.replaced = list;
+  //         }
+  //       });
+  //     })
+  // }
 
   self.salvarAula = function (ev) {
     $mdDialog.show({
@@ -118,38 +144,6 @@ function aulaCtrl ($scope, $firebaseArray, $mdDialog) {
       console.log("cancelled dialog");
     })
   }
-
-  self.containInAulas = function (item, list) {
-    console.log("item: ", item);
-    // list.forEach(function (a) {
-    //   if (a == item.id) {
-    //     return true;
-    //   }
-    // });
-    for (a of list) {
-      console.log("asdf");
-      if (a == item.id) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  // self.salvarAula = function () {
-  //   var aulaRef = self.database.ref("aulas");
-  //   aulaRef.push({
-  //     professor: self.prof,
-  //     disciplina: self.disc,
-  //     start: self.start,
-  //     end: self.end,
-  //     status: self.status
-  //   }).then(function (resposta) {
-  //     console.log("resposta", resposta);
-  //     self.hide();
-  //   }.bind(this)).catch(function (erro) {
-  //     console.log("erro ao salvar aula", erro);
-  //   });
-  // }
 
   self.initFirebase();
 }

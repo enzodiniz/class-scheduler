@@ -1,17 +1,17 @@
 	<div ng-controller="profCtrl as p" ng-cloak="" layout-gt-sm="row" layout="row" 
 	class="listdemoBasicUsage">
 	  <div flex="">
-
 	  	<md-card>
-		    <md-toolbar layout="column" class="md-hue-3">
-		      <div class="md-toolbar-tools" layout="row">
-		        <span>Professores</span>	
-		        <md-button class="md-raised md-primary" layout-align="end" ng-click="p.salvarProf()">
-		        	Add professor
-		        </md-button>
-		      </div>
+		  	<md-toolbar layout="row" class="md-hue-3">
+		      	<div class="md-toolbar-tools">
+		        	<span>Professores</span>	
+		        	<span flex></span>
+			        <md-button class="md-raised md-primary" layout-align="end" 
+			        ng-click="p.salvarProf()">
+			        	Add professor
+			        </md-button>
+		    	</div>    
 		    </md-toolbar>
-
 		    <md-card-content>
 		      <md-list flex="">
 		        <md-list-item class="md-2-line item-de-lista" ng-repeat="p in p.profs" 
@@ -20,6 +20,7 @@
 		            <b><h3>{{ p.data().nome }} {{ p.data().sobrenome }}</h3></b>
 		            <h4>{{ p.data().email }}</h4>
 		          </div>
+		          <md-divider md-inset ng-if="!$last"></md-divider>
 		        </md-list-item>
 		      </md-list>
 		    </md-card-content>

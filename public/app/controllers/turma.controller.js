@@ -2,7 +2,7 @@ angular
   .module("class-scheduler")
   .controller("turmaCtrl", turmaCtrl)
 
-function turmaCtrl ($scope, $firebaseArray, $mdDialog) {
+function turmaCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
   var self = this;
 
   self.noCache = true;
@@ -17,7 +17,7 @@ function turmaCtrl ($scope, $firebaseArray, $mdDialog) {
     self.db.collection("turmas").onSnapshot(function (querySnapshot) {
       let turmasTemp = [];
       querySnapshot.forEach(function (doc) {
-        turmasTemp.push(doc.data());
+        turmasTemp.push(doc);
       });
       $scope.$apply(function () {
         self.turmas = turmasTemp;        
@@ -63,6 +63,16 @@ function turmaCtrl ($scope, $firebaseArray, $mdDialog) {
     }, function () {
         console.log("cancelled dialog");
     })
+  }
+
+  self.excluirTurma = function (id) {
+    let docRef = self.db.doc("turmas/" + id);
+
+    docRef.delete().then(function () {
+      $mdClassSchedulerToast.show("A turma foi removida");
+    }).catch(function (error) {
+      console.log("Ocorreu um erro ao excluir turma: ", error);
+    });
   }
 
   self.querySearch = function (query) {

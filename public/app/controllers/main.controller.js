@@ -78,6 +78,6 @@ function mainCtrl($scope, $location, $mdSidenav, $firebaseArray) {
   self.logOut = function () {
     self.auth.signOut();
   }
-
+  
   self.initFirebase();
 }

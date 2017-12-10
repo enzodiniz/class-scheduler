@@ -5,7 +5,7 @@
         <h2>Adicionar aula</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="cancel()">
-            <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog">x</md-icon>
+            <md-icon md-svg-src="../app/img/close.svg" aria-label="Close dialog"></md-icon>
         </md-button>
       </div>  
     </md-toolbar>
@@ -13,16 +13,10 @@
     <md-dialog-content>
       <h4>Dia</h4>
       <label for="inicio-data">Data</label>
-      <md-datepicker ng-model="day"></md-datepicker>
-      <md-input-container>
-        
-        <!-- <input type="Date" name="inicio-data" ng-model="day"> -->
-      </md-input-container>
+      <md-datepicker ng-model="day"></md-datepicker>        
 
       <h4>Início</h4>
       <md-input-container>
-        <!-- <label for="inicio-horario">Horário</label> -->
-        <!-- <input type="time" name="inicio-horario" ng-model="data"> -->
         <label for="inicio-horario">Hora</label>
         <input type="Number" max="23" min="00" name="" ng-model="hrI">
       </md-input-container>

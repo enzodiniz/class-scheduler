@@ -6,10 +6,24 @@ function discCtrl ($scope, $firebaseArray, $mdDialog) {
   var self = this;
   self.disciplinas = [];
   self.turmas = [];
+  self.aulas = [];
 
   self.initFirebase = function () {
     self.db = firebase.firestore();
+    self.getAulas();
     self.getRealtimeUpdates();
+  }
+
+  self.getAulas = function () {
+    self.db.collection("aulas").onSnapshot(function (querySnapshot) {
+      let aulas = [];
+      querySnapshot.forEach(function (doc) {
+        aulas.push(doc);
+      });
+      $scope.$apply(function () {
+        self.aulas = aulas;
+      });
+    });
   }
 
   self.getRealtimeUpdates = function () {
@@ -31,8 +45,12 @@ function discCtrl ($scope, $firebaseArray, $mdDialog) {
       parent: angular.element(document.body),
       targetEvent: ev,
       fullscreen: $scope.customFullscreen,
-      controller: ['$scope', '$mdClassSchedulerToast', function ($scope, $mdClassSchedulerToast) {
-        $scope.aulas = [];
+      locals: {
+        aulas: self.aulas
+      },
+      controller: ['$scope', '$mdClassSchedulerToast', 'aulas', 
+        function ($scope, $mdClassSchedulerToast, aulas) {
+        $scope.aulas = aulas;
         
         $scope.salvar = function () {
           self.db.collection("disciplinas").add({
@@ -58,13 +76,16 @@ function discCtrl ($scope, $firebaseArray, $mdDialog) {
         }
 
         $scope.getAulas = function () {
-          //let temp = [];
+          let temp = [];
           self.db.collection("aulas").get().then(function (querySnapshot) {
             querySnapshot.forEach((doc) => {
-              $scope.aulas.push(doc);
+              temp.push(doc);
             });
           });
-          //$scope.aulas = temp;
+          // $scope.$apply(function () {
+          //   $scope.aulas = temp;
+          // });
+          $scope.aulas = temp;
         }
 
         $scope.toggle = function (item, list) {
@@ -90,7 +111,7 @@ function discCtrl ($scope, $firebaseArray, $mdDialog) {
         }
 
         $scope.getTurmas();
-        $scope.getAulas();
+        //$scope.getAulas();
       }]
     }).then(function (resposta) {
       console.log("resposta", resposta);
