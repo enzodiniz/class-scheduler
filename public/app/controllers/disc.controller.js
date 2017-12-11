@@ -10,7 +10,6 @@ function discCtrl ($scope, $firebaseArray, $mdDialog) {
 
   self.initFirebase = function () {
     self.db = firebase.firestore();
-    self.getAulas();
     self.getRealtimeUpdates();
   }
 
@@ -34,8 +33,31 @@ function discCtrl ($scope, $firebaseArray, $mdDialog) {
       });
       $scope.$apply(function () {
         self.disciplinas = discs;
+        self.getAulas();
       });
     })
+  }
+
+  self.editarDisciplina = function (ev, disc) {
+    $mdDialog.show({
+      templateUrl: 'app/routes/edit-disc.tmpl.html',
+      clickOutsideToClose: true,
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      fullscreen: $scope.customFullscreen,
+      locals: {
+        disc: disc
+      },
+      controller: ['$scope', '$mdClassSchedulerToast', 'disc', 
+        function ($scope, $mdClassSchedulerToast, disc) {
+          $scope.aulasDisc = [];
+
+          $scope.getAulas = function () {
+              //1. pegar todas as aulas(id's) da disciplina 
+              //2. varrer os id's e recuperar as aulas
+          }
+        }]
+    }); 
   }
 
   self.salvarDisciplina = function (ev) {
@@ -51,11 +73,13 @@ function discCtrl ($scope, $firebaseArray, $mdDialog) {
       controller: ['$scope', '$mdClassSchedulerToast', 'aulas', 
         function ($scope, $mdClassSchedulerToast, aulas) {
         $scope.aulas = aulas;
+        $scope.selected = [];
         
         $scope.salvar = function () {
           self.db.collection("disciplinas").add({
             titulo: $scope.titulo,
-            turma: $scope.turma
+            turma: $scope.turma,
+            aulas: $scope.selected
           }).then(function (docRef) {
             $mdClassSchedulerToast.show("Uma nova disciplina foi salva");
             $scope.cancel();
@@ -75,31 +99,18 @@ function discCtrl ($scope, $firebaseArray, $mdDialog) {
           $scope.turmas = temp;
         }
 
-        $scope.getAulas = function () {
-          let temp = [];
-          self.db.collection("aulas").get().then(function (querySnapshot) {
-            querySnapshot.forEach((doc) => {
-              temp.push(doc);
-            });
-          });
-          // $scope.$apply(function () {
-          //   $scope.aulas = temp;
-          // });
-          $scope.aulas = temp;
-        }
-
         $scope.toggle = function (item, list) {
           let idx = list.indexOf(item);
 
           if (idx > -1) {
             list.splice(idx, 1);
           } else {
-            list.push(item);
+            list.push(item.id);
           }
         }
 
         $scope.exists = function (item, list) {
-          return list.indexOf(item) > -1;
+          return list.indexOf(item.id) > -1;
         }
 
         $scope.cancel = function () {
@@ -111,7 +122,6 @@ function discCtrl ($scope, $firebaseArray, $mdDialog) {
         }
 
         $scope.getTurmas();
-        //$scope.getAulas();
       }]
     }).then(function (resposta) {
       console.log("resposta", resposta);
