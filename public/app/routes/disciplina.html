@@ -15,9 +15,9 @@
 				Nenhuma disciplina cadastrada.
 		  </md-list-item>
 		  <md-list-item class="md-2-line item-de-lista" ng-repeat="d in c.disciplinas"
-			ng-click="null">
-				<b>{{d.titulo}}</b>&nbsp
-				turma: {{d.turma}}
+			ng-click="c.editarDisciplina($event, d)">
+				<b>{{d.data().titulo}}</b>&nbsp
+				turma: {{d.data().turma}}
 				<md-divider md-inset ng-if="!$last"></md-divider>
 		  </md-list-item>
 		</md-list>

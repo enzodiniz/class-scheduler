@@ -61,9 +61,6 @@ function homeCtrl ($scope, $location, $firebaseArray, $mdDialog) {
   }
 
   self.editarPessoa = function (ev, _pessoa) {
-    console.log("event:", ev);
-    console.log("pessoa:", _pessoa);
-    console.log("self pessoaId:", self.pessoaId);
     $mdDialog.show({
       locals: {
         pessoa: _pessoa

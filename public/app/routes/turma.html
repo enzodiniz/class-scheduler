@@ -16,7 +16,7 @@
   			ng-show="c.turmas.length == 0" ng-cloak="">
   				Nenhuma turma cadastrada.
   		  </md-list-item>
-        <md-list-item ng-repeat="t in c.turmas" ng-click="null" class="item-de-lista">
+        <md-list-item ng-repeat="t in c.turmas" ng-click="null" class="item-de-lista desaparece">
           {{t.data().serie}}º de {{t.data().curso}}
           <span flex></span>
 

@@ -29,7 +29,7 @@ function discCtrl ($scope, $firebaseArray, $mdDialog) {
     self.db.collection("disciplinas").onSnapshot(function (querySnapshot) {
       let discs = [];
       querySnapshot.forEach(function (doc) {
-        discs.push(doc.data());
+        discs.push(doc);
       });
       $scope.$apply(function () {
         self.disciplinas = discs;
@@ -50,12 +50,61 @@ function discCtrl ($scope, $firebaseArray, $mdDialog) {
       },
       controller: ['$scope', '$mdClassSchedulerToast', 'disc', 
         function ($scope, $mdClassSchedulerToast, disc) {
-          $scope.aulasDisc = [];
+          $scope.aulas = []; //documento das aulas(ids)
+          $scope.titulo = disc.data().titulo;
+          $scope.turma = disc.data().turma;
+
+          $scope.excluirAula = function (id) {
+            for (var i = 0; i < $scope.aulas.length; i++) {
+              if ($scope.aulas[i].id == id) {
+                $scope.aulas.splice(i, 1);
+                return;
+              }
+            }
+          }
 
           $scope.getAulas = function () {
-              //1. pegar todas as aulas(id's) da disciplina 
-              //2. varrer os id's e recuperar as aulas
+              let aulasId = disc.data().aulas;
+              if (aulasId) {
+                for (a of aulasId) {
+                  aulaRef = self.db.doc("aulas/" + a);
+                  aulaRef.get().then(function (doc) {
+                    $scope.aulas.push(doc);
+                  }).catch(function (error) {
+                    console.log("Error getting document:", error);
+                  });
+                }                
+              }
           }
+
+          $scope.salvar = function () {
+            let aulasTemp = [];
+            let discRef = self.db.doc("disciplinas/" + disc.id);
+
+            for (a of $scope.aulas) {
+              aulasTemp.push(a.id);
+            }
+            discRef.update({
+              titulo: $scope.titulo,
+              turma: $scope.turma,
+              aulas: aulasTemp
+            }).then(function () {
+              $scope.hide();
+              $mdClassSchedulerToast.show("A turma foi modificada");
+            }).catch(function (error) {
+              console.log("Ocorreu um erro: ", error);
+            });
+          }
+
+          $scope.hide = function () {
+            $mdDialog.hide();
+          }
+
+          $scope.cancel = function () {
+            $mdDialog.cancel();
+          }
+
+          $scope.getAulas();
         }]
     }); 
   }

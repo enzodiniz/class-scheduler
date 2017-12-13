@@ -1,0 +1,56 @@
+<md-dialog>
+	
+	<md-toolbar class="md-hue-2">
+		<div class="md-toolbar-tools">
+			{{titulo}}
+			<span flex></span>
+			<md-button class="md-icon-button" ng-click="cancel()">
+            	<md-icon md-svg-src="../app/img/close.svg" aria-label="Close dialog"></md-icon>
+        	</md-button>
+		</div>
+	</md-toolbar>
+
+	<md-content>
+
+		<div layout="row">
+			<md-input-group>
+				<md-input-container>
+					<input type="" ng-model="titulo" placeholder="título...">
+				</md-input-container>
+				<md-input-container>
+					<input type="" ng-model="turma" placeholder="turma...">
+				</md-input-container>							
+			</md-input-group>
+		</div>
+
+		<md-card>
+			<span flex></span>
+			<md-toolbar md-scroll-shrink>
+				<div class="md-toolbar-tools">
+					<h4>Aulas</h4>
+				</div>
+			</md-toolbar>
+			<md-dialog-content>
+				<md-list>
+					<md-list-item class="desaparece" ng-repeat="a in aulas" ng-click="null">
+						{{a.data().start}} às
+						{{a.data().end}}
+
+						<span flex></span>
+						<md-button class="md-icon-button" ng-click="excluirAula(a.id)">
+	            			<md-icon md-svg-src="../app/img/close_black.svg" 
+	            			aria-label="Close dialog"></md-icon>
+	        			</md-button>        
+	        			<md-divider ng-if="!$last"></md-divider>
+					</md-list-item>
+				</md-list>
+			</md-dialog-content>
+		</md-card>
+	</md-content>
+
+	<md-actions layout="row">
+		<span flex></span>
+		<md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
+		<md-button class="md-raised md-primary" ng-click="salvar()">Salvar</md-button>
+	</md-actions>
+</md-dialog>
