@@ -14,11 +14,38 @@
 			ng-show="c.disciplinas.length == 0" ng-cloak="">
 				Nenhuma disciplina cadastrada.
 		  </md-list-item>
-		  <md-list-item class="md-2-line item-de-lista" ng-repeat="d in c.disciplinas"
-			ng-click="c.editarDisciplina($event, d)">
+		  <md-list-item class="md-2-line item-de-lista desaparece" ng-repeat="d in c.disciplinas"
+			ng-click="null" id="{{d.id}}item">
 				<b>{{d.data().titulo}}</b>&nbsp
 				turma: {{d.data().turma}}
-				<md-divider md-inset ng-if="!$last"></md-divider>
+
+				<span flex></span>
+
+				<md-fab-speed-dial md-open="c.isOpen" md-direction="left" ng-class="c.selectedMode">
+        			<md-fab-trigger>
+          				<md-button id="{{d.id}}btO" class="md-fab md-raised md-mini" 
+          				aria-label="More" ng-click="c.openMenu(d.id)">
+          					<md-tooltip md-direction="{{c.direction}}">Opções</md-tooltip>
+    						<md-icon md-svg-icon="app/img/options.svg"></md-icon>
+  						</md-button>
+			        </md-fab-trigger>
+
+			        <md-fab-actions>
+			        	<md-button id="{{d.id}}btE" aria-label="Editar" 
+			        	class="md-fab md-raised md-mini" ng-click="c.editarDisciplina($event, d)">
+			        		<md-tooltip md-direction="bottom">Editar</md-tooltip>
+			            	<md-icon md-svg-src="app/img/editar.svg" aria-label="Editar">
+			            	</md-icon>
+			          	</md-button>
+			          	<md-button aria-label="Excluir" class="md-fab md-raised md-mini" 
+			          	id="{{d.id}}btX" ng-click="c.excluirDisciplina(d.id)">
+			          		<md-tooltip md-direction="bottom">Excluir</md-tooltip>
+			            	<md-icon md-svg-src="app/img/excluir2.svg" aria-label="Excluir">
+			            	</md-icon>
+			          	</md-button>
+			        </md-fab-actions>
+			    </md-fab-speed-dial>
+				<md-divider ng-if="!$last"></md-divider>
 		  </md-list-item>
 		</md-list>
 	</md-card>

@@ -11,7 +11,6 @@
 	</md-toolbar>
 
 	<md-content>
-
 		<div layout="row">
 			<md-input-group>
 				<md-input-container>
@@ -23,7 +22,10 @@
 			</md-input-group>
 		</div>
 
-		<md-card>
+		<span flex></span>
+		<h5 ng-show="aulas.length == 0">Esta disciplina não tem aulas cadastradas</h5>
+
+		<md-card ng-show="aulas.length > 0">
 			<span flex></span>
 			<md-toolbar md-scroll-shrink>
 				<div class="md-toolbar-tools">
@@ -38,6 +40,7 @@
 
 						<span flex></span>
 						<md-button class="md-icon-button" ng-click="excluirAula(a.id)">
+							<md-tooltip md-direction="right">Remover</md-tooltip>
 	            			<md-icon md-svg-src="../app/img/close_black.svg" 
 	            			aria-label="Close dialog"></md-icon>
 	        			</md-button>        

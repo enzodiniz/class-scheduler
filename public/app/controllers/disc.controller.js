@@ -2,11 +2,15 @@ angular
   .module("class-scheduler")
   .controller("discCtrl", discCtrl)
 
-function discCtrl ($scope, $firebaseArray, $mdDialog) {
+function discCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
   var self = this;
+  self.id;
   self.disciplinas = [];
   self.turmas = [];
   self.aulas = [];
+  self.direction = "left";
+  self.isOpen = false;
+  self.selectedMode = "md-scale";
 
   self.initFirebase = function () {
     self.db = firebase.firestore();
@@ -36,6 +40,16 @@ function discCtrl ($scope, $firebaseArray, $mdDialog) {
         self.getAulas();
       });
     })
+  }
+
+  self.excluirDisciplina = function (id) {
+    let discRef = self.db.doc("disciplinas/" + id);
+    discRef.delete().then(function () {
+      self.id = "";
+      $mdClassSchedulerToast.show("A disciplina foi excluida");
+    }).catch(function (error) {
+      console.log("Ocorreu um erro: ", error);
+    });
   }
 
   self.editarDisciplina = function (ev, disc) {
@@ -69,7 +83,9 @@ function discCtrl ($scope, $firebaseArray, $mdDialog) {
                 for (a of aulasId) {
                   aulaRef = self.db.doc("aulas/" + a);
                   aulaRef.get().then(function (doc) {
-                    $scope.aulas.push(doc);
+                    $scope.$apply(function () {
+                      $scope.aulas.push(doc);                      
+                    });
                   }).catch(function (error) {
                     console.log("Error getting document:", error);
                   });
@@ -177,6 +193,54 @@ function discCtrl ($scope, $firebaseArray, $mdDialog) {
     }, function () {
       console.log("cancelled dialog");
     });
+  }
+
+  self.openMenu = function (id) {
+    if (self.isOpen) {
+      self.direction = "left";
+      let btO = document.getElementById(id + "btO");
+      btO.style.removeProperty("opacity");
+
+      let btE = document.getElementById(id + "btE");
+      btE.style.removeProperty("opacity");
+
+      let btX = document.getElementById(id + "btX");
+      btX.style.removeProperty("opacity");
+
+      let listItem = document.getElementById(id + "item");
+      listItem.style.removeProperty("font-size");
+      listItem.style.removeProperty("background-color");
+    } else {
+      self.id = id;
+      self.direction = "bottom";
+      let btO = document.getElementById(id + "btO");
+      btO.style.opacity = "1";
+
+      let btE = document.getElementById(id + "btE");
+      btE.style.opacity = "1";
+
+      let btX = document.getElementById(id + "btX");
+      btX.style.opacity = "1"; 
+
+      let listItem = document.getElementById(id + "item");
+      listItem.style.fontSize = "16px"; 
+      listItem.style.backgroundColor = "rgb(211, 217, 226)";
+    }
+  }
+
+  window.onclick = function () {
+    if (self.isOpen && self.id != "") {
+      self.direction = "left";
+      let btO = document.getElementById(self.id + "btO");
+      btO.style.removeProperty("opacity");
+      let btE = document.getElementById(self.id + "btE");
+      btE.style.removeProperty("opacity");
+      let btX = document.getElementById(self.id + "btX");
+      btX.style.removeProperty("opacity");
+      let listItem = document.getElementById(self.id + "item");
+      listItem.style.removeProperty("font-size"); 
+      listItem.style.removeProperty("background-color");
+    }
   }
 
   self.initFirebase();
