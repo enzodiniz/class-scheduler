@@ -11,7 +11,7 @@
 	</md-toolbar>
 
 	<md-content>
-		<div layout="row">
+		<div layout="row" class="md-inline-form">
 			<md-input-group>
 				<md-input-container>
 					<input type="" ng-model="titulo" placeholder="título...">
@@ -22,7 +22,6 @@
 			</md-input-group>
 		</div>
 
-		<span flex></span>
 		<h5 ng-show="aulas.length == 0">Esta disciplina não tem aulas cadastradas</h5>
 
 		<md-card ng-show="aulas.length > 0">
@@ -51,9 +50,8 @@
 		</md-card>
 	</md-content>
 
-	<md-actions layout="row">
-		<span flex></span>
+	<md-dialog-actions layout="row">
 		<md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
 		<md-button class="md-raised md-primary" ng-click="salvar()">Salvar</md-button>
-	</md-actions>
+	</md-dialog-actions>
 </md-dialog>

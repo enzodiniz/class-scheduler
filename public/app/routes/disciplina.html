@@ -1,5 +1,5 @@
 <div ng-controller = "discCtrl as c">
-	<md-card>
+	<md-card ng-cloak>
 		<md-list ng-cloak="" class="listdemoListControls">
 			<md-toolbar layout="row" class="md-hue-3">
 				<div class="md-toolbar-tools">
@@ -21,7 +21,8 @@
 
 				<span flex></span>
 
-				<md-fab-speed-dial md-open="c.isOpen" md-direction="left" ng-class="c.selectedMode">
+				<md-fab-speed-dial md-open="c.isOpen" md-direction="left" ng-class="c.selectedMode"
+				ng-cloak>
         			<md-fab-trigger>
           				<md-button id="{{d.id}}btO" class="md-fab md-raised md-mini" 
           				aria-label="More" ng-click="c.openMenu(d.id)">
@@ -31,16 +32,16 @@
 			        </md-fab-trigger>
 
 			        <md-fab-actions>
-			        	<md-button id="{{d.id}}btE" aria-label="Editar" 
+			        	<md-button id="{{d.id}}btE" aria-label="Editar"
 			        	class="md-fab md-raised md-mini" ng-click="c.editarDisciplina($event, d)">
 			        		<md-tooltip md-direction="bottom">Editar</md-tooltip>
 			            	<md-icon md-svg-src="app/img/editar.svg" aria-label="Editar">
 			            	</md-icon>
 			          	</md-button>
-			          	<md-button aria-label="Excluir" class="md-fab md-raised md-mini" 
+			          	<md-button aria-label="Excluir" class="md-fab md-raised md-warn md-mini" 
 			          	id="{{d.id}}btX" ng-click="c.excluirDisciplina(d.id)">
 			          		<md-tooltip md-direction="bottom">Excluir</md-tooltip>
-			            	<md-icon md-svg-src="app/img/excluir2.svg" aria-label="Excluir">
+			            	<md-icon md-svg-src="app/img/close.svg" aria-label="Excluir">
 			            	</md-icon>
 			          	</md-button>
 			        </md-fab-actions>

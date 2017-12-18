@@ -64,7 +64,7 @@ function discCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
       },
       controller: ['$scope', '$mdClassSchedulerToast', 'disc', 
         function ($scope, $mdClassSchedulerToast, disc) {
-          $scope.aulas = []; //documento das aulas(ids)
+          $scope.aulas = []; //documento das disc.aulas(ids)
           $scope.titulo = disc.data().titulo;
           $scope.turma = disc.data().turma;
 
@@ -101,9 +101,9 @@ function discCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
               aulasTemp.push(a.id);
             }
             discRef.update({
-              titulo: $scope.titulo,
-              turma: $scope.turma,
-              aulas: aulasTemp
+              titulo: $scope.titulo || disc.titulo,
+              turma: $scope.turma || disc.turma,
+              aulas: aulasTemp || disc.aulas
             }).then(function () {
               $scope.hide();
               $mdClassSchedulerToast.show("A turma foi modificada");
@@ -224,7 +224,7 @@ function discCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
 
       let listItem = document.getElementById(id + "item");
       listItem.style.fontSize = "16px"; 
-      listItem.style.backgroundColor = "rgb(211, 217, 226)";
+      listItem.style.backgroundColor = "rgb(211, 217, 226)";     
     }
   }
 
