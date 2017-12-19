@@ -16,15 +16,15 @@
 		  </md-list-item>
 		  <md-list-item class="md-2-line item-de-lista desaparece" ng-repeat="d in c.disciplinas"
 			ng-click="null" id="{{d.id}}item">
-				<b>{{d.data().titulo}}</b>&nbsp
-				turma: {{d.data().turma}}
+				<b>{{d.doc.data().titulo}}</b>&nbsp
+				turma: {{d.turma.data().serie}}º {{d.turma.data().curso}}
 
 				<span flex></span>
 
 				<md-fab-speed-dial md-open="c.isOpen" md-direction="left" ng-class="c.selectedMode"
 				ng-cloak>
         			<md-fab-trigger>
-          				<md-button id="{{d.id}}btO" class="md-fab md-raised md-mini" 
+          				<md-button id="{{d.id}}btO" class="md-fab md-raised" 
           				aria-label="More" ng-click="c.openMenu(d.id)">
           					<md-tooltip md-direction="{{c.direction}}">Opções</md-tooltip>
     						<md-icon md-svg-icon="app/img/options.svg"></md-icon>

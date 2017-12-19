@@ -33,7 +33,19 @@ function discCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
     self.db.collection("disciplinas").onSnapshot(function (querySnapshot) {
       let discs = [];
       querySnapshot.forEach(function (doc) {
-        discs.push(doc);
+        let turmaRef = self.db.doc("turmas/" + doc.data().turma);
+        turmaRef.get().then(function (turma) {
+          $scope.$apply(function () {
+            discs.push({
+              doc: doc,
+              id: doc.id,
+              turma: turma
+            });            
+          });
+        }).catch(function (error) {
+          console.log("Ocorreu um erro: ", error);
+        });
+        //discs.push(doc);
       });
       $scope.$apply(function () {
         self.disciplinas = discs;
@@ -65,8 +77,8 @@ function discCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
       controller: ['$scope', '$mdClassSchedulerToast', 'disc', 
         function ($scope, $mdClassSchedulerToast, disc) {
           $scope.aulas = []; //documento das disc.aulas(ids)
-          $scope.titulo = disc.data().titulo;
-          $scope.turma = disc.data().turma;
+          $scope.titulo = disc.doc.data().titulo;
+          $scope.turma = disc.doc.data().turma;
 
           $scope.excluirAula = function (id) {
             for (var i = 0; i < $scope.aulas.length; i++) {
@@ -78,7 +90,7 @@ function discCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
           }
 
           $scope.getAulas = function () {
-              let aulasId = disc.data().aulas;
+              let aulasId = disc.doc.data().aulas;
               if (aulasId) {
                 for (a of aulasId) {
                   aulaRef = self.db.doc("aulas/" + a);

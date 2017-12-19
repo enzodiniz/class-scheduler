@@ -163,13 +163,6 @@ function turmaCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
     }
   }
 
-  self.querySearch = function (query) {
-      var results = self.cursos;
-      var deferred = $q.defer();
-      $timeout(function () { deferred.resolve( results ); }, Math.random() * 1000, false);
-      return deferred.promise;
-  }
-
   self.initFirebase();
 }
 

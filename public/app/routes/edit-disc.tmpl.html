@@ -5,6 +5,7 @@
 			{{titulo}}
 			<span flex></span>
 			<md-button class="md-icon-button" ng-click="cancel()">
+				<md-tooltip md-direction="left">Fechar</md-tooltip>
             	<md-icon md-svg-src="../app/img/close.svg" aria-label="Close dialog"></md-icon>
         	</md-button>
 		</div>
@@ -34,8 +35,8 @@
 			<md-dialog-content>
 				<md-list>
 					<md-list-item class="desaparece" ng-repeat="a in aulas" ng-click="null">
-						{{a.data().start}} às
-						{{a.data().end}}
+						{{a.data().start | date: 'dd/MM/yyyy -- hh:mm': '-0300'}}hs às
+						{{a.data().end | date: 'hh:mm': '-0300'}}hs
 
 						<span flex></span>
 						<md-button class="md-icon-button" ng-click="excluirAula(a.id)">
