@@ -52,7 +52,7 @@
           <md-radio-button value="Ok">Ok</md-radio-button>
           <md-radio-button value="Disponível" class="md-primary"> Disponível </md-radio-button>
           <md-radio-button value="Substituída" class="md-primary" 
-          ng-show="{{dados.status.disponivel}}">
+          ng-show="{{dados.status.disponivel}} || {{dados.status.substituida}}">
             Substituída
           </md-radio-button>
         </md-radio-group>

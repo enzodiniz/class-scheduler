@@ -13,20 +13,37 @@
 
 	<md-content>
 		<div layout="row" class="md-inline-form">
-			<md-input-group>
+			<md-input-group layout="row">
 				<md-input-container>
 					<input type="" ng-model="titulo" placeholder="título...">
 				</md-input-container>
-				<md-input-container>
+									
+				<!-- <md-input-container>
 					<input type="" ng-model="turma" placeholder="turma...">
-				</md-input-container>
+				</md-input-container> -->
+
+				<md-autocomplete
+				    md-selected-item="selectedItem"
+				    md-search-text-change="searchTextChange(searchText)"
+				    md-search-text="searchText"
+				    md-selected-item-change="selectedItemChange(item)"
+				    md-items="item in turmas | filter: searchText"
+				    md-item-text="item.serie+ 'º ' + item.curso"
+				    md-min-length="0"
+				    md-floating-label="turma...">
+				    <md-item-template>
+				    	<span md-highlight-text="searchText" md-highlight-flags="^i">
+				      		{{item.serie}}º {{item.curso}}
+				  		</span>
+				    </md-item-template>
+				</md-autocomplete>	
 			</md-input-group>
 		</div>
 
 		<div ng-show="aulas.length == 0" layout="row">
 			<h5>Esta disciplina não tem aulas cadastradas</h5>
 			<span flex></span>
-			<md-button class="md-icon-button" ng-click="addAula($event, disc)">
+			<md-button class="md-icon-button" ng-click="addAula($event, disc2)">
 				<md-tooltip md-direction="left">Adicionar aula</md-tooltip>
 				<md-icon md-svg-src="app/img/adicionar.svg"></md-icon>
 			</md-button>
@@ -38,7 +55,7 @@
 				<div class="md-toolbar-tools">
 					<h4>Aulas</h4>
 					<span flex></span>
-					<md-button class="md-icon-button" ng-click="addAula($event, disc)">
+					<md-button class="md-icon-button" ng-click="addAula($event, disc2)">
 						<md-tooltip md-direction="left">Adicionar aula</md-tooltip>
 						<md-icon md-svg-src="app/img/adicionar.svg"></md-icon>
 					</md-button>

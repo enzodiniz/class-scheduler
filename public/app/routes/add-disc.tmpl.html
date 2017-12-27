@@ -13,32 +13,39 @@
 
     <md-dialog-content flex>
       <div class="md-dialog-content">
-        <md-input-container>
-          <label>Título</label>
-          <input ng-model="titulo" type="text" ng-required="true">
-        </md-input-container>
+
+        <section layout="row">
+          <md-input-container>
+            <label>Título</label>
+            <input ng-model="titulo" type="text" ng-required="true">
+          </md-input-container>
+
+          <md-autocomplete
+            md-selected-item="turma"
+            md-search-text-change="searchTextChange(searchText)"
+            md-search-text="searchText"
+            md-selected-item-change="selectedItemChange(item)"
+            md-items="item in turmas | filter: searchText"
+            md-item-text="item.serie + 'º ' + item.curso"
+            md-min-length="0"
+            md-floating-label="Turma...">
+            <md-item-template>
+              <span md-highlight-text="searchText" md-highlight-flags="^i">
+                {{item.serie}}º {{item.curso}}
+              </span>
+            </md-item-template>
+          </md-autocomplete>
+        </section>
 
         <md-input-container>
-          <label>Turma temporária</label>
-          <input list="turmas" ng-model="turma" type="text" ng-required="true">
+            <!-- <input list="turmas" ng-model="turma" type="text" ng-required="true">
           <datalist id="turmas">
-            <!-- <option value="{{t.serie}}º de {{t.curso}}" ng-repeat="t in turmas"> -->
+            <option value="{{t.serie}}º de {{t.curso}}" ng-repeat="t in turmas">
             <option value="{{t.id}}" ng-repeat="t in turmas">
-          </datalist>
+          </datalist> -->
         </md-input-container>
+
         
-        <!-- <md-input-container flex>
-    			<div layout="row" ng-cloak="" class="autocompletedemoFloatingLabel">
-    				<md-autocomplete flex="" required="" md-input-name="autocompleteField"
-            md-selected-item="c.selectedItem" md-search-text="c.searchText"
-            md-items="item in c.querySearch(c.searchText)" md-item-text="item.display"
-            md-require-match="" md-floating-label="Turmas">
-  			      <md-item-template>
-  			        <span md-highlight-text="ctrl.searchText">{{item.display}}</span>
-  			      </md-item-template>
-  			    </md-autocomplete>
-    			</div>
-    		</md-input-container> -->
 
         <md-input-container>
           <fieldset class="standard">
