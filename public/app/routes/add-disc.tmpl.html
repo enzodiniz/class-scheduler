@@ -26,7 +26,7 @@
             <option value="{{t.id}}" ng-repeat="t in turmas">
           </datalist>
         </md-input-container>
-
+        
         <!-- <md-input-container flex>
     			<div layout="row" ng-cloak="" class="autocompletedemoFloatingLabel">
     				<md-autocomplete flex="" required="" md-input-name="autocompleteField"
@@ -46,8 +46,8 @@
             <div layout="row" layout-wrap="" flex="">
               <div flex="50" ng-repeat="item in aulas">
                 <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)">
-                  {{ item.data().start | date:'dd/MM/yyyy hh:mm' }}hs às 
-                  {{ item.data().end | date:'dd/MM/yyyy hh:mm' }}hs
+                  {{ item.data().start | date:'dd/MM/yyyy HH:mm' }}hs às 
+                  {{ item.data().end | date:'HH:mm' }}hs
                   <span ng-if="exists(item, selected)">selected</span>
                 </md-checkbox>
               </div>
