@@ -13,10 +13,14 @@
 
     <md-dialog-content>
       <div class="md-dialog-content">
-        <h4>Dia</h4>
-        <label for="inicio-data">Dia</label>
-        <md-datepicker ng-model="day" md-placeholder="Selecione o dia" 
-        md-date-filter="onlyWeekendsPredicate"></md-datepicker>
+
+        <div layout="column">
+          <h4>Dia</h4>
+          <section layout="row">
+            <md-datepicker ng-model="day" md-placeholder="Selecione o dia" 
+            md-date-filter="onlyWeekendsPredicate"></md-datepicker>            
+          </section>
+        </div>
 
         <div layout="row">
           <section>
@@ -47,11 +51,32 @@
           </section>
         </div>
 
-        <p>Status: <span class="radioValue">{{ status }}</span> </p>
+        <div layout="column">
+          <h4>Disciplina</h4>
+          <section>
+            <md-autocomplete
+                md-selected-item="disciplina"
+                md-search-text-change="searchTextChange(searchText)"
+                md-search-text="searchText"
+                md-selected-item-change="selectedItemChange(item)"
+                md-items="item in disciplinas | filter: searchText"
+                md-item-text="item.titulo"
+                md-min-length="0"
+                placeholder="Selecione a disciplina...">
+              <md-item-template>
+                <span md-highlight-text="searchText" md-highlight-flags="^i">
+                  {{item.titulo}}
+                </span>
+              </md-item-template>
+            </md-autocomplete>              
+          </section>          
+        </div>
+
+        <!-- <p>Status: <span class="radioValue">{{ status }}</span> </p>
         <md-radio-group ng-model="status" layout="row">
           <md-radio-button value="Ok">Ok</md-radio-button>
           <md-radio-button value="Disponível" class="md-primary"> Disponível </md-radio-button>     
-        </md-radio-group>        
+        </md-radio-group>  -->       
       </div>
     </md-dialog-content>
 

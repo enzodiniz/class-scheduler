@@ -7,20 +7,44 @@
 		        	<span>Professores</span>	
 		        	<span flex></span>
 			        <md-button class="md-raised md-primary" layout-align="end" 
-			        ng-click="p.salvarProf()">
+			        ng-click="p.salvarProf($event)">
 			        	Add professor
 			        </md-button>
 		    	</div>    
 		    </md-toolbar>
 		    <md-card-content>
 		      <md-list flex="">
-		        <md-list-item class="md-2-line item-de-lista" ng-repeat="p in p.profs" 
+		        <md-list-item class="md-2-line desaparece" ng-repeat="p in p.profs" 
 		        ng-click="null">
 		          <div class="md-list-item-text" layout="column">
 		            <b><h3>{{ p.data().nome }} {{ p.data().sobrenome }}</h3></b>
 		            <h4>{{ p.data().email }}</h4>
 		          </div>
 		          <md-divider md-inset ng-if="!$last"></md-divider>
+
+		          <md-fab-speed-dial md-open="c.fab.isOpen" md-direction="left" 
+		          ng-class="c.fab.selectedMode">
+		            <md-fab-trigger>
+		              <md-button aria-label="menu" class="md-fab md-raised" 
+		              ng-click="c.openMenu(p.id)" id="{{p.id}}btO">
+		                <md-tooltip md-direction="{{c.fab.direction}}">Opções</md-tooltip>
+		                <md-icon md-svg-src="app/img/options.svg"></md-icon>
+		              </md-button>
+		            </md-fab-trigger>
+
+		            <md-fab-actions>
+		              <md-button aria-label="Editar" class="md-fab md-raised md-mini" 
+		              id="{{p.id}}btE" ng-click="c.editarProfessor($event, p)">
+		                <md-tooltip md-direction="bottom">Editar</md-tooltip>
+		                <md-icon md-svg-src="app/img/editar.svg" aria-label="Editar"></md-icon>
+		              </md-button>
+		              <md-button aria-label="Excluir" class="md-fab md-raised md-mini md-warn" 
+		              ng-click="c.excluirProfessor(p.id)" id="{{p.id}}btX">
+		                <md-tooltip md-direction="bottom">Excluir</md-tooltip>
+		                <md-icon md-svg-src="app/img/close.svg" aria-label="Excluir"></md-icon>
+		              </md-button>
+		            </md-fab-actions>
+		          </md-fab-speed-dial>
 		        </md-list-item>
 		      </md-list>
 		    </md-card-content>

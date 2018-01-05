@@ -5,9 +5,6 @@ angular
 function discCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
   var self = this;
   self.id;
-  self.disciplinas = [];
-  self.turmas = [];
-  self.aulas = [];
   self.direction = "left";
   self.isOpen = false;
   self.selectedMode = "md-scale";
@@ -15,41 +12,109 @@ function discCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
   self.initFirebase = function () {
     self.db = firebase.firestore();
     self.getRealtimeUpdates();
+    self.getProfessores();
+    self.getTurmas();
   }
 
-  self.getAulas = function () {
-    self.db.collection("aulas").onSnapshot(function (querySnapshot) {
-      let aulas = [];
-      querySnapshot.forEach(function (doc) {
-        aulas.push(doc);
+  self.getTurmas = function () {
+    self.db.collection("turmas").get().then(function (querySnapshot) {
+      self.turmas = [];
+      querySnapshot.forEach((doc) => {
+        let data = doc.data();
+        self.turmas.push({
+          id: doc.id,
+          curso: data.curso,
+          serie: data.serie
+        });
       });
-      $scope.$apply(function () {
-        self.aulas = aulas;
-      });
+    }).catch(function () {
+      console.log("Ocorreu um erro: ", error);
     });
   }
 
-  self.getRealtimeUpdates = function () {
-    self.db.collection("disciplinas").onSnapshot(function (querySnapshot) {
-      let discs = [];
-      querySnapshot.forEach(function (doc) {
-        let turmaRef = self.db.doc("turmas/" + doc.data().turma);
-        turmaRef.get().then(function (turma) {
-          $scope.$apply(function () {
-            discs.push({
-              doc: doc,
-              id: doc.id,
-              turma: turma,
-            });            
+  self.getProfessores = function () {
+    self.db.collection("professores").get()
+      .then(function (query) {
+        self.professores = [];
+        query.forEach(function (doc) {
+
+          self.professores.push({
+            id: doc.id,
+            nome: doc.data().nome,
+            sobrenome: doc.data().sobrenome,
+            email: doc.data().email
           });
-        }).catch(function (error) {
-          console.log("Ocorreu um erro: ", error);
+
         });
-        //discs.push(doc);
+      }).catch(function (error) {
+        console.log("Ocorreu um erro: ", error);
       });
-      $scope.$apply(function () {
-        self.disciplinas = discs;
-        self.getAulas();
+  }
+
+  self.getRealtimeUpdates = function () {
+    
+
+    self.db.collection("disciplinas").onSnapshot(function (querySnapshot) {
+      self.disciplinas = [];
+
+      querySnapshot.forEach(function (doc) {
+        let data = doc.data();        
+
+        let promessas = [];
+
+        promessas.push(new Promise(function (resolve, reject) {
+          let turmaRef = self.db.doc("turmas/" + data.turma);
+
+          turmaRef.get().then(function (doc) {
+            resolve({
+              id: doc.id,
+              curso: doc.data().curso,
+              serie: doc.data().serie
+            });
+          }).catch(function (error) {
+            reject(error);
+          });
+        }));
+
+        Promise.all(promessas).then(function (turma) {
+            let finalPromise = [];
+
+            finalPromise.push(new Promise (function (resolve, reject) {
+              let profRef = self.db.doc("professores/" + data.professor);
+
+              profRef.get().then(function (doc) {
+                resolve({
+                  professor: {
+                    id: doc.id,
+                    nome: doc.data().nome,
+                    sobrenome: doc.data().sobrenome,
+                    email: doc.data().email,
+                    isAdmin: doc.data().isAdmin // nem sei se precisa desse campo nas disc
+                  },
+                  turma: turma[0] 
+                });
+              }).catch(function (error) {
+                reject(error);
+              })
+            })); 
+
+            Promise.all(finalPromise).then(function (obj) {
+              $scope.$apply(function () {
+                self.disciplinas.push({
+                  id: doc.id,
+                  titulo: data.titulo,
+                  turma: obj[0].turma,
+                  professor: obj[0].professor
+                });                
+              });
+            }).catch(function (error) {
+              console.log("Ocorreu um erro: ", error);
+            });
+
+          }).catch(function (error) {
+            console.log("Ocorreu um erro: ", error);
+          });
+
       });
     })
   }
@@ -67,181 +132,33 @@ function discCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
   self.editarDisciplina = function (ev, disc) {
     $mdDialog.show({
       templateUrl: 'app/routes/edit-disc.tmpl.html',
-      clickOutsideToClose: true,
       parent: angular.element(document.body),
       targetEvent: ev,
+      clickOutsideToClose:true,
       fullscreen: $scope.customFullscreen,
       locals: {
-        disc: disc
+        disc: disc,
+        professores: self.professores,
+        turmas: self.turmas
       },
-      controller: ['$scope', '$mdClassSchedulerToast', 'disc', 
-        function ($scope, $mdClassSchedulerToast, disc) {
-          $scope.aulas = []; //documento das disc.aulas(ids)
-          $scope.titulo = disc.doc.data().titulo;
-          $scope.turma = disc.doc.data().turma;
-          $scope.disc = disc.doc.data();
-          $scope.disc2 = disc.doc;
+      controller: ['$scope', '$mdClassSchedulerToast', 'disc', 'professores',
+        'turmas',
+        function ($scope, $mdClassSchedulerToast, disc, professores, turmas) {
+          $scope.disc = disc;
 
-          $scope.excluirAula = function (id) {
-            for (var i = 0; i < $scope.aulas.length; i++) {
-              if ($scope.aulas[i].id == id) {
-                $scope.aulas.splice(i, 1);
-                return;
-              }
-            }
-          }
-
-          $scope.getTurmas = function () {
-            let turmaRef = self.db.doc("turmas/" + $scope.turma);
-            turmaRef.get().then(function (doc) {
-              $scope.selectedItem = {
-                id: doc.id,
-                serie: doc.data().serie,
-                curso: doc.data().curso
-              };
-            }).catch (function (error) {
-              console.log("Ocorreu um erro:", error);
-            });
-
-            self.db.collection("turmas").get()
-              .then(function (query) {
-                $scope.turmas = [];
-                query.forEach(function (doc) {
-                  $scope.turmas.push({
-                    id: doc.id,
-                    serie: doc.data().serie,
-                    curso: doc.data().curso
-                  });
-                });
-              }).catch(function (error) {
-                console.log("Ocorreu um erro: ", error);
-              });
-          }
-
-          $scope.getAulas = function () {
-              let aulasId = disc.doc.data().aulas;
-              if (aulasId) {
-                for (a of aulasId) {
-                  aulaRef = self.db.doc("aulas/" + a);
-                  aulaRef.get().then(function (doc) {
-                    $scope.$apply(function () {
-                      $scope.aulas.push(doc);                      
-                    });
-                  }).catch(function (error) {
-                    console.log("Error getting document:", error);
-                  });
-                }                
-              }
-          }
-
-          $scope.addAula = function (ev, disc) {
-            $mdDialog.show({
-              templateUrl: 'app/routes/add-aula.tmpl.html',
-              clickOutsideToClose: true,
-              parent: angular.element(document.body),
-              targetEvent: ev,
-              locals: {
-                disc: disc
-              },
-              fullscreen: $scope.customFullscreen,
-              controller: ['$scope', '$mdClassSchedulerToast', 'disc', 
-                function ($scope, $mdClassSchedulerToast, disc) {
-                  $scope.status = 'Ok';
-                  $scope.disc = disc;
-                  $scope.aulas = $scope.disc.data().aulas;
-
-                  $scope.salvar = function () {
-                    $scope.setStart($scope.day);
-                    $scope.setEnd($scope.day);
-                    if ($scope.status == "Disponível") {
-                      $scope.ok = false;
-                      $scope.disponivel = true;
-                    } else {
-                      $scope.ok = true;
-                      $scope.disponivel = false;
-                    }
-                    self.db.collection("aulas").add({
-                      start: $scope.start,
-                      end: $scope.end,
-                      status: {
-                        ok: $scope.ok,
-                        disponivel: $scope.disponivel,
-                        substituida: false
-                      }
-                    }).then(function (docRef) {
-                      if ($scope.aulas == undefined) {
-                          $scope.aulas = [];
-                      }
-                      $scope.aulas.push(docRef.id);
-
-                      let discRef = self.db.doc("disciplinas/" + $scope.disc.id);
-                      discRef.update({
-                        titulo: $scope.disc.data().titulo,
-                        turma: $scope.disc.data().turma,
-                        aulas: $scope.aulas
-                      }).then(function () {
-                        $scope.hide();
-                        $mdClassSchedulerToast.show("Aula adicionada a disciplina");
-                      }).catch(function (error) {
-                        console.log("Ocorreu um erro: ", error);
-                      });
-                    }).catch(function (error) {
-                      console.log("Ocorreu um erro: ", error);
-                      $mdClassSchedulerToast.show("Ocorreu um erro ao salvar a aula");
-                    });
-                  }
-
-                  $scope.setStart = function (day) {
-                    $scope.start = new Date();
-                    $scope.start.setTime(day.getTime());
-                    $scope.start.setHours($scope.hrI);
-                    $scope.start.setMinutes($scope.mnI);
-                  }
-
-                  $scope.setEnd = function (day) {
-                    $scope.end = new Date();
-                    $scope.end.setTime(day.getTime());
-                    $scope.end.setHours($scope.hrF);
-                    $scope.end.setMinutes($scope.mnF);
-                  }
-
-                  $scope.hide = function () {
-                    $mdDialog.hide();
-                  }
-
-                  $scope.cancel = function () {
-                    $mdDialog.cancel();
-                  }
-
-                  $scope.onlyWeekendsPredicate = function(date) {
-                    var day = date.getDay();
-                    return day > 0 && day < 6;
-                  };
-                }]              
-            }).then(function (answer) {
-              console.log("answer: ", answer);
-            }).catch(function () {
-              console.log("cancelled dialog");
-            });
-          }
+          $scope.titulo = disc.titulo;
+          $scope.turmas = turmas;
+          $scope.professores = professores;
+          
+          $scope.turma = disc.turma;
+          $scope.professor = disc.professor;
 
           $scope.salvar = function () {
-            let aulasTemp = [];
             let discRef = self.db.doc("disciplinas/" + disc.id);
-            
-            discRef.get().then(function (doc) {
-              $scope.disc = doc.data();
-            }).catch(function (error) {
-              console.log("Ocorreu um erro: ", error);
-            });
-
-            for (a of $scope.aulas) {
-              aulasTemp.push(a.id);
-            }
             discRef.update({
               titulo: $scope.titulo || $scope.disc.titulo,
-              turma: $scope.selectedItem.id || $scope.disc.turma.id,
-              aulas: aulasTemp || $scope.disc.aulas
+              turma: $scope.turma ? $scope.turma.id : $scope.disc.turma.id,
+              professor: $scope.professor ? $scope.professor.id : $scope.disc.professor.id
             }).then(function () {
               $scope.hide();
               $mdClassSchedulerToast.show("A disciplina foi modificada");
@@ -257,11 +174,8 @@ function discCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
           $scope.cancel = function () {
             $mdDialog.cancel();
           }
-
-          $scope.getAulas();
-          $scope.getTurmas();
         }]
-    }); 
+    });
   }
 
   self.salvarDisciplina = function (ev) {
@@ -271,19 +185,18 @@ function discCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
       parent: angular.element(document.body),
       targetEvent: ev,
       fullscreen: $scope.customFullscreen,
-      locals: {
-        aulas: self.aulas
-      },
-      controller: ['$scope', '$mdClassSchedulerToast', 'aulas', 
-        function ($scope, $mdClassSchedulerToast, aulas) {
-        $scope.aulas = aulas;
+      locals: { professores: self.professores, turmas: self.turmas },
+      controller: ['$scope', '$mdClassSchedulerToast', 'professores', 'turmas',
+        function ($scope, $mdClassSchedulerToast, professores, turmas) {
         $scope.selected = [];
-        
+        $scope.professores = professores;
+        $scope.turmas = turmas;
+
         $scope.salvar = function () {
           self.db.collection("disciplinas").add({
             titulo: $scope.titulo,
             turma: $scope.turma.id,
-            aulas: $scope.selected
+            professor: $scope.professor.id
           }).then(function (docRef) {
             $mdClassSchedulerToast.show("Uma nova disciplina foi salva");
             $scope.cancel();
@@ -291,19 +204,6 @@ function discCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
             console.log("Ocorreu um erro ao salvar disciplina: ", error);
             $mdClassSchedulerToast.show("Erro ao salvar a disciplina");
           });
-        }
-
-        $scope.getTurmas = function () {
-          self.db.collection("turmas").get().then(function (querySnapshot) {
-            $scope.turmas = [];
-            querySnapshot.forEach((doc) => {
-              $scope.turmas.push({
-                id: doc.id,
-                curso: doc.data().curso,
-                serie: doc.data().serie
-              });
-            });
-          })
         }
 
         $scope.toggle = function (item, list) {
@@ -327,8 +227,6 @@ function discCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
         $scope.hide = function () {
           $mdDialog.hide();
         }
-
-        $scope.getTurmas();
       }]
     }).then(function (resposta) {
       console.log("resposta", resposta);
@@ -362,26 +260,17 @@ function discCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
       btE.style.opacity = "1";
 
       let btX = document.getElementById(id + "btX");
-      btX.style.opacity = "1"; 
+      btX.style.opacity = "1";
 
       let listItem = document.getElementById(id + "item");
-      listItem.style.fontSize = "16px"; 
-      listItem.style.backgroundColor = "rgb(211, 217, 226)";     
+      listItem.style.fontSize = "16px";
+      listItem.style.backgroundColor = "rgb(211, 217, 226)";
     }
   }
 
   window.onclick = function () {
     if (self.isOpen && self.id != "") {
-      self.direction = "left";
-      let btO = document.getElementById(self.id + "btO");
-      btO.style.removeProperty("opacity");
-      let btE = document.getElementById(self.id + "btE");
-      btE.style.removeProperty("opacity");
-      let btX = document.getElementById(self.id + "btX");
-      btX.style.removeProperty("opacity");
-      let listItem = document.getElementById(self.id + "item");
-      listItem.style.removeProperty("font-size"); 
-      listItem.style.removeProperty("background-color");
+      self.openMenu(self.id);
     }
   }
 

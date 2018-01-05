@@ -7,7 +7,7 @@
         <md-button class="md-icon-button" ng-click="cancel()">
           <md-tooltip md-direction="left">Fechar</md-tooltip>
           <md-icon md-svg-src="../app/img/close.svg" aria-label="Close dialog"></md-icon>
-        </md-button>        
+        </md-button>
       </div>
     </md-toolbar>
 
@@ -20,7 +20,7 @@
             <input ng-model="titulo" type="text" ng-required="true">
           </md-input-container>
 
-          <md-autocomplete
+          <md-autocomplete required
             md-selected-item="turma"
             md-search-text-change="searchTextChange(searchText)"
             md-search-text="searchText"
@@ -36,31 +36,23 @@
             </md-item-template>
           </md-autocomplete>
         </section>
-
-        <md-input-container>
-            <!-- <input list="turmas" ng-model="turma" type="text" ng-required="true">
-          <datalist id="turmas">
-            <option value="{{t.serie}}º de {{t.curso}}" ng-repeat="t in turmas">
-            <option value="{{t.id}}" ng-repeat="t in turmas">
-          </datalist> -->
-        </md-input-container>
-
-        
-
-        <md-input-container>
-          <fieldset class="standard">
-            <legend>Aulas</legend>
-            <div layout="row" layout-wrap="" flex="">
-              <div flex="50" ng-repeat="item in aulas">
-                <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)">
-                  {{ item.data().start | date:'dd/MM/yyyy HH:mm' }}hs às 
-                  {{ item.data().end | date:'HH:mm' }}hs
-                  <span ng-if="exists(item, selected)">selected</span>
-                </md-checkbox>
-              </div>
-            </div>
-          </fieldset>
-        </md-input-container>
+        <section>
+          <md-autocomplete required flex
+            md-selected-item="professor"
+            md-search-text-change="searchTextChange(searchTeacher)"
+            md-search-text="searchTeacher"
+            md-selected-item-change="selectedItemChange(item)"
+            md-items="item in professores | filter: searchTeacher"
+            md-item-text="item.nome + ' ' + item.sobrenome"
+            md-min-length="0"
+            md-floating-label="Professor...">
+            <md-item-template>
+              <span md-highlight-text="searchTeacher" md-highlight-flags="^i">
+                {{item.nome}} {{item.sobrenome}} - {{item.email}}
+              </span>
+            </md-item-template>
+          </md-autocomplete>
+        </section>
       </div>
     </md-dialog-content>
 

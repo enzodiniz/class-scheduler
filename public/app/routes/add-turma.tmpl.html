@@ -16,7 +16,6 @@
     	<h4>Série</h4>
         <md-input-container layout="row">
 			<md-radio-group ng-model="serie" layout="row"">
-		      	<md-radio-button ng-repeat="s in series" value="{{s}}">{{s}}</md-radio-button>
 		      	<md-radio-button value="1"> 1º </md-radio-button>
 		      	<md-radio-button value="2"> 2º </md-radio-button>
 		      	<md-radio-button value="3"> 3º </md-radio-button>
@@ -32,28 +31,6 @@
 		      	<md-radio-button value="Informática">Informática</md-radio-button>
 	    	</md-radio-group>        	
         </md-input-container>
-
-		<!-- <md-input-container flex>
-			<label>Curso temporário</label>
-			<input list="cursos" ng-required="true" ng-model="curso">
-			<datalist id="cursos">
-				<option value="{{cr}}" ng-repeat="cr in cursos"></option>
-			</datalist>
-		</md-input-container>
-
-		<md-input-container flex>
-			<div layout="row" ng-cloak="" class="autocompletedemoFloatingLabel">
-				<md-autocomplete flex="" required="" md-input-name="autocompleteField"
-				 md-input-minlength="2" md-input-maxlength="18" md-no-cache="t.noCache" 
-				 md-selected-item="t.selectedItem" md-search-text="ctrl.searchText" 
-				 md-items="item in ctrl.querySearch(ctrl.searchText)" md-item-text="item.display" 
-				 md-require-match="" md-floating-label="Curso">
-			      <md-item-template>
-			        <span md-highlight-text="ctrl.searchText">{{item.display}}</span>
-			      </md-item-template>
-			    </md-autocomplete>
-			</div>
-		</md-input-container> -->
 	</md-dialog-content>
 
 	<md-dialog-actions layout="row">

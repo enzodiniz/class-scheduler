@@ -22,13 +22,16 @@
 					<section ng-show="c.default.length > 0">
 						<md-subheader>Aulas padrão</md-subheader>
 						<md-list flex="">
-				        	<md-list-item class="md-2-line desaparece" ng-click="null"
+				        	<md-list-item class="md-3-line desaparece" ng-click="null"
 				        	ng-repeat="d in c.default" id="{{d.id}}item">
 				          		<div class="md-list-item-text" layout="column">
-				          			<h3> Dia: {{ d.data().start | date: 'dd/MM/yyyy' }} </h3>
+				          			<h3> Dia: {{ d.start | date: 'dd/MM/yyyy' }} </h3>
 				            		<h4>
-				            			De: {{ d.data().start | date:' HH:mm' }} hs
-				            			às: {{ d.data().end | date:' HH:mm' }} hs
+				            			De: {{ d.start | date:' HH:mm' }} hs
+				            			às {{ d.end | date:' HH:mm' }} hs <br>
+
+				            			disciplina: {{d.disciplina.titulo}} 
+				            			( {{ d.professor.nome }} {{ d.professor.sobrenome }} )
 				            		</h4>
 				          		</div>
 
@@ -54,7 +57,8 @@
 					            	<md-icon md-svg-src="app/img/editar.svg" aria-label="Editar">
 					            	</md-icon>
 					          	</md-button>
-					          	<md-button aria-label="Excluir" class="md-fab md-raised md-warn md-mini"
+					          	<md-button aria-label="Excluir"
+					          	class="md-fab md-raised md-warn md-mini"
 					          	id="{{d.id}}btX" ng-click="c.excluirAula(d.id)">
 					          		<md-tooltip md-direction="bottom">Excluir</md-tooltip>
 					            	<md-icon md-svg-src="app/img/close.svg" aria-label="Excluir">
@@ -63,7 +67,7 @@
 					        </md-fab-actions>
 					    </md-fab-speed-dial>
 					    		<!-- Fab -->
-				        		<md-divider md-inset ng-if="!$last"></md-divider>
+				        		<md-divider ng-if="!$last"></md-divider>
 				        	</md-list-item>
 				      	</md-list>
 					</section>
@@ -82,10 +86,13 @@
 		        			<md-list-item class="md-2-line desaparece" ng-click="null"
 		        			ng-repeat="l in c.available" id="{{l.id}}item">
 		        				<div class="md-list-item-text">
-				          			<h3> Dia: {{ l.data().start | date: 'dd/MM/yyyy' }} </h3>
+				          			<h3> Dia: {{ l.start | date: 'dd/MM/yyyy' }} </h3>
 				            		<h4>
-				            			De: {{ l.data().start | date:' HH:mm' }} hs
-				            			às: {{ l.data().end | date:' HH:mm' }} hs
+				            			De: {{ l.start | date:' HH:mm' }} hs
+				            			às {{ l.end | date:' HH:mm' }} hs <br>
+
+				            			disciplina: {{d.disciplina.titulo}} 
+				            			( {{ l.professor.nome }} {{ l.professor.sobrenome }} )
 				            		</h4>
 		        				</div>
 		        				<span flex></span>
@@ -119,7 +126,7 @@
 					        </md-fab-actions>
 					    </md-fab-speed-dial>
 					    		<!-- Fab -->
-				        		<md-divider md-inset ng-if="!$last"></md-divider>
+				        		<md-divider ng-if="!$last"></md-divider>
 		        			</md-list-item>
 		        		</md-list>
 					</section>
@@ -133,13 +140,16 @@
 		        					Você não tem nenhuma aula substituída
 		        				</div>
 		        			</md-list-item>
-		        			<md-list-item class="md-2-line desaparece" ng-click="null" 
+		        			<md-list-item class="md-2-line desaparece" ng-click="null"
 		        			ng-repeat="r in c.replaced" id="{{r.id}}item">
 		        				<div class="md-list-item-text">
-				          			<h3> Dia: {{ r.data().start | date: 'dd/MM/yyyy' }} </h3>
+				          			<h3> Dia: {{ r.start | date: 'dd/MM/yyyy' }} </h3>
 				            		<h4>
-				            			De: {{ r.data().start | date:' HH:mm' }} hs
-				            			às: {{ r.data().end | date:' HH:mm' }} hs
+				            			De: {{ r.start | date:' HH:mm' }} hs
+				            			às {{ r.end | date:' HH:mm' }} hs <br>
+
+				            			disciplina: {{r.disciplina.titulo}} 
+				            			( {{ r.professor.nome }} {{ r.professor.sobrenome }} )
 				            		</h4>
 		        				</div>
 		        				<span flex></span>
@@ -164,8 +174,7 @@
 					            	<md-icon md-svg-src="app/img/editar.svg" aria-label="Editar">
 					            	</md-icon>
 					          	</md-button>
-					          	<md-button aria-label="Excluir" class="md-fab md-raised md-warn md-mini"
-					          	id="{{d.id}}btX" ng-click="c.excluirAula(r.id)">
+					          	<md-button aria-label="Excluir" class="md-fab md-raised md-warn md-mini" id="{{r.id}}btX" ng-click="c.excluirAula(r.id)">
 					          		<md-tooltip md-direction="bottom">Excluir</md-tooltip>
 					            	<md-icon md-svg-src="app/img/close.svg" aria-label="Excluir">
 					            	</md-icon>
@@ -173,7 +182,7 @@
 					        </md-fab-actions>
 					    </md-fab-speed-dial>
 					    		<!-- Fab -->
-				        		<md-divider md-inset ng-if="!$last"></md-divider>
+				        		<md-divider ng-if="!$last"></md-divider>
 		        			</md-list-item>
 		        		</md-list>
 					</section>
@@ -193,12 +202,15 @@
 	        				</div>
 	        			</md-list-item>
 			        	<md-list-item class="md-2-line desaparece" ng-click="null"
-			        	ng-repeat="d in c.default" id="{{d.id}}item">
+			        	ng-repeat="d in c.default" id="{{d.id}}2item">
 			          		<div class="md-list-item-text" layout="column">
-			          			<h3> Dia: {{ d.data().start | date: 'dd/MM/yyyy' }} </h3>
+			          			<h3> Dia: {{ d.start | date: 'dd/MM/yyyy' }} </h3>
 			            		<h4>
-			            			De: {{ d.data().start | date:' HH:mm' }} hs
-			            			às: {{ d.data().end | date:' HH:mm' }} hs
+			            			De: {{ d.start | date:' HH:mm' }} hs
+			            			às {{ d.end | date:' HH:mm' }} hs <br>
+
+			            			disciplina: {{d.disciplina.titulo}} 
+			            			( {{ d.professor.nome }} {{ d.professor.sobrenome }} )
 			            		</h4>
 			          		</div>
 			          		<span flex></span>
@@ -206,8 +218,8 @@
 		          		<md-fab-speed-dial md-open="c.menu.isOpen" md-direction="left"
 		          		ng-class="c.menu.selectedMode" ng-cloak>
 		        			<md-fab-trigger>
-		          				<md-button id="{{d.id}}btO" class="md-fab md-raised"
-		          				aria-label="More" ng-click="c.openMenu(d.id)">
+		          				<md-button id="{{d.id}}2btO" class="md-fab md-raised"
+		          				aria-label="More" ng-click="c.openMenu(d.id + '2')">
 		          					<md-tooltip md-direction="{{c.menu.direction}}">
 		          						Opções
 		          					</md-tooltip>
@@ -216,15 +228,16 @@
 					        </md-fab-trigger>
 
 					        <md-fab-actions>
-					        	<md-button id="{{d.id}}btE" aria-label="Editar"
+					        	<md-button id="{{d.id}}2btE" aria-label="Editar"
 					        	class="md-fab md-raised md-mini"
 					        	ng-click="c.editarAula(d, $event)">
 					        		<md-tooltip md-direction="bottom">Editar</md-tooltip>
 					            	<md-icon md-svg-src="app/img/editar.svg" aria-label="Editar">
 					            	</md-icon>
 					          	</md-button>
-					          	<md-button aria-label="Excluir" class="md-fab md-raised md-warn md-mini"
-					          	id="{{d.id}}btX" ng-click="c.excluirAula(d.id)">
+					          	<md-button aria-label="Excluir" id="{{d.id}}2btX"
+					          	class="md-fab md-raised md-warn md-mini"
+					          	ng-click="c.excluirAula(d.id)">
 					          		<md-tooltip md-direction="bottom">Excluir</md-tooltip>
 					            	<md-icon md-svg-src="app/img/close.svg" aria-label="Excluir">
 					            	</md-icon>
@@ -232,7 +245,7 @@
 					        </md-fab-actions>
 					    </md-fab-speed-dial>
 					    		<!-- Fab -->
-			        		<md-divider md-inset ng-if="!$last"></md-divider>
+			        		<md-divider ng-if="!$last"></md-divider>
 			        	</md-list-item>
 			      	</md-list>
 				</md-card-content>
@@ -251,12 +264,15 @@
 	        				</div>
 	        			</md-list-item>
 	        			<md-list-item class="md-2-line desaparece" ng-click="null"
-	        			ng-repeat="l in c.available" id="{{l.id}}item">
+	        			ng-repeat="l in c.available" id="{{l.id}}2item">
 	        				<div class="md-list-item-text">
-			          			<h3> Dia: {{ l.data().start | date: 'dd/MM/yyyy' }} </h3>
+			          			<h3> Dia: {{ l.start | date: 'dd/MM/yyyy' }} </h3>
 			            		<h4>
-			            			De: {{ l.data().start | date:' HH:mm' }} hs
-			            			às: {{ l.data().end | date:' HH:mm' }} hs
+			            			De: {{ l.start | date:' HH:mm' }} hs
+			            			às {{ l.end | date:' HH:mm' }} hs <br>
+
+			            			disciplina: {{l.disciplina.titulo}} 
+			            			( {{ l.professor.nome }} {{ l.professor.sobrenome }} )
 			            		</h4>
 	        				</div>
 	        				<span flex></span>
@@ -264,8 +280,8 @@
 		          		<md-fab-speed-dial md-open="c.menu.isOpen" md-direction="left"
 		          		ng-class="c.menu.selectedMode" ng-cloak>
 		        			<md-fab-trigger>
-		          				<md-button id="{{l.id}}btO" class="md-fab md-raised"
-		          				aria-label="More" ng-click="c.openMenu(l.id)">
+		          				<md-button id="{{l.id}}2btO" class="md-fab md-raised"
+		          				aria-label="More" ng-click="c.openMenu(l.id + '2')">
 		          					<md-tooltip md-direction="{{c.menu.direction}}">
 		          						Opções
 		          					</md-tooltip>
@@ -274,15 +290,16 @@
 					        </md-fab-trigger>
 
 					        <md-fab-actions>
-					        	<md-button id="{{l.id}}btE" aria-label="Editar"
+					        	<md-button id="{{l.id}}2btE" aria-label="Editar"
 					        	class="md-fab md-raised md-mini"
 					        	ng-click="c.editarAula(l, $event)">
 					        		<md-tooltip md-direction="bottom">Editar</md-tooltip>
 					            	<md-icon md-svg-src="app/img/editar.svg" aria-label="Editar">
 					            	</md-icon>
 					          	</md-button>
-					          	<md-button aria-label="Excluir" class="md-fab md-raised md-warn md-mini"
-					          	id="{{l.id}}btX" ng-click="c.excluirAula(l.id)">
+					          	<md-button aria-label="Excluir" id="{{l.id}}2btX"
+					          	class="md-fab md-raised md-warn md-mini"
+					          	ng-click="c.excluirAula(l.id)">
 					          		<md-tooltip md-direction="bottom">Excluir</md-tooltip>
 					            	<md-icon md-svg-src="app/img/close.svg" aria-label="Excluir">
 					            	</md-icon>
@@ -290,7 +307,7 @@
 					        </md-fab-actions>
 					    </md-fab-speed-dial>
 					    		<!-- Fab -->
-			        		<md-divider md-inset ng-if="!$last"></md-divider>
+			        		<md-divider ng-if="!$last"></md-divider>
 	        			</md-list-item>
 	        		</md-list>
 	        	</md-card-content>
@@ -307,13 +324,16 @@
 	        					Você não tem nenhuma aula substituída
 	        				</div>
 	        			</md-list-item>
-	        			<md-list-item class="md-2-line desaparece" ng-click="null" 
-	        			ng-repeat="r in c.replaced" id="{{r.id}}item">
+	        			<md-list-item class="md-2-line desaparece" ng-click="null"
+	        			ng-repeat="r in c.replaced" id="{{r.id}}2item">
 	        				<div class="md-list-item-text">
-			          			<h3> Dia: {{ r.data().start | date: 'dd/MM/yyyy' }} </h3>
+			          			<h3> Dia: {{ r.start | date: 'dd/MM/yyyy' }} </h3>
 			            		<h4>
-			            			De: {{ r.data().start | date:' HH:mm' }} hs
-			            			às: {{ r.data().end | date:' HH:mm' }} hs
+			            			De: {{ r.start | date:' HH:mm' }} hs
+			            			às {{ r.end | date:' HH:mm' }} hs <br>
+
+			            			disciplina: {{ r.disciplina.titulo }}
+			            			( {{ r.professor.nome }} {{ r.professor.sobrenome }} )
 			            		</h4>
 	        				</div>
 	        				<span flex></span>
@@ -321,8 +341,8 @@
 		          		<md-fab-speed-dial md-open="c.menu.isOpen" md-direction="left"
 		          		ng-class="c.menu.selectedMode" ng-cloak>
 		        			<md-fab-trigger>
-		          				<md-button id="{{r.id}}btO" class="md-fab md-raised"
-		          				aria-label="More" ng-click="c.openMenu(r.id)">
+		          				<md-button id="{{r.id}}2btO" class="md-fab md-raised"
+		          				aria-label="More" ng-click="c.openMenu(r.id + '2')">
 		          					<md-tooltip md-direction="{{c.menu.direction}}">
 		          						Opções
 		          					</md-tooltip>
@@ -331,15 +351,16 @@
 					        </md-fab-trigger>
 
 					        <md-fab-actions>
-					        	<md-button id="{{r.id}}btE" aria-label="Editar"
+					        	<md-button id="{{r.id}}2btE" aria-label="Editar"
 					        	class="md-fab md-raised md-mini"
 					        	ng-click="c.editarAula(r, $event)">
 					        		<md-tooltip md-direction="bottom">Editar</md-tooltip>
 					            	<md-icon md-svg-src="app/img/editar.svg" aria-label="Editar">
 					            	</md-icon>
 					          	</md-button>
-					          	<md-button aria-label="Excluir" class="md-fab md-raised md-warn md-mini"
-					          	id="{{r.id}}btX" ng-click="c.excluirAula(r.id)">
+					          	<md-button aria-label="Excluir" id="{{r.id}}2btX"
+					          	class="md-fab md-raised md-warn md-mini"
+					          	ng-click="c.excluirAula(r.id)">
 					          		<md-tooltip md-direction="bottom">Excluir</md-tooltip>
 					            	<md-icon md-svg-src="app/img/close.svg" aria-label="Excluir">
 					            	</md-icon>
@@ -347,7 +368,7 @@
 					        </md-fab-actions>
 					    </md-fab-speed-dial>
 					    		<!-- Fab -->
-			        		<md-divider md-inset ng-if="!$last"></md-divider>
+			        		<md-divider ng-if="!$last"></md-divider>
 	        			</md-list-item>
 	        		</md-list>
 	        	</md-card-content>

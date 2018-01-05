@@ -2,8 +2,8 @@
   <form ng-submit="salvar()">
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>{{dia | date: 'dd/MM/yyyy'}} -- {{dados.start | date: 'HH:mm'}} às 
-        {{dados.end | date: 'HH:mm'}}</h2>
+        <h2>{{dia | date: 'dd/MM/yyyy'}} -- {{aula.start | date: 'HH:mm'}} às
+        {{aula.end | date: 'HH:mm'}}</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="cancel()">
           <md-icon md-svg-src="app/img/close.svg" aria-label="Close dialog"></md-icon>
@@ -14,7 +14,7 @@
     <md-dialog-content>
       <div class="md-dialog-content">
         <h4>Dia</h4>
-        <md-datepicker ng-model="dia" md-placeholder="Selecione o dia" 
+        <md-datepicker ng-model="dia" md-placeholder="Selecione o dia"
         md-date-filter="onlyWeekendsPredicate"></md-datepicker>
 
         <div layout="row">
@@ -23,36 +23,36 @@
             <md-input-container>
               <label>Hora</label>
               <input type="number" max="60" min="0" ng-model="startHr">
-            </md-input-container>          
+            </md-input-container>
             <md-input-container>
               <label>Minutos</label>
               <input type="number" max="60" min="0" ng-model="startMt">
-            </md-input-container>          
+            </md-input-container>
           </section>
 
           <div class="espaco"></div>
           <!-- <md-divider></md-divider> -->
           <div class="espaco"></div>
-          
+
           <section>
             <h4>Fim</h4>
             <md-input-container>
               <label>Hora</label>
               <input type="number" max="60" min="0" ng-model="endHr">
-            </md-input-container>          
+            </md-input-container>
             <md-input-container>
               <label>Minutos</label>
               <input type="number" max="60" min="0" ng-model="endMt">
-            </md-input-container>          
-          </section>          
+            </md-input-container>
+          </section>
         </div>
 
         <p>Status: <span class="radioValue">{{ status }}</span> </p>
         <md-radio-group ng-model="status" layout="row">
           <md-radio-button value="Ok">Ok</md-radio-button>
           <md-radio-button value="Disponível" class="md-primary"> Disponível </md-radio-button>
-          <md-radio-button value="Substituída" class="md-primary" 
-          ng-show="{{dados.status.disponivel}} || {{dados.status.substituida}}">
+          <md-radio-button value="Substituída" class="md-primary"
+          ng-show="{{aula.status.disponivel}} || {{aula.status.substituida}}">
             Substituída
           </md-radio-button>
         </md-radio-group>
@@ -63,10 +63,10 @@
           <md-icon md-svg-src="app/img/prof.svg"></md-icon>
           <label>Prof. Substituto</label>
 
-          <md-autocomplete md-selected-item="selectedItem" 
-          md-search-text-change="searchTextChange(searchText)" 
-          md-search-text="searchText" 
-          md-selected-item-change="selectedItemChange(item)" 
+          <md-autocomplete md-selected-item="selectedItem"
+          md-search-text-change="searchTextChange(searchText)"
+          md-search-text="searchText"
+          md-selected-item-change="selectedItemChange(item)"
           md-items="item in profs | filter: searchText"
           md-item-text="item.nome + '  ' + item.sobrenome" md-min-length="0">
             <md-item-template>
@@ -75,6 +75,25 @@
               </span>
             </md-item-template>
           </md-autocomplete>
+        </section>
+
+        <section layout="column">
+          <h4>Disciplina</h4>
+          <md-autocomplete
+                md-selected-item="disciplina"
+                md-search-text-change="searchTextChange(searchText)"
+                md-search-text="searchText2"
+                md-selected-item-change="selectedItemChange(item)"
+                md-items="item in disciplinas | filter: searchText"
+                md-item-text="item.titulo"
+                md-min-length="0"
+                placeholder="Selecione a disciplina...">
+              <md-item-template>
+                <span md-highlight-text="searchText" md-highlight-flags="^i">
+                  {{item.titulo}}
+                </span>
+              </md-item-template>
+            </md-autocomplete>
         </section>
       </div>
     </md-dialog-content>

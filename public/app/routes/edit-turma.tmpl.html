@@ -1,28 +1,46 @@
 <md-dialog>
-	<md-toolbar>
-		<div class="md-toolbar-tools">
-			<title>{{serie}}º de {{curso}}</title>
-			<h4>{{serie}}º de {{curso}}</h4>
-			<span flex></span>
-			 <md-button class="md-icon-button" ng-click="cancel()">
-			 	<md-tooltip md-direction="left">Fechar</md-tooltip>
-            	<md-icon md-svg-src="../app/img/close.svg" aria-label="Close dialog"></md-icon>
-        	</md-button>
-		</div>
-	</md-toolbar>
+	<form ng-submit="salvar()">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<title>{{serie}}º de {{curso}}</title>
+				<h4>{{serie}}º de {{curso}}</h4>
+				<span flex></span>
+				 <md-button class="md-icon-button" ng-click="cancel()">
+				 	<md-tooltip md-direction="left">Fechar</md-tooltip>
+	            	<md-icon md-svg-src="../app/img/close.svg" aria-label="Close dialog"></md-icon>
+	        	</md-button>
+			</div>
+		</md-toolbar>
 
-	<md-dialog-content layout="row">
-		<div class="md-inline-form">
-			<md-input-container>
-				<input name="serie" placeholder="série..." ng-model="serie">
-			</md-input-container>
-			<md-input-container>
-				<input name="curso" placeholder="curso..." ng-model="curso">
-			</md-input-container>
-		</div>
-	</md-dialog-content>
-	<md-dialog-actions layout="row">
-		<md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
-		<md-button class="md-raised md-primary" ng-click="salvar()">Salvar</md-button>
-	</md-dialog-actions>
+		<md-dialog-content layout="row">
+			<md-content>
+				<div class="input-group" layout="column">
+
+					<h4>Série</h4>
+					<md-input-container flex>
+	        			<md-radio-group ng-model="serie" layout="row"">
+			      			<md-radio-button value="1"> 1º </md-radio-button>
+			      			<md-radio-button value="2"> 2º </md-radio-button>
+				      		<md-radio-button value="3"> 3º </md-radio-button>
+			      			<md-radio-button value="4"> 4º </md-radio-button>
+		    			</md-radio-group>     
+				    </md-input-container>
+
+				    <h4>Curso</h4>
+				    <md-input-container layout="row" flex>
+						<md-radio-group ng-model="curso" >
+					      	<md-radio-button value="Edificações">Edificações</md-radio-button>
+					      	<md-radio-button value="Geologia">Geologia</md-radio-button>
+					      	<md-radio-button value="Informática">Informática</md-radio-button>
+				    	</md-radio-group>        	
+	        		</md-input-container>
+
+				</div>
+			</md-content>
+		</md-dialog-content>
+		<md-dialog-actions layout="row">
+			<md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
+			<md-button class="md-raised md-primary" type="submit">Salvar</md-button>
+		</md-dialog-actions>
+	</form>
 </md-dialog>

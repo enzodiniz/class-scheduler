@@ -5,6 +5,11 @@ angular
 function profCtrl ($scope, $firebaseArray, $mdDialog) {
 	var self = this;
 	self.profs = [];
+	self.fab = {
+		isOpen: false,
+    	direction: "left",
+    	selectedMode: "md-fling"
+	}
 
 	self.initFirebase = function () {
 		self.db = firebase.firestore();
@@ -34,7 +39,6 @@ function profCtrl ($scope, $firebaseArray, $mdDialog) {
 	      function ($scope, $mdClassSchedulerToast) {
 
 	      	$scope.isAdmin = "false";
-	      	$scope.selected = [];
 	      	
 	        $scope.salvarProf = function () {
 	        	if ($scope.isAdmin == "true") {
@@ -46,40 +50,13 @@ function profCtrl ($scope, $firebaseArray, $mdDialog) {
 					nome: $scope.nome,
 				  	sobrenome: $scope.sobrenome,
 				  	isAdmin: $scope.isAdm,
-				  	email: $scope.email,
-				  	disciplinas: $scope.selected
+				  	email: $scope.email
 				}).then(function (docRef) {
 				  	$mdClassSchedulerToast.show("Um novo professor foi salvo");
 				  	$scope.hide();
 				}).catch(function (error) {
 					console.log("Ocorreu um erro ao salvar professor: ", error);
-					$mdClassSchedulerToast.show("Ocorreu um erro ao salvar professor");
 				});
-	        }
-
-	        $scope.getDisciplinas = function () {
-	        	self.db.collection("disciplinas").get().then(function (querySnapshot) {
-	        		let disc = [];
-	        		querySnapshot.forEach(function (doc) {
-	        			disc.push(doc);
-	        		});
-	        		$scope.$apply(function () {
-	        			$scope.disciplinas = disc;
-	        		});
-	        	});
-	        }
-
-	        $scope.toggle = function (item, list) {
-	        	let idx = list.indexOf(item.id);
-	        	if (idx > -1) {
-	        		list.splice(idx, 1);
-	        	} else {
-	        		list.push(item.id);
-	        	}
-	        }
-
-	        $scope.exists = function (item, list) {
-	        	return list.indexOf(item.id) > -1;
 	        }
 
 	        $scope.hide = function () {
@@ -89,8 +66,6 @@ function profCtrl ($scope, $firebaseArray, $mdDialog) {
 	        $scope.cancel = function () {
 	          $mdDialog.cancel();
 	        }
-
-	        $scope.getDisciplinas();
 	      }]
 	    }).then(function (answer) {
 	      console.log("answer", answer);
