@@ -20,7 +20,7 @@ function aulaCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
 
   $scope.$on('user', function (event, args) {
     self.user = args.user;
-  });
+  });    
 
   self.initFirebase = function () {
     self.db = firebase.firestore();
@@ -47,6 +47,7 @@ function aulaCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
           let discRef = self.db.doc("disciplinas/" + data.disciplina);
           discRef.get().then(function (doc) {
             resolve({
+              id: doc.id,
               titulo: doc.data().titulo,
               professor: doc.data().professor
             });
@@ -64,6 +65,7 @@ function aulaCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
 
             profRef.get().then(function (doc) {
               resolve({
+                id: doc.id,
                 nome: doc.data().nome,
                 sobrenome: doc.data().sobrenome,
                 email: doc.data().email
@@ -85,6 +87,7 @@ function aulaCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
                   status: data.status,
                   disciplina: {
                     titulo: list[0].titulo,
+                    id: list[0].id
                   },
                   professor: finalList[0]
                 });              
@@ -100,6 +103,7 @@ function aulaCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
                   status: data.status,
                   disciplina: {
                     titulo: list[0].titulo,
+                    id: list[0].id
                   },
                   professor: finalList[0]
                 });             
@@ -134,6 +138,7 @@ function aulaCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
                     status: data.status,
                     disciplina: {
                       titulo: list[0].titulo,
+                      id: list[0].id
                     },
                     professor: finalList[0],
                     prof_subs: list2[0]
@@ -162,7 +167,7 @@ function aulaCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
             id: doc.id,
             titulo: doc.data().titulo,
             professor: doc.data().professor
-          });
+          });            
         });
       }).catch(function (error) {
         console.log("Ocorreu um erro: ", error);
@@ -274,6 +279,7 @@ function aulaCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
         function ($scope, aula, disciplinas, professores) {
 
           $scope.profs = professores;
+          $scope.disciplinas = disciplinas;
           $scope.aula =  aula;
           $scope.disciplina = aula.disciplina;
 
@@ -288,32 +294,32 @@ function aulaCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
             $scope.selectedItem = aula.prof_subs;
 
           $scope.init = function () {
-            if ($scope.aula.status.ok == true) {
+            if ($scope.aula.status.ok == true) 
               $scope.status = "Ok";
-            }
-            else if ($scope.aula.status.disponivel == true){
-              if ($scope.aula.disciplina in self.user.disciplinas) {
-                console.log("é prof da aula");
-              }
+            else if ($scope.aula.status.disponivel == true)
               $scope.status = "Disponível";
-            }
-            else if ($scope.aula.status.substituida == true){
+            else if ($scope.aula.status.substituida == true)
               $scope.status = "Substituída";
-            }
           }
 
           $scope.salvar = function () {
             $scope.setStart($scope.dia);
             $scope.setEnd($scope.dia);
             if ($scope.status == "Disponível") {
+              if ($scope.aula.professor.id == self.user.id) {
+                console.log("é prof da aula");
+              } else {
+                console.log("NÃO é prof da aula");
+              }
+
               $scope.ok = false;
               $scope.disponivel = true;
               $scope.substituida = false;
             } else if ($scope.status == "Substituída") {
-              if ($scope.dados.status.disponivel == false) {
-                $mdClassSchedulerToast.show("Essa aula não está disponível")
-                return;
-              }
+              // if ($scope.aula.status.disponivel == false) {
+              //   $mdClassSchedulerToast.show("Essa aula não está disponível")
+              //   return;
+              // }
               $scope.ok = false;
               $scope.disponivel = false;
               $scope.substituida = true;
@@ -322,7 +328,7 @@ function aulaCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
               $scope.disponivel = false;
               $scope.substituida = false;
             }
-            let aulaRef = self.db.doc("aulas/" + $scope.id);
+            let aulaRef = self.db.doc("aulas/" + $scope.aula.id);
 
             if ($scope.status == "Substituída") {
               aulaRef.update({

@@ -23,9 +23,16 @@ function mainCtrl($scope, $location, $mdSidenav, $firebaseArray, $rootScope) {
       .get()
       .then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
+          let data = doc.data();
           $scope.$apply(function () {
             $rootScope.$broadcast('user', {
-              user: doc.data()
+              user: {
+                nome: data.nome,
+                sobrenome: data.sobrenome,
+                isAdmin: data.isAdmin,
+                email: data.email,
+                id: doc.id
+              } 
             });
           });
         });

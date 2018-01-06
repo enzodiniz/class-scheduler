@@ -81,15 +81,15 @@
           <h4>Disciplina</h4>
           <md-autocomplete
                 md-selected-item="disciplina"
-                md-search-text-change="searchTextChange(searchText)"
-                md-search-text="searchText2"
+                md-search-text-change="searchTextChange(searchDisc)"
+                md-search-text="searchDisc"
                 md-selected-item-change="selectedItemChange(item)"
-                md-items="item in disciplinas | filter: searchText"
+                md-items="item in disciplinas | filter: searchDisc"
                 md-item-text="item.titulo"
                 md-min-length="0"
                 placeholder="Selecione a disciplina...">
               <md-item-template>
-                <span md-highlight-text="searchText" md-highlight-flags="^i">
+                <span md-highlight-text="searchDisc" md-highlight-flags="^i">
                   {{item.titulo}}
                 </span>
               </md-item-template>
