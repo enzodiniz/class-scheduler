@@ -1,5 +1,5 @@
 <md-dialog>
-  <form>
+  <form ng-submit="salvar()">
     <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>Adicionar nova disciplina</h2>
@@ -58,7 +58,7 @@
 
     <md-dialog-actions>
       <md-button class="md-raised" ng-click="cancel()">Cancelar</md-button>
-      <md-button class="md-primary md-raised" ng-click="salvar()">Salvar</md-button>
+      <md-button class="md-primary md-raised" type="submit">Salvar</md-button>
     </md-dialog-actions>
   </form>
 </md-dialog>

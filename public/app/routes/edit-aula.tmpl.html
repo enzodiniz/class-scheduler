@@ -49,12 +49,18 @@
 
         <p>Status: <span class="radioValue">{{ status }}</span> </p>
         <md-radio-group ng-model="status" layout="row">
+          
           <md-radio-button value="Ok">Ok</md-radio-button>
-          <md-radio-button value="Disponível" class="md-primary"> Disponível </md-radio-button>
+
+          <md-radio-button value="Disponível" class="md-primary"> 
+            Disponível 
+          </md-radio-button>
+
           <md-radio-button value="Substituída" class="md-primary"
           ng-show="{{aula.status.disponivel}} || {{aula.status.substituida}}">
             Substituída
           </md-radio-button>
+
         </md-radio-group>
         <div class="espaco"></div>
         <div class="espaco"></div>

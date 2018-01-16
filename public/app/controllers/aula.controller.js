@@ -19,7 +19,7 @@ function aulaCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
   };
 
   $scope.$on('user', function (event, args) {
-    self.user = args.user;
+    self.user = args.user;      
   });    
 
   self.initFirebase = function () {
@@ -316,10 +316,6 @@ function aulaCtrl ($scope, $firebaseArray, $mdDialog, $mdClassSchedulerToast) {
               $scope.disponivel = true;
               $scope.substituida = false;
             } else if ($scope.status == "Substituída") {
-              // if ($scope.aula.status.disponivel == false) {
-              //   $mdClassSchedulerToast.show("Essa aula não está disponível")
-              //   return;
-              // }
               $scope.ok = false;
               $scope.disponivel = false;
               $scope.substituida = true;

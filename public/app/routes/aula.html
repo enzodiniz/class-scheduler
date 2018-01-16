@@ -1,10 +1,10 @@
-<div ng-controller="aulaCtrl as c" class="carddemoInCardActions">
+<div ng-controller="aulaCtrl as c" class="carddemoInCardActions" ng-cloak>
 	<md-toolbar layout="row" class="md-hue-3">
 		<div class="md-toolbar-tools">
         	<span>Aulas</span>
         	<span flex></span>
 			<md-button layout-align="end" class="md-raised md-primary"
-			ng-click="c.salvarAula($event)" ng-show="c.user.isAdmin">
+			ng-click="c.salvarAula($event)" ng-show="c.user.isAdmin" ng-cloak>
 				Add aula
 			</md-button>
         </div>

@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -9,79 +7,53 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 744.09448819 1052.3622047"
-   id="svg2"
+   fill="#FFFFFF"
+   height="18"
+   viewBox="0 0 24 24"
+   width="18"
+   id="svg3444"
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="excluir.svg">
-  <defs
-     id="defs4" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="375"
-     inkscape:cy="520"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="1309"
-     inkscape:window-height="744"
-     inkscape:window-x="57"
-     inkscape:window-y="24"
-     inkscape:window-maximized="1" />
   <metadata
-     id="metadata7">
+     id="metadata3454">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g
-     inkscape:label="Camada 1"
-     inkscape:groupmode="layer"
-     id="layer1">
-    <g
-       id="g3359"
-       transform="matrix(1.4593023,0,0,1.6826347,1064.9834,-252.76737)">
-      <ellipse
-         ry="238.57143"
-         rx="245.71428"
-         cy="462.36221"
-         cx="-474.28574"
-         id="path3336"
-         style="fill:#ff0000" />
-      <g
-         transform="matrix(0.80424957,0,0,0.79415529,-55.235735,-341.67598)"
-         id="g3355">
-        <rect
-           style="fill:#ffffff"
-           id="rect3338"
-           width="522.85712"
-           height="134.28572"
-           x="-1303.9407"
-           y="375.70639"
-           transform="matrix(0.77800568,-0.62825724,0.62825724,0.77800568,0,0)" />
-        <rect
-           style="fill:#ffffff"
-           id="rect3338-3"
-           width="522.85712"
-           height="134.28572"
-           x="-36.880714"
-           y="1045.9363"
-           transform="matrix(0.78438298,0.62027683,-0.62027683,0.78438298,0,0)" />
-      </g>
-    </g>
-  </g>
+  <defs
+     id="defs3452" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1309"
+     inkscape:window-height="744"
+     id="namedview3450"
+     showgrid="false"
+     inkscape:zoom="33.722222"
+     inkscape:cx="11.372323"
+     inkscape:cy="5.9142886"
+     inkscape:window-x="57"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3444" />
+  <path
+     d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+     id="path3446" />
+  <path
+     d="M0 0h24v24H0z"
+     fill="none"
+     id="path3448" />
 </svg>

@@ -51,14 +51,40 @@
       .espaco {
         margin: 4px;
       }
+      
     </style>
   </head>
   <body ng-app="class-scheduler" ng-controller="MainController as c" ng-cloak>
 
+    <!-- <md-toolbar>
+      <div class="md-toolbar-tools">
+         <md-button ng-click="" href="http://localhost:5000" class="md-icon-button md-raised">
+            <md-icon md-svg-src="app/img/home.svg"></md-icon>            
+          </md-button>
+          <md-button class="md-raised" ng-click="c.redirecionarTurma()">
+            Turmas
+          </md-button>
+          <md-button class="md-raised" ng-click="c.redirecionarDisc()">
+            Disciplinas
+          </md-button>
+          <md-button class="md-raised" ng-click="c.redirecionarProf()">
+            Professores
+          </md-button>
+          <md-button class="md-raised" ng-click="c.redirecionarAula()">
+            Aulas
+          </md-button>
+          <span flex></span>
+          <md-button class="md-raised md-warn" ng-click="c.logOut()" align="">
+            Sair
+          </md-button>
+      </div>
+    </md-toolbar> -->
+
     <!-- Começo da barra de menu -->
     <div ng-show="c.logado" class="fabToolbardemoBasicUsage">
       <md-fab-toolbar md-open="c.demo.isOpen" count="c.demo.count"
-      md-direction="c.demo.selectedDirection">
+      md-direction="c.demo.selectedDirection" ng-mouseenter="c.demo.isOpen=true" 
+      ng-mouseleave="c.demo.isOpen=false">
         <md-fab-trigger class="align-with-text">
           <md-button aria-label="menu" class="md-fab md-primary">
             <md-icon md-svg-src="app/img/menu_48.svg"></md-icon>
@@ -82,7 +108,7 @@
             <md-button class="md-raised" ng-click="c.redirecionarAula()">
               Aulas
             </md-button>
-            <md-button class="md-raised" ng-click="c.logOut()">
+            <md-button class="md-raised md-warn" ng-click="c.logOut()" align="">
               Sair
             </md-button>
           </md-fab-actions>

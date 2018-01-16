@@ -1,8 +1,8 @@
 <md-dialog>
-  <form ng-submit="salvarProf()">
+  <form ng-submit="salvar()">
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>Adicionar Professor</h2>
+        <h2> {{nome}} {{sobrenome}} </h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="cancel()">
           <md-icon md-svg-src="../app/img/close.svg" aria-label="Close dialog"></md-icon>
@@ -27,8 +27,8 @@
           <input ng-model="email" type="email" ng-required="true">
         </md-input-container>
 
-        <md-input-container>
-          <md-select ng-model="isAdmin" class="md-no-underline">
+        <md-input-container flex>
+          <md-select ng-model="isAdmin" class="md-no-underline" flex>
             <md-option value="false">Comum</md-option>
             <md-option value="true">Administrador</md-option>
           </md-select>

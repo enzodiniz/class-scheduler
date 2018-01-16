@@ -2,7 +2,8 @@ angular
   .module("class-scheduler")
   .controller('MainController', mainCtrl)
 
-function mainCtrl($scope, $location, $mdSidenav, $firebaseArray, $rootScope) {
+function mainCtrl($scope, $location, $mdSidenav, $firebaseArray, $rootScope, 
+    $timeout) {
   var self = this;
   self.logado = false;
   self.demo = {
@@ -15,6 +16,14 @@ function mainCtrl($scope, $location, $mdSidenav, $firebaseArray, $rootScope) {
     self.auth = firebase.auth();
     self.db = firebase.firestore();
     self.auth.onAuthStateChanged(self.onAuthStateChanged.bind(this));
+  }
+
+  self.sentUser = function () {
+    $timeout(function () {
+      $rootScope.$broadcast('user', {
+        user: self.user 
+      });
+    }, 2000);
   }
 
   self.getUser = function (email) {
@@ -34,7 +43,16 @@ function mainCtrl($scope, $location, $mdSidenav, $firebaseArray, $rootScope) {
                 id: doc.id
               } 
             });
+
+            self.user = {
+              nome: data.nome,
+              sobrenome: data.sobrenome,
+              isAdmin: data.isAdmin,
+              email: data.email,
+              id: doc.id
+            };
           });
+
         });
       }).catch(function (error) {
         console.log("Ocorreu um erro: ", error);
@@ -62,6 +80,7 @@ function mainCtrl($scope, $location, $mdSidenav, $firebaseArray, $rootScope) {
   }
 
   self.redirecionarAula = function () {
+    self.sentUser();
     $location.path('/aulas');
   }
 
