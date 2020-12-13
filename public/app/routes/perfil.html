@@ -1,0 +1,66 @@
+<md-content ng-controller="perfilCtrl as vm" ng-cloak>
+  <div layout-align="center" layout="row">
+    <div flex="50" flex-xs="100">
+      <form ng-submit="vm.salvar()" name="perfilForm">
+        <md-card>
+          <md-card-header>
+            <md-card-avatar>
+              <div class="md-user-avatar">
+                <i class="fas fa-user-cog fa-2x"></i>
+              </div>
+            </md-card-avatar>
+            <md-card-header-text>
+              <span class="md-title">
+                Meu Perfil
+              </span>
+              <span class="md-subhead">
+                Dados do meu perfil
+              </span>
+            </md-card-header-text>
+          </md-card-header>
+
+          <div layout="row" layout-align="center" ng-show="vm.loading">
+            <md-progress-circular md-diameter="300"></md-progress-circular>
+          </div>
+
+          <md-card-content ng-show="!vm.loading">
+            <div layout="row" layout-xs="column">
+              <md-input-container flex="30" flex-xs="100">
+                <input type="text" value="{{vm.newUser.nome}}" disabled placeholder="nome">
+              </md-input-container>
+
+              <md-input-container flex="70" flex-xs="100">
+                <input type="text" value="{{vm.newUser.sobrenome}}" disabled placeholder="sobrenome">
+              </md-input-container>
+            </div>
+
+            <div layout="row">
+              <md-input-container style="width: 100%">
+                <label>Url da foto do perfil</label>
+                <md-icon md-font-icon="fas fa-portrait"></md-icon>
+                <input type="text" ng-model="vm.user.photoUrl">
+              </md-input-container>
+              <img src="{{vm.newUser.photoUrl}}" width="50" height="50" style="margin-left: 10px; border-radius: 50%">
+            </div>
+
+            <md-input-container class="md-block">
+              <md-icon md-font-icon="fab fa-google"></md-icon>
+              <input ng-model="vm.newUser.email" type="email" ng-required="true"
+              placeholder="Conta Google" name="contaGoogle"
+              ng-pattern="/[\w.]+@gmail.com\b/">
+
+              <div ng-messages="perfilForm.contaGoogle.$error">
+                <div ng-message="required">Você precisa ter uma conta Google</div>
+                <div ng-message="pattern">Preencha este campo com uma conta Google (gmail)</div>
+              </div>
+            </md-input-container>
+          </md-card-content>
+
+          <md-card-actions layout="row" layout-xs="column" layout-align="end">
+            <md-button type="submit" ng-disabled="perfilForm.$invalid" class="md-primary">Salvar</md-button>
+          </md-card-actions>
+        </md-card>
+      </form>
+    </div>
+  </div>
+</md-content>
