@@ -1,0 +1,21 @@
+table {
+    border-collapse: collapse;
+}
+
+/* @media (max-width: 780px) { */ 
+/*     .container-table { */
+/*         overflow-x: scroll; */
+/*     } */
+/*  } */ 
+
+.container-table {
+    overflow-x: auto;
+}
+
+.container-table {
+    padding: 12px;
+}
+
+.slot-disciplina {
+    text-align: center;
+}

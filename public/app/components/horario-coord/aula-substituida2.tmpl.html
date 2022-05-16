@@ -1,0 +1,19 @@
+<md-dialog aria-label="Aula substituída">
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <h2>Aula Substituída</h2>
+
+            <div layout="row" layout-align="center" ng-if="loading()">
+                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+            </div>
+
+            <div ng-show="!loading()">
+                <p>
+                    Aula de {{ professor.data.pessoa.nome }} 
+                    {{ professor.data.sobrenome }} substituída por 
+                    {{ substituto.data.nome}} {{ substituto.data.sobrenome}}. 
+                </p>
+            </div>
+        </div>
+    </md-dialog-content>
+</md-dialog>

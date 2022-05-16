@@ -1,0 +1,81 @@
+<md-dialog aria-label="adicionar nova turma" md-theme="themeSelected" md-theme-watch>
+	<form ng-submit="hide()" name="addTurmaForm">
+		<md-dialog-content>
+			<div class="md-dialog-content">
+				<h2>Adicionar turma</h2>
+
+				<md-input-container class="md-block">
+					<label for="periodo">Período</label>
+					<md-select ng-model="turma.periodo" required name="periodo"
+					md-on-open="loadPeriodos()">
+						<md-option ng-repeat="p in periodos" ng-value="p.id">
+							{{p.ano}}.{{p.semestre}}
+						</md-option>
+					</md-select>
+
+					<div class="errors" ng-messages="addTurmaForm.periodo.$error">
+						<div ng-message="required">Por favor selecione o período</div>
+					</div>
+				</md-input-container>
+
+				<div layout="row">
+					<md-input-container>
+						<label for="serie">Série</label>
+						<md-select ng-model="turma.serie" name="serie" style="min-width: 100;">
+							<md-option ng-value="1"> 1º </md-option>
+							<md-option ng-value="2"> 2º </md-option>
+							<md-option ng-value="3"> 3º </md-option>
+							<md-option ng-value="4"> 4º </md-option>
+							<md-option ng-value="5"> 5º </md-option>
+							<md-option ng-value="6"> 6º </md-option>
+							<md-option ng-value="7"> 7º </md-option>
+							<md-option ng-value="8"> 8º </md-option>
+							<md-option ng-value="9"> 9º </md-option>
+							<md-option ng-value="10"> 10º </md-option>
+						</md-select>
+
+						<div class="errors" ng-messages="addTurmaForm.serie.$error">
+							<div ng-message="required">Selecione a série</div>
+						</div>
+					</md-input-container>
+
+					<md-autocomplete
+					md-selected-item="cursoSelected"
+					md-search-text="searchText"
+					md-items="curso in selectCurso(searchText)"
+					md-floating-label="Curso..."
+					md-item-text="curso.titulo"
+					md-no-cache="true"
+					name="curso"
+					required>
+						<md-item-template>
+							<span md-highlight-text="searchText" md-highlight-flags="i">
+								{{curso.titulo}}
+							</span>
+						</md-item-template>
+						<md-not-found>
+							<a ng-click='selecionarNovoCurso(searchText)'>
+								Criar "{{searchText}}"
+							</a>
+						</md-not-found>
+						<div class="errors" ng-messages="addTurmaForm.curso.$error">
+							<div ng-message="required">Por favor selecione o curso</div>
+						</div>
+					</md-autocomplete>
+				</div>
+
+				<md-checkbox ng-model="possuiG2" aria-label="possuiG2">
+					Dividir em G1 e G2
+				</md-checkbox>
+			</div>
+		</md-dialog-content>
+
+		<md-dialog-actions>
+			<md-button ng-click="cancel()">Cancelar</md-button>
+			<md-button class="md-primary" ng-disabled="addTurmaForm.$invalid"
+			type="submit">
+				Salvar
+			</md-button>
+		</md-dialog-actions>
+	</form>
+</md-dialog>

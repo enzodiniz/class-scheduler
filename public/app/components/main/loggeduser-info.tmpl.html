@@ -1,0 +1,24 @@
+<md-dialog aria-label="Usuário logado" md-theme='themeSelected' md-theme-watch>
+    <form>
+        <md-dialog-content>
+            <div class="md-dialog-content">                
+                <md-list>
+                    <md-list-item class="md-2-line" href="./#!/perfil" ng-click="cancel()">
+                        <img ng-src="{{ loggedUser.photoURL }}" alt="" class="md-avatar">
+    
+                        <div class="md-list-item-text">
+                            <h3>{{ loggedUser.displayName }}</h3>
+                            <p>{{ loggedUser.email }}</p>
+                        </div>
+                    </md-list-item>
+                    <md-list-item ng-click="logout()">
+                        <div class="md-avatar">
+                            <md-icon>logout</md-icon>
+                        </div>
+                        <span>Sair</span>
+                    </md-list-item>
+                </md-list>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>

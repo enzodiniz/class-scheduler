@@ -1,0 +1,66 @@
+<link rel="stylesheet" href="/styles/horario-coord.css">
+
+<md-content ng-controller="horarioCoordCtrl2 as ctrl" md-theme-watch md-theme="{{ctrl.themeSelected}}">
+    <div layout="row" layout-align="center">
+        <md-card><md-card-content>
+            <form ng-submit="ctrl.getHorarios()" name="queryForm" layout="row" 
+            layout-xs="column" layout-align="center center">
+                <div layout="column" layout-md="row" layout-gt-md="row">
+                    <md-input-container>
+                        <label>Período</label>
+    
+                        <md-select md-on-open="ctrl.loadPeriodos()" ng-model="ctrl.periodoSelected">
+                            <md-option ng-repeat="periodo in ctrl.listaPeriodos" ng-value="periodo">
+                                {{ periodo.ano }}.{{ periodo.semestre }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+    
+                    <md-input-container>
+                        <label>Selecione o dia</label>
+                        <md-datepicker ng-model="ctrl.dateSelected"></md-datepicker>
+                    </md-input-container>
+                    
+                    <div layout="column" layout-align="center">
+                        <md-button class="md-primary" type="submit">
+                          <md-icon>search</md-icon>
+                          Consultar
+                        </md-button>
+                    </div>
+                </div> 
+            </form>
+            
+        </md-card-content></md-card>
+    </div>
+
+    <div>
+        <md-card class="container-table" md-theme-watch md-theme="{{ctrl.themeSelected}}">
+            <table>
+                <tr>
+                    <th>Turmas</th>
+                    <th ng-repeat="horariol in ctrl.labelHorario">
+                        {{ horariol.inicio }}
+                    </th>
+                </tr>
+
+                <tr ng-repeat="(turmaId, horario) in ctrl.horarios">
+                    <td>
+                        {{ horario.turma.serie }}º de {{ horario.turma.curso.titulo }}
+                        {{ horario.turma.titulo }}
+                    </td>
+
+                    <td ng-repeat="disciplina in horario.disciplinas track by $index"
+                    class="slot-disciplina md-dense">
+                        <md-button ng-class="horario.substituicoes[$index].status"
+                        ng-click="ctrl.actions(turmaId, $index, $event)" 
+                        ng-if="disciplina.titulo">
+                            {{ disciplina.titulo }}
+                        </md-button>
+
+                        <md-button ng-if="!disciplina.titulo">______</md-button>
+                    </td>
+                </tr>
+            </table>
+        </md-card>
+    </div>
+</md-content>

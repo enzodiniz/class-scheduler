@@ -1,0 +1,132 @@
+<md-content ng-controller="cursoCtrl as vm" ng-cloak flex="100" layout="row" layout-xs="column"
+md-theme="vm.themeSelected" md-theme-watch>
+  <div flex="50" flex-xs="100">
+    <md-card>
+      <md-card-header>
+        <md-card-header-text>
+          <span class="md-title">Cursos</span>
+          <span class="md-subhead">{{vm.cursos.length}} cursos</span>
+        </md-card-header-text>
+      </md-card-header>
+      <md-card-content>
+        <form ng-submit="vm.addCurso2()">
+          <div layout="row" layout-align="center center">
+            <md-input-container flex>
+              <label>Título...</label>
+              <input type="text" ng-model="vm.titulo">
+            </md-input-container>
+
+            <div class="">
+              <md-button class="md-primary" type="submit" ng-disabled="!vm.titulo">
+                <i class="fas fa-plus"></i>
+                add curso
+              </md-button>
+            </div>
+          </div>
+        </form>
+
+        <div layout="row" ng-show="vm.carregandoCursos" layout-align="space-around">
+          <md-progress-circular md-diameter="20px"></md-progress-circular>
+        </div>
+        <md-list flex>
+         <md-list-item ng-repeat="curso in vm.cursos" class="desaparece">
+           <span>{{curso.titulo}}</span>
+
+           <md-button ng-click="vm.editarCurso(curso)" class="md-secondary md-icon-button"
+           aria-label="Editar curso">
+             <i class="fas fa-edit"></i>
+           </md-button>
+           <md-button ng-click="vm.excluirCurso(curso)" class="md-secondary md-icon-button"
+           aria-label="Excluir curso">
+             <i class="fas fa-trash"></i>
+           </md-button>
+         </md-list-item>
+        </md-list>
+      </md-card-content>
+    </md-card>
+  </div>
+
+  <div flex="50" flex-xs="100">
+    <md-card>
+      <md-card-header>
+        <md-card-header-text>
+          <span class="md-title">Períodos</span>
+          <span class="md-subhead">{{vm.periodos.length}} períodos</span>
+        </md-card-header-text>
+      </md-card-header>
+      <md-card-actions layout="column">
+        <md-button class="md-primary" ng-click="vm.addPeriodo($event)">
+          <i class="fas fa-plus-circle"></i>
+          Novo Período
+        </md-button>
+      </md-card-actions>
+      <md-card-content>
+        <div layout="row" ng-show="vm.carregandoPeriodos" layout-align="space-around">
+          <md-progress-circular md-diameter="20px"></md-progress-circular>
+        </div>
+        <md-list flex>
+          <md-list-item ng-repeat="periodo in vm.periodos" class="desaparece" ng-click="null">
+            <span>{{periodo.ano}}.{{periodo.semestre}}</span>
+
+            <md-button ng-click="vm.editarPeriodo(periodo)" class="md-secondary md-icon-button"
+            aria-label="Editar curso">
+              <i class="fas fa-edit"></i>
+            </md-button>
+            <md-button ng-click="vm.excluirPeriodo(periodo)" class="md-secondary md-icon-button"
+            aria-label="Excluir curso">
+              <i class="fas fa-trash"></i>
+            </md-button>
+          </md-list-item>
+        </md-list>
+      </md-card-content>
+    </md-card>
+  </div>
+
+  <!-- <div flex="25" flex-xs="100">
+    <md-card flex>
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <span>Turmas</span>
+          <span flex></span>
+          <md-button class="md-icon-button" ng-click="vm.salvarTurma($event)" aria-label="Adicionar turma">
+            <i class="fas fa-plus-circle fa-2x"></i>
+          </md-button>
+        </div>
+      </md-toolbar>
+
+      <md-card-content>
+        <div>
+          <form ng-submit="vm.getTurmas()">
+            <md-input-container>
+              <label>Período</label>
+              <md-select ng-model="vm.periodoId" ng-disabled="vm.carregandoPeriodos">
+                <md-option ng-repeat="p in vm.periodos" ng-value="p.id">
+                  {{p.ano}}.{{p.semestre}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+
+            <md-input-container>
+              <label>Curso</label>
+              <md-select ng-model="vm.cursoId" ng-disabled="vm.carregandoCursos">
+                <md-option ng-repeat="c in vm.cursos" ng-value="c.id">
+                  {{c.titulo}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+            <md-button type="submit" class="md-primary">Consultar</md-button>
+          </form>
+        </div>
+        <div layout="row" ng-show="vm.carregandoTurmas" layout-align="space-around">
+          <md-progress-circular md-diameter="20px"></md-progress-circular>
+        </div>
+        <md-list>
+          <md-list-item ng-repeat="t in vm.turmas" class="desaparece">
+            {{t.serie}}º de {{t.curso}}/{{t.titulo}}
+            <md-divider ng-if="!$last"></md-divider>
+          </md-list-item>
+        </md-list>
+      </md-card-content>
+    </md-card>
+  </div> -->
+</md-content>

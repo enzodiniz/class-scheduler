@@ -1,0 +1,28 @@
+<md-dialog aria-label="Excluir coordenador">
+  <form ng-cloak>
+    <md-dialog-content>
+      <div class="md-dialog-content" layout="column">
+        <!-- <h2>Excluir coordenador</h2> -->
+        <p>Remover {{coord.pessoa.nome}} do grupo dos coordenadores?</p>
+
+        <!-- <p>Isso irá remover a pessoa do grupo dos coordenadores.</p> -->
+
+        <!-- <md-list>
+          <md-list-item class="md-2-line">
+            <img src="{{coord.pessoa.photoUrl || 'app/img/profile.png'}}"
+            class="md-avatar" alt="{{pessoa.nome}}" >
+            <div class="md-list-item-text">
+              <h3>{{ coord.pessoa.nome }} {{coord.pessoa.sobrenome}}</h3>
+              <p>{{coord.pessoa.email}}</p>
+            </div>
+          </md-list-item>
+        </md-list> -->
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="cancel()">Cancelar</md-button>
+      <md-button class="md-warn" ng-click="excluir()">Remover</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

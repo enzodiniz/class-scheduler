@@ -1,0 +1,119 @@
+<md-content ng-controller="turmaCtrl as vm" md-theme="{{vm.themeSelected}}" md-theme-watch flex>
+  <div layout-align="center" layout="row">
+    <form flex-xs="100" ng-submit="vm.query()" name="queryForm">
+      <md-card>
+        <md-card-content>
+          <div layout="row" layout-xs="column">
+            <div layout="row">
+              <md-input-container flex>
+                <label>Período</label>
+                <md-select ng-model="vm.periodoSelected" md-on-open="vm.loadPeriodos()"
+                required>
+                  <md-option><em>Nenhum</em></md-option>
+                  <md-option ng-repeat="periodo in vm.periodos" ng-value="periodo">
+                    {{periodo.ano}}.{{periodo.semestre}}
+                  </md-option>
+                </md-select>
+              </md-input-container>
+
+              <md-input-container flex>
+                <label>Curso</label>
+                <md-select ng-model="vm.cursoSelected" md-on-open="vm.loadCursos()"
+                required>
+                  <md-option><em>Nenhum</em></md-option>
+                  <md-option value="todos">Todos</md-option>
+                  <md-option ng-repeat="curso in vm.cursos" ng-value="curso">
+                    {{curso.titulo}}
+                  </md-option>
+                </md-select>
+              </md-input-container>
+            </div>
+
+            <div layout="column" layout-align="center">
+              <md-button class="md-primary" type="submit" 
+              ng-disabled="queryForm.$invalid" aria-label="Consultar">
+                <md-icon>search</md-icon>
+                Buscar
+              </md-button>
+            </div>
+          </div>
+        </md-card-content>
+      </md-card>
+    </form>
+  </div>
+
+  <div ng-show="vm.loadingTurmas" layout="row" layout-align="center">
+    <md-card flex-xs="100" flex="50">
+      <md-card-content>
+        <md-progress-linear md-mode="query"></md-progress-linear>
+      </md-card-content>
+    </md-card>
+  </div>
+
+  <div layout="row" layout-align="center" ng-if="vm.turmas">
+    <md-card flex-xs="100" flex="50">
+      <md-card-content>
+        <md-list>
+          <md-subheader>
+            {{vm.periodoSelected.ano}}.{{vm.periodoSelected.semestre}} -
+            {{vm.cursoSelected.titulo || 'Todos'}}
+          </md-subheader>
+
+          <div ng-repeat="turma in vm.turmas">
+            <md-list-item>
+              <span>
+                {{turma.data.serie}}º de {{turma.data.curso.titulo}}
+              </span>
+  
+              <md-menu class="md-secondary">
+                <md-button aria-label="Abrir opções da turma" class="md-icon-button"
+                ng-click="vm.openMenu($mdMenu, $event)">
+                  <md-icon md-menu-origin>more_horiz</md-icon>
+                </md-button>
+  
+                <md-menu-content width="3">
+                  <md-menu-item>
+                    <md-button ng-click="vm.confirmExcluirTurma(turma)">
+                      <md-icon md-menu-align-target>delete</md-icon>
+                      Excluir
+                    </md-button>
+                  </md-menu-item>
+                  
+                  <md-divider></md-divider>
+
+                  <md-menu-item ng-if="turma.subturmas">
+                    <md-button ng-click="vm.confirmRemoverSubturmas(turma)">
+                      <md-icon>compress</md-icon>
+                      Excluir subturmas
+                    </md-button>
+                  </md-menu-item>
+
+                  <md-menu-item ng-if="!turma.subturmas">
+                    <md-button ng-click="vm.confirmCriarSubturmas(turma)">
+                      <md-icon>reduce_capacity</md-icon>
+                      Criar subturmas
+                    </md-button>
+                  </md-menu-item>
+                </md-menu-content>
+              </md-menu>
+            </md-list-item>     
+            
+            <md-list-item ng-repeat="subturma in turma.subturmas">
+              <span>
+                {{ subturma.serie }}º de {{ turma.data.curso.titulo }}
+                - {{ subturma.titulo }}
+              </span>
+            </md-list-item>
+
+            <md-divider ng-if="!$last"></md-divider>
+          </div>
+        </md-list>
+      </md-card-content>
+    </md-card>
+  </div>
+
+
+  <md-button class="bottom-right md-fab" aria-label="Adicionar turma" ng-click="vm.showSalvarTurma()">
+    <md-icon>add</md-icon>
+  </md-button>
+</md-content>

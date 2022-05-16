@@ -1,39 +1,116 @@
-<div ng-controller="homeCtrl as c">
-
-  <!-- Lista de pessoas -->
-  <md-card md-colors="{ background: 'red' }">
-    <div layout-gt-sm="row" layout="column" class="listdemoBasicUsage">
-      <div flex-gt-sm="50" flex="">
-        <md-toolbar layout="row" class="md-hue-3">
-          <div class="md-toolbar-tools">
-            <span>Pessoas</span>
-            <span flex></span>
-            <md-button class="md-raised md-primary" ng-click="c.salvarPessoa($event)">
-              Adicionar pessoa
-            </md-button>
-          </div>
-        </md-toolbar>
-
-        <md-content>
-          <md-list flex="">
-            <md-list-item class="secondary-button-padding" ng-click="null"
-      			ng-show="c.pessoas.length == 0" ng-cloak="">
-      				Nenhuma pessoa cadastrada.
-      		  </md-list-item>
-            <md-list-item class="md-3-line item-de-lista" ng-repeat="p in c.pessoas"
-            ng-click="c.editarPessoa($event, p)">
-              <div class="md-list-item-text" layout="column">
-                {{p.data().nome}}
-                {{p.data().sobrenome}}
-              </div>
-              <md-divider ng-if="!$last"></md-divider>
-              <!-- <md-button ng-click="c.editarPessoa($event, p)" class="md-icon-button">
-                <md-icon></md-icon>
-              </md-button> -->
-            </md-list-item>
-          </md-list>
-        </md-content>
-      </div>
+<md-content ng-controller="homeCtrl as vm" md-theme="vm.themeSelected"
+md-theme-watch>
+    <div ng-show="vm.user === null">
+        <md-card>
+            <md-card-content>
+                <h4>Usuário não cadastrado</h4>
+                <p>
+                    Sua conta de email não está cadastrada no sistema.
+                    Peça para o administrador cadastrar.
+                </p>
+            </md-card-content>
+        </md-card>
     </div>
-  </md-card>
-</div>
+
+    <div ng-show="vm.user.papeis.length === 0">
+        <md-card>
+            <md-card-content>
+                <h4>Usuário sem papéis</h4>
+                <p>
+                    Você não possui nenhum papel no sistema.
+                    Peça para o administrador adicionar.
+                </p>
+            </md-card-content>
+        </md-card>
+    </div>
+
+    <div ng-show="vm.user.papeis.includes('administrador')">
+        <md-card>
+            <md-card-content>
+                <h4>Administrador</h4>
+                <md-list layout="row" layout-xs="column" flex>
+                    <md-list-item href="./#!/historico" class="md-2-line">
+                        <md-icon class="md-avatar-icon">history</md-icon>
+                        <div class="md-list-item-text">
+                            <h4>Histórico</h4>
+                            <p>Histórico de substituições</p>
+                        </div>
+                    </md-list-item>
+                    <md-list-item href="./#!/pessoas" class="md-2-line">
+                        <md-icon class="md-avatar-icon">people</md-icon>
+                        <div class="md-list-item-text">
+                            <h4>Pessoas</h4>
+                            <p>
+                                Gerencie as pessoas com acesso 
+                                à aplicação.
+                            </p>
+                        </div>
+                    </md-list-item>
+                    <md-list-item href="./#!/turmas" class="md-2-line">
+                        <div class="md-list-item-text">
+                            <h4>Turmas</h4>
+                            <p>
+                                Adicione, atualize e remova turmas.
+                            </p>
+                        </div>
+                    </md-list-item>
+                    <md-list-item href="./#!/disciplinas" class="md-2-line">
+                        <md-icon class="md-avatar-icon">class</md-icon>
+                        <div class="md-list-item-text">
+                            <h4>Disciplinas</h4>
+                            <p>
+                                Adicione, atualize e remova disciplinas.
+                            </p>
+                        </div>
+                    </md-list-item>
+                    <md-list-item href="./#!/cursos" class="md-2-line">
+                        <div class="md-list-item-text">
+                            <h4>Cursos e Períodos</h4>
+                            <p>
+                                Adicione, atualize e remova cursos e períodos.
+                            </p>
+                        </div>
+                    </md-list-item>
+                </md-list>
+            </md-card-content>
+        </md-card>
+    </div>
+
+    <div ng-show="vm.user.papeis.includes('professor')">
+        <md-card>
+            <md-card-content>
+                <h4>Professor</h4>
+                <md-list layout="row" layout-xs="column">
+                    <md-list-item href="./#!/horario-teste" class="md-2-line">
+                        <div class="md-list-item-text">
+                            <h4>Horário de turma</h4>
+                            <p>Horário das turmas. Aqui você ocupa aulas vagas.</p>
+                        </div>
+                    </md-list-item>
+                    <md-list-item href="./#!/minhas-aulas" class="md-2-line">
+                        <div class="md-list-item-text">
+                            <h4>Horário do professor</h4>
+                            <p>Suas aulas. Aqui você avisa de faltas.</p>
+                        </div>
+                    </md-list-item>
+                </md-list>
+            </md-card-content>
+        </md-card>
+    </div>
+
+    <div ng-show="vm.user.papeis.includes('coordenador')">
+        <md-card>
+            <md-card-content>
+                <h4>Coordenador de turno</h4>
+                <md-list layout="row" layout-xs="column">
+                    <md-list-item href="./#!/horario-coord" class="md-2-line">
+                        <div class="md-list-item-text">
+                            <h4>Registro de Aula Vaga</h4>
+                            <p>Informe quando um professor falta.</p>
+                        </div>
+                    </md-list-item>
+                </md-list>
+            </md-card-content>
+        </md-card>
+    </div>
+</md-content>

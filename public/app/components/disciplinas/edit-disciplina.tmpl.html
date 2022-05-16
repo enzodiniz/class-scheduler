@@ -1,0 +1,123 @@
+<md-dialog md-theme="themeSelected" md-theme-watch>
+  <form ng-submit="hide()" name="editarDisciplinaForm">
+    <md-toolbar hide show-xs>
+      <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon>close</md-icon>
+        </md-button>
+        <h2 md-truncate>{{ disciplina.titulo }}</h2>
+
+        <span flex></span>
+        <md-button type="submit">Salvar</md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content" ng-if="isLoading()" layout="row" layout-align="center">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+      </div>
+      <div class="md-dialog-content" ng-show="!isLoading()">
+        <h2 hide-xs>{{disciplina.titulo}}</h2>
+
+        <div layout="row" layout-xs="column" flex="100">
+          <md-input-container flex>
+            <label>Título</label>
+            <input type="text" name="titulo" ng-model="disciplina.titulo">
+          </md-input-container>
+
+          <md-autocomplete md-items="professor in queryProfessores(searchText)"
+          md-search-text="searchText" md-min-length="1"
+          md-selected-item="professorSelected"
+          md-floating-label="Professor(a)"
+          md-item-text="professor.nome + ' ' + professor.sobrenome"
+          md-menu-container-class="custom-container"
+          md-menu-class="autocomplete-custom-template"
+          flex>
+
+            <md-item-template layout="column">
+              <span class="item-title">
+                <span layout="row" layout-align="start center">
+                  <img src="{{professor.photoUrl || 'app/img/profile.png'}}"
+                  alt="{{professor.nome}}" class="photo-autocomplete">
+
+                  <span md-highlight-text="searchText" md-highlight-flags="i">
+                    {{professor.nome}} {{professor.sobrenome}}
+                  </span>
+                </span>
+              </span>
+
+              <span class="item-metadata">
+                <span>{{professor.email}}</span>
+              </span>
+            </md-item-template>
+          </md-autocomplete>
+        </div>
+
+        <div>
+          <table style="width: 100%">
+            <thead>
+              <th><i class="fas fa-clock fa-lg"></i></th>
+              <th>Segunda</th>
+              <th>Terça</th>
+              <th>Quarta</th>
+              <th>Quinta</th>
+              <th>Sexta</th>
+            </thead>
+
+            <tr ng-repeat="horario in ['07:00', '07:50', '08:40', '09:50', '10:40', '11:30',
+            '13:00', '13:50', '14:40', '15:50', '16:40', '18:20', '19:10', '20:00', '20:50']
+            track by $index">
+              <td>{{horario}}</td>
+              <td>
+                <md-checkbox ng-checked="estaSelecionado(1, $index)"
+                aria-label="horário `${horario}`"
+                ng-click="toggleHorario(1, $index, disciplina.horarios)"
+                ng-disabled="isDisabled(1, $index)"
+                style="margin-bottom: 0px;">
+                </md-checkbox>
+              </td>
+              <td>
+                <md-checkbox ng-checked="estaSelecionado(2, $index)"
+                aria-label="horário `${horario}`"
+                ng-click="toggleHorario(2, $index, disciplina.horarios)"
+                ng-disabled="isDisabled(2, $index)"
+                style="margin-bottom: 0px;">
+                </md-checkbox>
+              </td>
+              <td>
+                <md-checkbox ng-checked="estaSelecionado(3, $index)"
+                aria-label="horário `${horario}`"
+                ng-click="toggleHorario(3, $index, disciplina.horarios)"
+                ng-disabled="isDisabled(3, $index)"
+                style="margin-bottom: 0px;">
+                </md-checkbox>
+              </td>
+              <td>
+                <md-checkbox ng-checked="estaSelecionado(4, $index)"
+                aria-label="horário `${horario}`"
+                ng-click="toggleHorario(4, $index, disciplina.horarios)"
+                ng-disabled="isDisabled(4, $index)"
+                style="margin-bottom: 0px;">
+                </md-checkbox>
+              </td>
+              <td>
+                <md-checkbox ng-checked="estaSelecionado(5, $index)"
+                aria-label="horário `${horario}`"
+                ng-click="toggleHorario(5, $index, disciplina.horarios)"
+                ng-disabled="isDisabled(5, $index)"
+                style="margin-bottom: 0px;">
+                </md-checkbox>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions hide-xs>
+      <md-button ng-click="cancel()">Cancelar</md-button>
+      <md-button class="md-primary" type="submit">Salvar</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

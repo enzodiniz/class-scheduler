@@ -1,0 +1,28 @@
+<md-dialog aria-label="Excluir professor">
+  <form ng-cloak ng-submit="excluir()">
+    <md-dialog-content>
+      <div class="md-dialog-content" layout="column">
+        <p> Remover {{ prof.pessoa.nome }} do grupo dos professores?</p>
+        <!-- <h2>Excluir professor</h2> -->
+
+        <!-- <p>Isso irá remover a pessoa do grupo dos professores.</p> -->
+
+        <!-- <md-list>
+          <md-list-item class="md-2-line">
+            <img src="{{prof.pessoa.photoUrl || 'app/img/profile.png'}}"
+            class="md-avatar" alt="{{pessoa.nome}}" >
+            <div class="md-list-item-text">
+              <h3>{{ prof.pessoa.nome }} {{prof.pessoa.sobrenome}}</h3>
+              <p>{{prof.pessoa.email}}</p>
+            </div>
+          </md-list-item>
+        </md-list> -->
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="cancel()">Cancelar</md-button>
+      <md-button class="md-warn" type="submit">Remover</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

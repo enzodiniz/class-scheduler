@@ -1,0 +1,77 @@
+<md-dialog aria-label="Adicionar pessoa" md-theme="theme">
+  <form ng-cloak name="addPessoaForm" ng-submit="hide()">
+    <md-toolbar hide show-xs>
+      <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon>close</md-icon>
+        </md-button>
+        <h2 md-truncate>Adicionar pessoa</h2>
+        <span flex></span>
+        <md-button type="submit">
+          Adicionar
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content" layout="column">
+        <h2 hide-xs>Adicionar Pessoa</h2>
+
+        <div layout-gt-md="row" layout-xs="column">
+          <md-input-container flex-gt-md="30" flex-xs="100">
+            <label>Nome</label>
+            <input ng-model="user.nome" type="text" ng-required="true" name="nome">
+          </md-input-container>
+
+          <md-input-container flex-gt-md="70" flex-xs="100">
+            <label>Sobrenome</label>
+            <input ng-model="user.sobrenome" type="text" ng-required="true">
+          </md-input-container>
+        </div>
+
+        <md-input-container class="md-block">
+          <!-- <md-icon md-font-icon="fab fa-google"></md-icon> -->
+          <md-icon>alternate_email</md-icon>
+          <input ng-model="user.email" type="email" ng-required="true" placeholder="Conta Google"
+          name="email" ng-pattern="/^[aA.-zZ]+@ifpb.edu.br$/">
+
+          <div ng-messages="addPessoaForm.email.$error">
+            <div ng-message="required">Para criar uma pessoa este campo deve ser preeenchido</div>
+            <div ng-message="pattern">Preencha este campo com uma conta Google (gmail)</div>
+          </div>
+        </md-input-container>
+
+        <div layout="row" layout-xs="column" layout-align="space-between">
+
+          <md-input-container flex layout="row" layout-align="center"
+          layout-align-xs="start">
+            <md-checkbox ng-model="isAdmin">
+              Administrador
+            </md-checkbox>
+          </md-input-container>
+
+          <md-input-container flex layout="row" layout-align="center" layout-align-xs="start">
+            <md-checkbox ng-model="isProf">
+              Professor
+            </md-checkbox>
+          </md-input-container>
+
+          <md-input-container flex layout="row" layout-align="center"
+          layout-align-xs="start">
+            <md-checkbox ng-model="isCoord">
+              Coordenador
+            </md-checkbox>
+          </md-input-container>
+
+        </div>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" hide-xs>
+      <md-button ng-click="cancel()">Cancelar</md-button>
+      <md-button class="md-primary" type="submit" ng-disabled="addPessoaForm.$invalid">
+        Adicionar
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

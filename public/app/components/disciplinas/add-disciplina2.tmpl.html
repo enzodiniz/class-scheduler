@@ -1,0 +1,213 @@
+<md-dialog md-theme="theme" md-theme-watch> 
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Adicionar disciplina</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="cancel()">
+        <md-icon md-svg-src="../app/img/close.svg" aria-label="Close dialog"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <form name="addDisciplinaForm" ng-submit="hide()">
+    <md-dialog-content class="content-with-fab">
+      <md-nav-bar md-selected-nav-item="currentNavItem" aria-label="navegação">
+        <md-nav-item name="dados" md-nav-click="goTo('dados')"
+        aria-label="Definir dados">
+          Dados
+        </md-nav-item>
+
+        <md-nav-item name="turma" md-nav-click="goTo('turma')"
+        aria-label="Definir turma e período">
+          Definir Turma
+        </md-nav-item>
+
+        <md-nav-item name="horario" md-nav-click="goTo('horario')"
+        aria-label="Definir horário" ng-disabled="!turmaSelected">
+          Horário
+        </md-nav-item>
+      </md-nav-bar>
+
+      <div class="md-dialog-content">
+        <div layout="row" layout-xs="column" ng-show="currentNavItem == 'dados'"
+        class="content-with-fab">
+          <md-input-container>
+            <label>Título</label>
+            <input type="text" name="titulo" ng-model="disciplina.titulo">
+          </md-input-container>
+
+          <md-autocomplete md-items="professor in queryProfessores(searchText)"
+          md-search-text="searchText" md-min-length="1"
+          md-selected-item="professorSelected"
+          md-floating-label="Professor(a)"
+          md-item-text="professor.nome + ' ' + professor.sobrenome"
+          md-menu-container-class="custom-container"
+          md-menu-class="autocomplete-custom-template">
+
+            <md-item-template layout="column">
+              <span class="item-title">
+                <span layout="row" layout-align="start center">
+                  <img src="{{professor.photoUrl || 'app/img/profile.png'}}"
+                  alt="{{professor.nome}}" class="photo-autocomplete">
+
+                  <span md-highlight-text="searchText" md-highlight-flags="i">
+                    {{professor.nome}} {{professor.sobrenome}}
+                  </span>
+                </span>
+              </span>
+
+              <span class="item-metadata">
+                <span>{{professor.email}}</span>
+              </span>
+            </md-item-template>
+          </md-autocomplete>
+        </div>
+
+        <div ng-show="currentNavItem == 'turma'">
+          <div layout="row">
+            <md-input-container flex>
+              <label>Período...</label>
+              <md-select ng-model="disciplina.periodoId" required md-on-open="loadPeriodos()">
+                <md-option ng-value="periodo.id" ng-repeat="periodo in listaPeriodos">
+                  {{periodo.ano}}.{{periodo.semestre}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+
+            <md-input-container flex>
+              <label>Curso...</label>
+              <md-select ng-model="cursoSelected" required md-on-open="loadCursos()">
+                <md-option ng-value="curso" ng-repeat="curso in listaCursos">
+                  {{curso.titulo}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+
+          <md-input-container ng-init="init()" class="md-block">
+            <label>Turma...</label>
+            <md-select ng-model="turmaSelected" required
+            ng-disabled="!cursoSelected || !disciplina.periodoId"
+            md-on-open="loadTurmas2(disciplina.periodoId, cursoSelected.id)"
+            md-on-close="getHorarios(turmaSelected)">
+
+              <md-option><em>Nenhuma</em></md-option>
+
+              <md-option ng-value="turma" ng-repeat="turma in turmas">
+                <span>{{turma.serie}}º {{turma.curso.titulo}}</span>
+                <span ng-show="turma.titulo">{{turma.titulo}}</span>
+              </md-option>
+
+            </md-select>
+          </md-input-container>
+
+          <div class="hint" ng-if="!curso || !periodo">
+            Selecione o período e o curso antes de visualizar as turmas.
+          </div>
+        </div>
+
+        <div ng-show="currentNavItem == 'horario'">
+          <div ng-show="buscandoHorario">
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+          </div>
+          <table ng-show="!buscandoHorario">
+            <tr>
+              <td><i class="fas fa-clock"></i></td>
+              <td>Segunda</td>
+              <td>Terça</td>
+              <td>Quarta</td>
+              <td>Quinta</td>
+              <td>Sexta</td>
+            </tr>
+            <tr ng-repeat="horario in ['07:00', '07:50', '08:40', '09:50', '10:40', '11:30', '13:00',
+                '13:50', '14:40', '15:50', '16:40', '18:20', '19:10', '20:00', '20:50'] 
+                track by $index">
+                <td>
+                  {{horario}}
+                </td>
+                <td>
+                    <md-checkbox ng-checked="estaSelecionado(1, $index)"
+                                 ng-click="adicionarHorario(1, $index)" 
+                                 ng-disabled="estaBloqueado(1, $index)"
+                                 aria-label="Horário {{horario}} de segunda">
+                    </md-checkbox>
+                </td>
+                <td>
+                    <md-checkbox ng-checked="estaSelecionado(2, $index)"
+                                 ng-click="adicionarHorario(2, $index)" 
+                                 ng-disabled="estaBloqueado(2, $index)"
+                                 aria-label="Horário {{horario}} de terça">
+                    </md-checkbox>
+                </td>
+                <td>
+                    <md-checkbox ng-checked="estaSelecionado(3, $index)"
+                                 ng-click="adicionarHorario(3, $index)" 
+                                 ng-disabled="estaBloqueado(3, $index)"
+                                 aria-label="Horário {{horario}} de quarta">
+                    </md-checkbox>
+                </td>
+                <td>
+                    <md-checkbox ng-checked="estaSelecionado(4, $index)"
+                                 ng-click="adicionarHorario(4, $index)" 
+                                 ng-disabled="estaBloqueado(4, $index)"
+                                 aria-label="Horário {{horario}} de quinta">
+                    </md-checkbox>
+                </td>
+                <td>
+                    <md-checkbox ng-checked="estaSelecionado(5, $index)"
+                                 ng-click="adicionarHorario(5, $index)"  
+                                 ng-disabled="estaBloqueado(5, $index)"
+                                 aria-label="Horário {{horario}} de sexta">
+                    </md-checkbox>
+                </td>
+            </tr>
+          </table>
+
+          <!-- <div layout-gt-md="row">
+            <md-list flex="20">
+              <md-subheader class="md-no-sticky">
+                <i class="fas fa-clock"></i>
+              </md-subheader>
+              <md-list-item style="height: 52px;"
+              ng-repeat="ho in ['07:00', '07:50', '08:40', '09:50', '10:40', '11:30',
+              '13:00', '13:50', '14:40', '15:50', '16:40', '18:20', '19:10', '20:00', '20:50']">
+                {{ho}}
+                <md-divider ng-if="!$last"></md-divider>
+              </md-list-item>
+            </md-list>
+
+            <md-list flex="20" ng-repeat="d in dias">
+              <md-subheader class="md-no-sticky">{{d.display}}</md-subheader>
+
+              <md-list-item ng-repeat="h in horario[d.chave] track by $index">
+
+                <md-checkbox ng-checked="exists(d.chave, $index, disciplina.horarios)"
+                  aria-label="horário `${ho}`"
+                  ng-disabled="h != null"
+                  ng-click="toggle(d.chave, $index, disciplina.horarios)">
+                </md-checkbox>
+
+                <md-divider ng-if="!$last"></md-divider>
+              </md-list-item>
+            </md-list>
+          </div> -->
+        </div>
+
+        <md-button class="md-fab fab-in-dialog" ng-show="currentNavItem == 'dados'"
+        ng-click="goTo('turma')">
+          <i class="fas fa-arrow-right" aria-label="Ir para definição de turma"></i>
+        </md-button>
+
+        <md-button class="md-fab fab-in-dialog" ng-show="currentNavItem == 'turma'"
+        ng-click="goTo('horario')" ng-disabled="!disciplina.turmaId">
+          <i class="fas fa-arrow-right" aria-label="Ir para definição de horário"></i>
+        </md-button>
+
+        <md-button class="md-fab fab-in-dialog md-primary" ng-show="currentNavItem == 'horario'"
+        type="submit">
+          <i class="fas fa-check" aria-label="Salvar"></i>
+        </md-button>
+      </div>
+
+    </md-dialog-content>
+  </form>
+</md-dialog>

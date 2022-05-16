@@ -1,0 +1,108 @@
+<!-- Escrevendo do zero a tela de minhas aulas -->
+
+<link rel="stylesheet" href="/styles/minhas-aulas.css">
+<md-content ng-controller="minhasAulasCtrl as vm">
+    <div layout="row" layout-align="center">
+        <md-card>
+            <md-card-content layout="row">
+                <md-input-container>
+                    <md-datepicker ng-model="vm.dateSelected"
+                     aria-label="Selecionar data">
+                    </md-datepicker>
+                </md-input-container>
+                <md-input-container>
+                    <label>Período</label>
+                    <md-select md-on-open="vm.loadPeriodos()" 
+                     ng-model="vm.periodoSelected" 
+                     aria-label="Selecionar período">
+                        <md-option ng-repeat="periodo in vm.listaPeriodos">
+                          {{ periodo.ano }}.{{ periodo.semestre }}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-button ng-click="vm.query()">
+                    <md-icon>search</md-icon>
+                    Buscar
+                </md-button>
+            </md-card-content>
+        </md-card>
+    </div>
+
+    <div layout="row">
+        <table>
+            <tr>
+                <th>Segunda</th>
+                <th>Terça</th>
+                <th>Quarta</th>
+                <th>Quinta</th>
+                <th>Sexta</th>
+            </tr>
+            <tr>
+              <td class="md-dense">
+                <md-button>Remover</md-button>
+                <md-button>Disponibilizar</md-button>
+              </td>
+              <td class="md-dense">
+                <md-button>Remover</md-button>
+                <md-button>Disponibilizar</md-button>
+              </td>
+              <td class="md-dense">
+                <md-button>Remover</md-button>
+                <md-button>Disponibilizar</md-button>
+              </td>
+              <td class="md-dense">
+                <md-button>Remover</md-button>
+                <md-button>Disponibilizar</md-button>
+              </td>
+              <td class="md-dense">
+                <md-button>Remover</md-button>
+                <md-button>Disponibilizar</md-button>
+              </td>
+
+            </tr>
+            <tr ng-repeat="horario in vm.horarios track by $index">
+                <td>{{horario}}</td>
+                <td>
+                    <h4>{{vm.horario[1][$index].titulo}}</h4>
+                    <p>
+                        {{ vm.horario[1][$index].turma.serie }}º
+                        de {{ vm.horario[1][$index].turma.cursoTitulo }}
+                        {{ vm.horario[1][$index].turma.titulo }} 
+                    </p>
+                </td>
+                <td>
+                    <h4>{{vm.horario[2][$index].titulo}}</h4>
+                    <p>
+                        {{ vm.horario[2][$index].turma.serie }}º
+                        de {{ vm.horario[2][$index].turma.cursoTitulo }}
+                        {{ vm.horario[2][$index].turma.titulo }} 
+                    </p>
+                </td>
+                <td>
+                    <h4>{{vm.horario[3][$index].titulo}}</h4>
+                    <p>
+                        {{ vm.horario[3][$index].turma.serie }}º
+                        de {{ vm.horario[3][$index].turma.cursoTitulo }}
+                        {{ vm.horario[3][$index].turma.titulo }} 
+                    </p>
+                </td>
+                <td>
+                    <h4>{{vm.horario[4][$index].titulo}}</h4>
+                    <p>
+                        {{ vm.horario[4][$index].turma.serie }}º
+                        de {{ vm.horario[4][$index].turma.cursoTitulo }}
+                        {{ vm.horario[4][$index].turma.titulo }} 
+                    </p>
+                </td>
+                <td>
+                    <h4>{{vm.horario[2][$index].titulo}}</h4>
+                    <p>
+                        {{ vm.horario[5][$index].turma.serie }}º
+                        de {{ vm.horario[5][$index].turma.cursoTitulo }}
+                        {{ vm.horario[5][$index].turma.titulo }} 
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</md-content>

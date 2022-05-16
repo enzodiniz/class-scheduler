@@ -1,0 +1,74 @@
+<md-dialog aria-label="Editar pessoa">
+  <form ng-cloak name="editPersonForm" ng-submit="hide()">
+    <md-toolbar hide show-xs>
+      <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon aria-label="Fechar">close</md-icon>
+        </md-button>
+        <h2>Editar pessoa</h2>
+        <span flex></span>
+        <md-button>Salvar</md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <h2 hide-xs>Editar Pessoa</h2>
+
+        <div layout-gt-md="row" layout-xs="column">
+          <md-input-container flex="30" flex-xs="100">
+            <label>Nome</label>
+            <input ng-model="pessoa.nome" type="text" ng-required="true">
+          </md-input-container>
+          <md-input-container flex="70" flex-xs="100">
+            <label>Sobrenome</label>
+            <input ng-model="pessoa.sobrenome" type="text" ng-required="true">
+          </md-input-container>
+        </div>
+
+        <div layout="row">
+          <md-input-container style="width: 100%">
+            <label>Url da foto do perfil</label>
+            <md-icon>face_retouching_natural</md-icon>
+            <input type="url" ng-model="pessoa.photoUrl">
+          </md-input-container>
+          <img src="{{pessoa.photoUrl}}" width="50" height="50"
+          style="margin-left: 5px; border-radius: 50%">
+        </div>
+
+        <md-input-container class="md-block">
+          <md-icon>alternate_email</md-icon>
+          <input ng-model="pessoa.email" type="email" ng-required="true" placeholder="Conta Google"
+          name="email" ng-pattern="/[aA.-zZ]+@ifpb.edu.br\b/">
+
+          <div ng-messages="editPersonForm.email.$error">
+            <div ng-message="required">A pessoa precisa ter uma conta Google</div>
+            <div ng-message="pattern">Preencha este campo com uma conta Google (gmail)</div>
+          </div>
+        </md-input-container>
+
+        <md-input-container class="md-block" layout="row" layout-xs="column">
+          <md-checkbox ng-click="putPapel('administrador', pessoa.papeis)"
+                       ng-checked="estaSelecionado('administrador', pessoa.papeis)">
+             Administrador
+          </md-checkbox>
+          <md-checkbox ng-click="putPapel('professor', pessoa.papeis)"
+                       ng-checked="estaSelecionado('professor', pessoa.papeis)">
+            Professor
+          </md-checkbox>
+          <md-checkbox ng-click="putPapel('coordenador', pessoa.papeis)"
+                       ng-checked="estaSelecionado('coordenador', pessoa.papeis)">
+            Coordenador
+          </md-checkbox>
+        </md-input-container>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" hide-xs>
+      <md-button ng-click="cancel()">Cancelar</md-button>
+      <md-button class="md-primary" type="submit" ng-disabled="editPersonForm.$invalid">
+        Salvar
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

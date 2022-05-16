@@ -1,0 +1,37 @@
+<md-dialog aria-label="Detalhes" md-theme="themeSelected">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h3>Detalhes</h3>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon>close</md-icon>
+            </md-button>
+        </div>        
+    </md-toolbar>
+
+    <md-dialog-content>
+        <div class="dialog-content">
+            <div ng-show="loading" layout="row" layout-align="space-around">
+                <md-progress-circular></md-progress-circular>
+            </div>
+
+            <md-list flex ng-show="!loading">
+                <md-list-item ng-repeat="historicoObj in lista | orderBy: date">
+                    <p>
+                        {{ historicoObj.date | date: 'dd/MM/yy HH:mm' }} - 
+                        {{ historicoObj.actionLabel }} - 
+                        {{ historicoObj.turma.serie }}º de {{ historicoObj.turma.cursoTitulo }} 
+                        {{ historicoObj.turma.titulo }}
+                    </p> <br>
+                    <p>
+                        {{ historicoObj.substituicao.data }} 
+                        {{ historicoObj.substituicao.aulaIndice }}º horário
+                        motivo: {{ historicoObj.substituicao.motivo }}
+                    </p>
+                    <md-divider ng-if="!$last"></md-divider>
+                </md-list-item>
+            </md-list>
+        </div>
+        
+    </md-dialog-content>
+</md-dialog>

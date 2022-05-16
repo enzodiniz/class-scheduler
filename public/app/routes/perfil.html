@@ -1,4 +1,4 @@
-<md-content ng-controller="perfilCtrl as vm" ng-cloak>
+<md-content ng-controller="perfilCtrl as vm" ng-cloak flex md-theme="{{vm.themeSelected}}" md-theme-watch>
   <div layout-align="center" layout="row">
     <div flex="50" flex-xs="100">
       <form ng-submit="vm.salvar()" name="perfilForm">
@@ -26,25 +26,26 @@
           <md-card-content ng-show="!vm.loading">
             <div layout="row" layout-xs="column">
               <md-input-container flex="30" flex-xs="100">
-                <input type="text" value="{{vm.newUser.nome}}" disabled placeholder="nome">
+                <input type="text" value="{{vm.newUser.nome}}" readonly placeholder="nome">
               </md-input-container>
 
               <md-input-container flex="70" flex-xs="100">
-                <input type="text" value="{{vm.newUser.sobrenome}}" disabled placeholder="sobrenome">
+                <input type="text" value="{{vm.newUser.sobrenome}}" readonly placeholder="sobrenome">
               </md-input-container>
             </div>
 
             <div layout="row">
               <md-input-container style="width: 100%">
                 <label>Url da foto do perfil</label>
-                <md-icon md-font-icon="fas fa-portrait"></md-icon>
-                <input type="text" ng-model="vm.user.photoUrl">
+                <!-- <md-icon md-font-icon="fas fa-portrait"></md-icon> -->
+                <md-icon>portrait</md-icon>
+                <input type="url" ng-model="vm.newUser.photoUrl">
               </md-input-container>
               <img src="{{vm.newUser.photoUrl}}" width="50" height="50" style="margin-left: 10px; border-radius: 50%">
             </div>
 
             <md-input-container class="md-block">
-              <md-icon md-font-icon="fab fa-google"></md-icon>
+              <md-icon>contact_mail</md-icon>
               <input ng-model="vm.newUser.email" type="email" ng-required="true"
               placeholder="Conta Google" name="contaGoogle"
               ng-pattern="/[\w.]+@gmail.com\b/">
@@ -54,10 +55,20 @@
                 <div ng-message="pattern">Preencha este campo com uma conta Google (gmail)</div>
               </div>
             </md-input-container>
+
+            <md-input-container class="md-block">
+              <md-icon>brightness_medium</md-icon>
+              <label>Tema</label>
+              <md-select ng-model="vm.newUser.theme">
+                <md-option value="light">Claro</md-option>
+                <md-option value="dark">Escuro</md-option>
+                <md-option value="system">Do Sistema</md-option>
+              </md-select>
+            </md-input-container>
           </md-card-content>
 
           <md-card-actions layout="row" layout-xs="column" layout-align="end">
-            <md-button type="submit" ng-disabled="perfilForm.$invalid" class="md-primary">Salvar</md-button>
+            <md-button type="submit" ng-disabled="perfilForm.$invalid || !vm.isModified()" class="md-primary">Salvar</md-button>
           </md-card-actions>
         </md-card>
       </form>

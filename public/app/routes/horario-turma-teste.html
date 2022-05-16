@@ -1,0 +1,205 @@
+<link rel="stylesheet" href="/styles/horario-teste.css">
+
+<md-content ng-controller="horarioTurmaCtrl as c" ng-class="c.bodyClass" ng-init="c.init()"
+md-theme="c.themeSelected" md-theme-watch>
+
+  <div layout="row" layout-align="center">
+    <div flex="60" flex-xs="100">
+      <md-card>
+        <md-card-content>
+          <form ng-submit="c.submit()" name="horarioForm" layout="row" layout-xs="column">
+            <md-input-container flex="15" flex-xs="100">
+              <label for="turma">Período...</label>
+              <md-select ng-model="c.periodo" required ng-disabled="c.buscandoHorario" md-on-open="c.loadPeriodos()" name="periodo">
+                <md-option ng-repeat="p in c.listaPeriodos" ng-value="{{p}}">
+                  {{p.ano}}.{{p.semestre}}
+                </md-option>
+              </md-select>
+
+              <div class="errors" ng-messages="horarioForm.periodo.$error">
+                <div ng-message="required">Você precisa selecionar o período.</div>
+              </div>
+            </md-input-container>
+
+            <md-input-container flex="40" flex-xs="100">
+              <label for="turma">Selecione a turma...</label>
+
+              <md-select ng-model="c.turmaSelected" required
+              ng-disabled="c.buscandoHorario || !c.periodo" class="select-turmas"
+              md-on-open="c.loadTurmas()" name="turma">
+
+                <md-option><em>Nenhuma</em></md-option>
+                <md-option ng-repeat="t in c.turmas" ng-value="t">
+                  {{t.serie}}º de {{t.curso.titulo}}
+                </md-option>
+
+              </md-select>
+
+              <div class="errors" ng-messages="horarioForm.turma.$error">
+                <div ng-message="required">Você precisa selecionar a turma.</div>
+              </div>
+            </md-input-container>
+
+            <md-input-container flex="30" flex-xs="100">
+              <label for="dia">Dia...</label>
+
+              <md-datepicker ng-model="c.dia" id="dia" name="dia" flex="100">
+              </md-datepicker>
+
+              <div class="errors" ng-messages="horarioForm.dia.$error">
+                <div ng-message="required">Você precisa selecionar o dia.</div>
+              </div>
+            </md-input-container>
+
+            <div flex="20" flex-xs='100'>
+              <md-button class="md-primary btn-form-inline" type="submit">
+                <md-icon>search</md-icon>
+                Buscar
+              </md-button>
+            </div>
+          </form>
+        </md-card-content>
+        
+      </md-card>
+    </div>
+  </div>
+
+  <div layout="row" layout-sm="column" layout-align="space-around"
+  ng-show="c.buscandoHorario || c.buscandoHorarioG2">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </div>
+
+  <div>
+    <md-card>
+      <md-card-content class="horario-container">
+        <table class="table-horario md-dense">
+          <tr class="head-table-horario">
+            <th><span class="material-icons">schedule</span></th>
+            <th>Segunda</th>
+            <th>Terça</th>
+            <th>Quarta</th>
+            <th>Quinta</th>
+            <th>Sexta</th>
+          </tr>
+
+          <tr>
+            <td class="date-table"></td>
+            <td class="date-table"> <small>{{ c.dates.segunda | date: 'dd/MM'}}</small></td>
+            <td class="date-table"> <small>{{ c.dates.terca | date: 'dd/MM'}}</small> </td>
+            <td class="date-table"> <small>{{ c.dates.quarta | date: 'dd/MM'}}</small> </td>
+            <td class="date-table"> <small>{{ c.dates.quinta | date: 'dd/MM'}}</small> </td>
+            <td class="date-table"> <small>{{ c.dates.sexta | date: 'dd/MM'}}</small> </td>
+          </tr>
+
+          <tr ng-repeat="horario in c.labelHorario track by $index">
+            <td class="label-horario">
+              <div>
+                {{ horario.inicio }}
+                <md-tooltip>{{ horario.inicio }} - {{ horario.final }}</md-tooltip>
+              </div>
+            </td>
+
+            <td class="slot-horario-teste">
+              <div ng-show="c.horario[1][$index]">
+                <md-button ng-class="c.substituicoes[1][$index].status + '-' + c.themeSelected"
+                ng-click="c.actions(c.substituicoes[1][$index], c.horario[1][$index], $event)">
+                  {{ c.horario[1][$index].titulo }}
+                </md-button>
+              </div>
+
+              <div ng-show="c.horarioG1[1][$index]">
+                <md-button ng-class="c.substituicoesG1[1][$index].status + '-' + c.themeSelected"
+                ng-click="c.actions(c.substituicoesG1[1][$index], c.horarioG1[1][$index], $event)">
+                  {{ c.horarioG1[1][$index].titulo }} G1
+                </md-button>
+
+                <md-button ng-class="c.substituicoesG2[1][$index].status + '-' + 'default'"
+                ng-click="c.actions(c.substituicoesG2[1][$index], c.horarioG2[1][$index], $event)">
+                  {{ c.horarioG2[1][$index].titulo }} G2
+                </md-button>
+              </div>
+            </td>
+
+            <td class="slot-horario-teste">
+              <div ng-show="c.horario[2][$index]">
+                <md-button ng-class="c.substituicoes[2][$index].status + '-' + c.themeSelected"
+                ng-click="c.actions(c.substituicoes[2][$index], c.horario[2][$index], $event)">
+                  {{ c.horario[2][$index].titulo }}
+                </md-button>
+              </div>
+              <div ng-show="c.horarioG1[2][$index]">
+                <md-button ng-class="c.substituicoesG1[2][$index].status + '-' + c.themeSelected"
+                ng-click="c.actions(c.substituicoesG1[2][$index], c.horarioG1[2][$index], $event)">
+                  {{ c.horarioG1[2][$index].titulo }} G1
+                </md-button>
+                <md-button ng-class="c.substituicoesG2[2][$index].status + '-' + c.themeSelected"
+                ng-click="c.actions(c.substituicoesG2[2][$index], c.horarioG2[2][$index], $event)">
+                  {{ c.horarioG2[2][$index].titulo }} G2
+                </md-button>
+              </div>
+            </td>
+
+            <td class="slot-horario-teste">
+              <div ng-show="c.horario[3][$index]">
+                <md-button ng-class="c.substituicoes[3][$index].status + '-' + c.themeSelected"
+                ng-click="c.actions(c.substituicoes[3][$index], c.horario[3][$index], $event)">
+                  {{ c.horario[3][$index].titulo }}
+                </md-button>
+              </div>
+              <div ng-show="c.horarioG1[3][$index]">
+                <md-button ng-class="c.substituicoesG1[3][$index].status + '-' + c.themeSelected"
+                ng-click="c.actions(c.substituicoesG1[3][$index], c.horarioG1[3][$index], $event)">
+                  {{ c.horarioG1[3][$index].titulo }} G1
+                </md-button>
+                <md-button ng-class="c.substituicoesG2[3][$index].status + '-' + c.themeSelected"
+                ng-click="c.actions(c.substituicoesG2[3][$index], c.horarioG2[3][$index], $event)">
+                  {{ c.horarioG2[3][$index].titulo }} G2
+                </md-button>
+              </div>
+            </td>
+
+            <td class="slot-horario-teste">
+              <div ng-show="c.horario[4][$index]">
+                <md-button ng-class="c.substituicoes[4][$index].status + '-' + c.themeSelected"
+                ng-click="c.actions(c.substituicoes[4][$index], c.horario[4][$index], $event)">
+                  {{ c.horario[4][$index].titulo }}
+                </md-button>
+              </div>
+
+              <div ng-show="c.horarioG1[4][$index]">
+                <md-button ng-class="c.substituicoesG1[4][$index].status + '-' + c.themeSelected"
+                ng-click="c.actions(c.substituicoesG1[4][$index], c.horarioG1[4][$index], $event)">
+                  {{ c.horarioG1[4][$index].titulo }} G1
+                </md-button>
+                <md-button ng-class="c.substituicoesG2[4][$index].status + '-' + c.themeSelected"
+                ng-click="c.actions(c.substituicoesG2[4][$index], c.horarioG2[4][$index], $event)">
+                  {{ c.horarioG2[4][$index].titulo }} G2
+                </md-button>
+              </div>
+            </td>
+
+            <td class="slot-horario-teste">
+              <div ng-show="c.horario[5][$index]">
+                <md-button ng-class="c.substituicoes[5][$index].status + '-' + c.themeSelected"
+                ng-click="c.actions(c.substituicoes[5][$index], c.horario[5][$index], $event)">
+                  {{ c.horario[5][$index].titulo }}
+                </md-button>
+              </div>
+              <div ng-show="c.horarioG1[5][$index]">
+                <md-button ng-class="c.substituicoesG1[5][$index].status + '-' + c.themeSelected"
+                ng-click="c.actions(c.substituicoesG1[5][$index], c.horarioG1[5][$index], $event)">
+                  {{ c.horarioG1[5][$index].titulo }} G1
+                </md-button>
+                <md-button ng-class="c.substituicoesG2[5][$index].status + '-' + c.themeSelected"
+                ng-click="c.actions(c.substituicoesG2[5][$index], c.horarioG2[5][$index], $event)">
+                  {{ c.horarioG2[5][$index].titulo }} G2
+                </md-button>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </md-card-content>
+    </md-card>
+  </div>
+
+</md-content>

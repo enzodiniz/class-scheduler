@@ -1,0 +1,40 @@
+/* Backgrounds */
+.grid-list .gray {
+    background: #f5f5f5; }
+
+.grid-list .green {
+background: #b9f6ca; }
+
+.grid-list .yellow {
+background: #ffff8d; }
+
+.grid-list .blue {
+background: #84ffff; }
+
+.grid-list .darkBlue {
+background: #80d8ff; }
+
+.grid-list .deepBlue {
+background: #448aff; }
+
+.grid-list .purple {
+background: #b388ff; }
+
+.grid-list .lightPurple {
+background: #8c9eff; }
+
+.grid-list .red {
+background: #ff8a80; }
+
+.grid-list .pink {
+background: #ff80ab; }
+
+.grid-list md-grid-tile md-grid-tile-footer {
+    background: rgba(0, 0, 0, 0.68);
+    height: 36px; 
+}
+
+/* Detalhes do coordenador de turno */
+.prof-substituido {
+    opacity: 0.6;
+}

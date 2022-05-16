@@ -1,0 +1,28 @@
+<md-dialog aria-label="Editar curso">
+    <form ng-cloak ng-submit="salvar()" name="editCurso">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Editar curso</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="app/img/close.svg" aria-label="Fechar popup"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <md-input-container>
+                    <label for="">Título</label>
+                    <input type="text" md-autofocus required name="titulo" ng-model="titulo">
+                    <div ng-messages="editCurso.titulo.$error">
+                        <div ng-message="required">Por favor preencha o título</div>
+                    </div>
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row" layout-xs="column">
+            <md-button ng-click="cancel()">Cancelar</md-button>
+            <md-button type="submit" class="md-primary md-raised">Salvar</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

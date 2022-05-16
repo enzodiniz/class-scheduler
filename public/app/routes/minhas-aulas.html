@@ -1,0 +1,284 @@
+<link rel="stylesheet" href="/styles/minhas-aulas.css">
+
+<md-content ng-controller="minhasAulasCtrl as ctrl" ng-cloak md-theme-watch md-theme="ctrl.themeSelected">
+  <div layout="row" layout-align="center center">
+    <form ng-submit="ctrl.submit()" flex-xs name="queryForm">
+      <md-card>
+        <md-card-content layout="row" layout-xs="column">
+          <div layout="row">
+            <md-input-container>
+              <label>Período</label>
+              <md-select ng-model="ctrl.periodoSelected" md-on-open="ctrl.loadPeriodos()"
+              required>
+                <md-option ng-value="periodo" ng-repeat="periodo in ctrl.listaPeriodos">
+                  {{periodo.ano}}.{{periodo.semestre}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+            <md-input-container>
+              <label>Data da semana</label>
+              <md-datepicker ng-model="ctrl.dateSelected" ng-disabled="ctrl.isLoading()"></md-datepicker>
+            </md-input-container>
+          </div>
+          <div layout="column" layout-align="center">
+            <md-button type="submit" class="md-primary" aria-label="Buscar minhas aulas"
+            ng-disabled="queryForm.$invalid">
+                <md-icon>search</md-icon>
+                Buscar
+            </md-button>
+          </div>
+        </md-card-content>
+      </md-card>
+    </form>
+  </div>
+
+  <div layout="row" layout-align="center center" flex ng-show="ctrl.isLoading()">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </div>
+
+  <div layout="row" layout-xs="column" ng-class="ctrl.bodyClass">
+    <div flex="20" flex-xs="100">
+      <md-card flex md-theme-watch md-theme="ctrl.themeSelected">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline" class="label-turma">
+              Segunda ({{ ctrl.returnDay(ctrl.dateSelected, 1) | date: 'dd/MM' }})
+            </span>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-actions>
+          <md-button class="" ng-click="ctrl.showRemoverFaltaDiaInteiro(1, $event)">
+            remover
+          </md-button>
+          <md-button class="" ng-click="ctrl.showDisponibilizarDiaInteiro(1, $event)">
+            Disponibilizar
+          </md-button>
+        </md-card-actions>
+        <md-card-content>
+          <md-list flex>
+            <md-list-item ng-repeat="d in ctrl.horario[1] track by $index"
+            ng-click="ctrl.action(1, $index, $event)"
+            ng-disabled="d === null"
+            ng-class="ctrl.substituicoes[1][$index].status + '-' + ctrl.themeSelected"
+            class="md-2-line">
+
+              <div class="md-list-item-text" layout="row">
+                <div flex="19" layout="row">
+                  {{ ctrl.horarios[$index] }}
+                </div>
+
+                <div flex="80" layout="column" layout-align="center center">
+                  <h3>
+                    <span ng-if="d != null">{{d.titulo}}</span>
+                    <span ng-if="d == null">-------</span>
+                  </h3>
+
+                  <p ng-if="d !== null">
+                    {{d.turma.serie}}º de {{d.turma.cursoTitulo}}
+                    <span ng-if="!d.G1EG2">{{d.turma.titulo}}</span>
+                  </p>
+                </div>
+              </div>
+              <md-divider ng-if="!$last"></md-divider>
+            </md-list-item>
+          </md-list>
+        </md-card-content>
+      </md-card>
+    </div>
+
+    <div flex="20" flex-xs="100">
+      <md-card flex md-theme-watch md-theme="ctrl.themeSelected">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline" class="label-turma">
+              Terça({{ ctrl.returnDay(ctrl.dateSelected, 2) | date: 'dd/MM' }})
+            </span>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-actions>
+          <md-button class="" ng-click="ctrl.showRemoverFaltaDiaInteiro(2, $event)">
+            remover
+          </md-button>
+          <md-button class="" ng-click="ctrl.showDisponibilizarDiaInteiro(2, $event)">
+            Disponibilizar
+          </md-button>
+        </md-card-actions>
+        <md-card-content>
+          <md-list flex>
+            <md-list-item ng-repeat="d in ctrl.horario[2] track by $index"
+            ng-click="ctrl.action(2, $index, $event)"
+            ng-disabled="d == null"
+            ng-class="ctrl.substituicoes[2][$index].status + '-' + ctrl.themeSelected"
+            class="md-2-line">
+
+              <div class="md-list-item-text" layout="row">
+                <div flex="19" hide show-xs>
+                  {{ ctrl.horarios[$index] }}
+                </div>
+
+                <div flex="80" layout="column" layout-align="center center">
+                  <h3>
+                    <span ng-if="d != null">{{d.titulo}}</span>
+                    <span ng-if="d == null">------</span>
+                  </h3>
+
+                  <p ng-if="d !== null">
+                    {{d.turma.serie}}º de {{d.turma.cursoTitulo}}
+                    <span ng-if="!d.G1EG2">{{d.turma.titulo}}</span>
+                  </p>
+                </div>
+              </div>
+              <md-divider ng-if="!$last"></md-divider>
+            </md-list-item>
+          </md-list>
+        </md-card-content>
+      </md-card>
+    </div>
+
+    <div flex="20" flex-xs="100">
+      <md-card flex md-theme-watch md-theme="ctrl.themeSelected">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline" class="label-turma">
+              Quarta ({{ ctrl.returnDay(ctrl.dateSelected, 3) | date: 'dd/MM' }})
+            </span>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-actions>
+          <md-button class="" ng-click="ctrl.showRemoverFaltaDiaInteiro(3, $event)">
+            remover
+          </md-button>
+          <md-button class="" ng-click="ctrl.showDisponibilizarDiaInteiro(3, $event)">
+            Disponibilizar
+          </md-button>
+        </md-card-actions>
+        <md-card-content>
+          <md-list flex>
+            <md-list-item ng-repeat="d in ctrl.horario[3] track by $index"
+            ng-click="ctrl.action(3, $index, $event)"
+            ng-disabled="d == null"
+            ng-class="ctrl.substituicoes[3][$index].status + '-' + ctrl.themeSelected"
+            class="md-2-line">
+
+              <div class="md-list-item-text" layout="row">
+                <div flex="19" hide show-xs>
+                  {{ ctrl.horarios[$index] }}
+                </div>
+
+                <div flex="80" layout="column" layout-align="center center">
+                  <h3>
+                    <span ng-if="d != null">{{d.titulo}}</span>
+                    <span ng-if="d == null">------</span>
+                  </h3>
+
+                  <p ng-if="d !== null">
+                    {{d.turma.serie}}º de {{d.turma.cursoTitulo}}
+                    <span ng-if="!d.G1EG2">{{d.turma.titulo}}</span>
+                  </p>
+                </div>
+              </div>
+
+              <md-divider ng-if="!$last"></md-divider>
+            </md-list-item>
+          </md-list>
+        </md-card-content>
+      </md-card>
+    </div>
+
+    <div flex="20" flex-xs="100">
+      <md-card flex md-theme-watch md-theme="ctrl.themeSelected">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline" class="label-turma">
+              Quinta ({{ ctrl.returnDay(ctrl.dateSelected, 4) | date: 'dd/MM' }})
+            </span>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-actions>
+          <md-button ng-click="ctrl.showRemoverFaltaDiaInteiro(4, $event)">
+            remover
+          </md-button>
+          <md-button ng-click="ctrl.showDisponibilizarDiaInteiro(4, $event)">
+            Disponibilizar
+          </md-button>
+        </md-card-actions>
+        <md-card-content>
+          <md-list flex>
+            <md-list-item ng-repeat="d in ctrl.horario[4] track by $index"
+            ng-click="ctrl.action(4, $index, $event)"
+            ng-disabled="d == null"
+            ng-class="ctrl.substituicoes[4][$index].status + '-' + ctrl.themeSelected"
+            class="md-2-line">
+
+              <div class="md-list-item-text" layout="row">
+                <div flex="19" hide show-xs>
+                  {{ ctrl.horarios[$index] }}
+                </div>
+
+                <div flex="80" layout="column" layout-align="center center">
+                  <h3>
+                    <span ng-if="d != null">{{d.titulo}}</span>
+                    <span ng-if="d == null">------</span>
+                  </h3>
+
+                  <p ng-if="d !== null">
+                    {{d.turma.serie}}º de {{d.turma.cursoTitulo}}
+                    <span ng-if="!d.G1EG2">{{d.turma.titulo}}</span>
+                  </p>
+                </div>
+              </div>
+              <md-divider ng-if="!$last"></md-divider>
+            </md-list-item>
+          </md-list>
+        </md-card-content>
+      </md-card>
+    </div>
+
+    <div flex="20" flex-xs="100">
+      <md-card flex md-theme-watch md-theme="ctrl.themeSelected">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline" class="label-turma">
+              Sexta ({{ ctrl.returnDay(ctrl.dateSelected, 5) | date: 'dd/MM' }})
+            </span>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-actions>
+          <md-button ng-click="ctrl.showRemoverFaltaDiaInteiro(5, $event)">
+            remover
+          </md-button>
+          <md-button ng-click="ctrl.showDisponibilizarDiaInteiro(5, $event)">
+            Disponibilizar
+          </md-button>
+        </md-card-actions>
+        <md-card-content>
+          <md-list flex>
+            <md-list-item ng-repeat="d in ctrl.horario[5] track by $index"
+            ng-click="ctrl.action(5, $index, $event)"
+            ng-disabled="d == null"
+            ng-class="ctrl.substituicoes[5][$index].status + '-' + ctrl.themeSelected"
+            class="md-2-line">
+              <div class="md-list-item-text" layout="row">
+                <div flex="19" hide show-xs>
+                  {{ ctrl.horarios[$index] }}
+                </div>
+                <div flex="80" layout="column" layout-align="center center">
+                  <h3>
+                    <span ng-if="d != null">{{d.titulo}}</span>
+                    <span ng-if="d == null"> ------</span>
+                  </h3>
+                  <p ng-if="d != null && d.turma.cursoTitulo" layout="row">
+                    {{d.turma.serie}}º de {{d.turma.cursoTitulo}}
+                    <span ng-if="!d.G1EG2">{{d.turma.titulo}}</span>
+                  </p>
+                </div>
+              </div>
+              <md-divider ng-if="!$last"></md-divider>
+            </md-list-item>
+          </md-list>
+        </md-card-content>
+      </md-card>
+    </div>
+  </div>
+
+</md-content>

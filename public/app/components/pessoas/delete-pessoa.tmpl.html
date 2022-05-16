@@ -1,0 +1,39 @@
+<md-dialog aria-label="Excluir pessoa">
+  <form ng-cloak ng-submit="excluir()">
+    <!-- <md-toolbar class="md-warn">
+      <div class="md-toolbar-tools">
+        <h2>Excluir Pessoa</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-svg-src="app/img/close.svg" aria-label="Fechar"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar> -->
+    <md-dialog-content>
+      <div class="md-dialog-content" layout="column">
+        <p>Excluir {{ pessoa.nome }} {{ pessoa.sobrenome }}?</p>
+        <!-- <md-list flex>
+          <md-list-item style="background: #fbe9e7">
+            <div class="md-avatar">
+              <i class="fas fa-exclamation-triangle fa-2x" style="color: #FF5252"></i>
+            </div>
+            <h3 style="color: #d50000">Tem certeza que quer excluir permanentemente essa pessoa?</h3>
+          </md-list-item>
+          <md-list-item class="md-2-line">
+            <img src="{{pessoa.photoUrl || 'app/img/profile.png'}}"
+            class="md-avatar" alt="{{pessoa.nome}} foto" >
+            <div class="md-list-item-text">
+              <h3>{{ pessoa.nome }} {{pessoa.sobrenome}}</h3>
+              <p>{{pessoa.email}}</p>
+            </div>
+          </md-list-item>
+        </md-list> -->
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="cancel()">Cancelar</md-button>
+      <md-button class="md-warn" type="submit">Excluir</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

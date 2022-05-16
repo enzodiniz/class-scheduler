@@ -1,0 +1,15 @@
+<md-dialog>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <i class="fas fa-exclamation-triangle" style="color: red"></i>
+            <h3>
+                Tem certeza que quer excluir permanentemente "{{display}}"?
+            </h3>
+            <p>Se você excluir um item, ele será perdido permanentemente.</p>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions>
+        <md-button ng-click="cancel()">Cancelar</md-button>
+        <md-button class="md-warn" md-autofocus ng-click="excluir()">Excluir</md-button>
+    </md-dialog-actions>
+</md-dialog>

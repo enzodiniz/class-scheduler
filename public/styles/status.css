@@ -1,0 +1,81 @@
+.desabilitada {
+    opacity: 0.3;
+}
+
+/* .normal {
+    background-color: rgb(255, 255, 255);
+    color: black;
+} */
+
+.livre {
+    /* background-color: rgb(97, 216, 86); */
+    background-color: rgb(100, 255, 100) !important;
+    color: white;
+}
+
+.livre-default {
+    background-color: rgb(100, 255, 100);
+    color: white;
+}
+
+.livre-default:not([disabled]):hover {
+    background-color: rgb(85, 222, 85);
+}
+
+.livre-default:not([disabled]):focus {
+    background-color: rgb(85, 222, 85);
+    color: white;
+}
+
+.livre-dark {
+  background-color: #519c51;
+}
+
+.falta {
+    background-color: rgb(255, 100, 100);
+    color: white
+}
+
+.falta:not([disabled]):hover {
+    background-color: rgb(219, 41, 41);
+}
+
+.falta:not([disabled]):focus {
+    background-color: rgba(229, 57, 57);
+}
+
+.falta-default {
+    background-color: rgb(255, 100, 100);
+    color: white
+}
+
+.falta-dark {
+    background-color: rgb(179, 70, 70);
+    color: white
+}
+
+
+.substituida-default {
+    background-color: rgb(255, 167, 52);
+    color: white
+}
+
+.substituida-default:not([disabled]):hover {
+  background-color: rgb(247, 156, 37);
+}
+
+.substituida-default:not([disabled]):focus {
+  background-color: rgb(247, 156, 37);
+}
+
+
+.substituida-dark {
+    background-color: rgb(208, 124, 16);
+    color: white
+}
+
+.substituida {
+    /* laranja */
+    background-color: rgb(255, 144, 0);
+    color: white
+}

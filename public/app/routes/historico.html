@@ -1,0 +1,138 @@
+<link rel="stylesheet" href="/app/components/historico/style.css">
+
+<md-content ng-controller="historicoCtrl2 as c" ng-cloak md-theme-watch md-theme="c.themeSelected">
+  <div layout="row" layout-align="center center">
+    <md-card>
+      <md-card-content>
+        <form name="relatorioForm" ng-submit="c.submit()" layout="row">
+          <md-input-container>
+            <label for="tipoR">Relatório</label>
+            <md-select id="tipoR" ng-model="c.tipoRelatorio" required>
+              <md-option ng-value="'personalizado'">Personalizado</md-option>
+              <md-option ng-value="'diario'">Diário</md-option>
+              <md-option ng-value="'semanal'">Semanal</md-option>
+              <md-option ng-value="'mensal'">Mensal</md-option>
+              <md-option ng-value="'anual'">Anual</md-option>
+            </md-select>
+          </md-input-container>
+
+          <md-input-container ng-show="c.tipoRelatorio == 'diario'">
+            <md-datepicker ng-model="c.daySelected"
+              ng-required="c.tipoRelatorio == 'diario'"
+              md-placeholder="Selecione o dia">
+            </md-datepicker>
+          </md-input-container>
+
+          <md-input-container ng-show="c.tipoRelatorio == 'semanal'">
+            <md-datepicker ng-model="c.semana"
+            ng-required="c.tipoRelatorio == 'semanal'"
+            md-placeholder="Selecione a semana"></md-datepicker>
+          </md-input-container>
+
+          <md-input-container ng-show="c.tipoRelatorio == 'mensal'">
+            <label for="mes">Mês</label>
+            <md-select id="mes" ng-model="c.monthSelected" name="mes"
+            ng-required="c.tipoRelatorio == 'mensal'">
+              <!-- <md-option ng-value="$index" ng-repeat="m in c.meses">
+                {{m}}
+              </md-option> -->
+              <md-option ng-value="0">Janeiro</md-option>
+              <md-option ng-value="1">Fevereiro</md-option>
+              <md-option ng-value="2">Março</md-option>
+              <md-option ng-value="3">Abril</md-option>
+              <md-option ng-value="4">Maio</md-option>
+              <md-option ng-value="5">Junho</md-option>
+              <md-option ng-value="6">Julho</md-option>
+              <md-option ng-value="7">Agosto</md-option>
+              <md-option ng-value="8">Setembro</md-option>
+              <md-option ng-value="9">Outubro</md-option>
+              <md-option ng-value="10">Novembro</md-option>
+              <md-option ng-value="11">Dezembro</md-option>
+            </md-select>
+
+            <div class="errors" ng-messages="relatorioForm.mes.$error">
+              <div ng-message="required">Você precisa selecionar o mês.</div>
+            </div>
+          </md-input-container>
+
+          <div ng-show="c.tipoRelatorio == 'personalizado'">
+            <md-input-container>
+              <md-datepicker ng-model="c.start"
+              ng-required="c.tipoRelatorio == 'personalizado'"
+              md-placeholder="Selecione o início"></md-datepicker>
+            </md-input-container>
+
+            <md-input-container>
+              <md-datepicker ng-model="c.end"
+              ng-required="c.tipoRelatorio == 'personalizado'"
+              md-placeholder="Selecione o fim"></md-datepicker>
+            </md-input-container>
+          </div>
+
+
+          <md-input-container ng-show="c.tipoRelatorio == 'anual'">
+            <label>Ano</label>
+            <input type="number" ng-model="c.ano" ng-required="c.tipoRelatorio == 'anual'"
+            name="ano">
+            <div class="errors" ng-messages="relatorioForm.ano.$error">
+              <div ng-message="required">Você precisa selecionar o ano.</div>
+            </div>
+          </md-input-container>
+
+          <div layout="column" layout-align="center">
+            <md-button type="submit" class="md-primary" 
+            ng-disabled="relatorioForm.$invalid">
+              <md-icon>query_stats</md-icon>
+              Consultar
+            </md-button>
+          </div>
+        </form>
+      </md-card-content>
+    </md-card>
+  </div>
+
+  <div layout="row" layout-align="center" ng-show="c.loading()">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </div>
+
+  <div layout="row" layout-align="center">
+    <md-card flex="60" flex-xs="100">
+        <md-card-content class="container-table">
+          <table class="table-professores">
+            <tr>
+                <th>Professores</th>
+                <th>Faltas</th>
+                <th>Justificadas</th>
+                <th>Ocupadas</th>
+            </tr>
+            <tr ng-repeat="professor in c.professores | orderBy: 'fullName'"
+                class="linha-table">
+                <td layout="row" layout-align="start center">
+                    <img ng-src="{{professor.photoUrl || 'app/img/profile.png'}}" class="photo-user"
+                    alt="{{professor.nome}}">
+                    {{ professor.fullName  }}
+                </td>
+                <td class="celula">
+                    {{ c.historico[professor.id]['numFaltas'] || 0 }}
+                    <md-button class="md-icon-button" ng-click="null">
+                        <md-icon>list</md-icon>
+                    </md-button>
+                </td>
+                <td class="celula">
+                    {{ c.historico[professor.id]['numJust'] || 0 }}
+                    <md-button class="md-icon-button" ng-click="null">
+                        <md-icon>list</md-icon>
+                    </md-button>
+                </td>
+                <td class="celula">
+                    {{ c.historico[professor.id]['numOcupadas'] || 0 }}
+                    <md-button class="md-icon-button" ng-click="null">
+                        <md-icon>list</md-icon>
+                    </md-button>
+                </td>
+            </tr>
+          </table>
+        </md-card-content>
+    </md-card>
+  </div>
+</md-content>

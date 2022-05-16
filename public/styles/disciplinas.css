@@ -1,0 +1,41 @@
+.btn-excluir {
+  margin-left: 2px;
+}
+
+.btn-excluir:hover {
+  cursor: pointer;
+}
+
+.table-horario {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+@media (max-width: 780px) {
+  .table-horario {
+    width: 800px;
+    border-collapse: collapse;
+  }
+}
+
+@media (max-width: 780px) {
+  .horario-container {
+    overflow-x: scroll;
+  }
+}
+
+.head-table-horario {
+  margin-bottom: 20px;
+}
+
+.label-horario {
+  width: 5%;
+}
+
+.slot-horario-teste {
+  border-bottom: 1px solid grey;
+  border-collapse: collapse;
+  width: 19%;
+  padding: 3px;
+  text-align: center;
+}

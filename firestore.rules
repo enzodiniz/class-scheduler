@@ -1,0 +1,83 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function eAdministrador(pessoaEmail) {
+        let pessoa = get(/databases/$(database)/documents/pessoas/$(pessoaEmail));
+        return inclui(pessoa.data.papeis, 'administrador');
+    }
+
+    function inclui(array, papel) {
+        return array[0] == papel || array[1] == papel || array[2] == papel;
+    }
+
+    function eProprioUsuario(emailPessoa, emailRequisicao) {
+        return emailPessoa == emailRequisicao;
+    }
+
+    function existePessoa(pessoaEmail) {
+        return exists(/databases/$(database)/documents/pessoas/$(pessoaEmail));
+    }
+
+    function eProfessor(email) {
+        let pessoa = get(/databases/$(database)/documents/pessoas/$(email));
+        return inclui(pessoa.data.papeis, 'professor');
+    }
+
+    function disciplinaDadosValidos(dados) {
+        let existePeriodo = exists(dados.refPeriodo);
+        let pessoa = get(dados.professor);
+        let existeProfessor = inclui(pessoa.data.papeis, 'professor');
+        let existeTurma = exists(dados.turma);
+        let existeTitulo = dados.titulo != null && dados.titulo != '';
+        return existePeriodo && existeProfessor && existeTurma && existeTitulo;
+    }
+
+    function cursoDadosValidos(dados) {
+        return dados.titulo != null && dados.titulo != '';
+    }
+
+    match /cursos/{cursoId} {
+        allow read: if existePessoa(request.auth.token.email);
+        allow write: if eAdministrador(request.auth.token.email) && 
+                        cursoDadosValidos(request.resource.data);
+    }
+
+    match /periodos/{periodoId} {
+        allow read: if existePessoa(request.auth.token.email);
+        allow write: if eAdministrador(request.auth.token.email);
+    }
+
+    match /pessoas/{emailPessoa} {
+        allow get: if request.auth != null;
+        allow update: if eAdministrador(request.auth.token.email) || 
+                         eProprioUsuario(request.auth.token.email, emailPessoa);
+        allow create, list, delete: if eAdministrador(request.auth.token.email)
+    }   
+
+    match /turmas/{turmaId} {
+        allow read: if existePessoa(request.auth.token.email);
+        allow write: if eAdministrador(request.auth.token.email);
+    } 
+
+    match /subturmas/{subturmaId} {
+        allow read: if existePessoa(request.auth.token.email);
+        allow write: if eAdministrador(request.auth.token.email);
+    }  
+
+    match /disciplinas/{disciplinaId} {
+        allow read: if existePessoa(request.auth.token.email); 
+        allow write: if eAdministrador(request.auth.token.email) && 
+                        disciplinaDadosValidos(request.resource.data);
+    }
+
+    match /substituicoes/{substituicaoId} {
+        allow get, list, delete, create: if existePessoa(request.auth.token.email);
+        allow update: if eProfessor(request.auth.token.email);
+    }
+
+    match /historico/{registroId} {
+        allow read: if eAdministrador(request.auth.token.email);
+        allow write: if existePessoa(request.auth.token.email);
+    }
+  }
+}

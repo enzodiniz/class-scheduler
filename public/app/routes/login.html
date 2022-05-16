@@ -1,24 +1,23 @@
-<div class="" ng-controller="authController as a">
-  <div class="carddemoBasicUsage">
-    <md-content class="md-padding" layout-xs="column" layout="row">
-      <div flex-xs="" flex-gt-xs="70" layout="column">
-        <md-card>
-          <md-card-title>
-            <md-card-title-text>
-              <span class="md-headline">Class Scheduler</span>
-              <!-- <span class="md-subhead">Large</span> -->
-            </md-card-title-text>
-            <md-card-title-media>
-              <div class="md-media-lg card-media"></div>
-            </md-card-title-media>
-          </md-card-title>
-          <md-card-content>
-          </md-card-content>
-          <md-card-actions layout="row" layout-align="end center">
-            <md-button ng-click="a.login()">Fazer Login com Google</md-button>
-          </md-card-actions>
-        </md-card>
-      </div>
-    </md-content>
-  </div>
-</div>
+<md-content ng-controller="authController as ctrl" flex layout="column" layout-align="start center">
+  <md-card>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Class Scheduler</span>
+      </md-card-title-text>
+    </md-card-title>
+
+    <md-card-content>
+      <p>
+        Aplicação de gerenciamento de aulas. Faça login com sua conta do Google para acessar
+        a aplicação.
+      </p>
+    </md-card-content>
+
+    <md-card-actions>
+      <md-button class="md-primary" ng-click="ctrl.loginComPopup()">
+        <md-icon>email</md-icon> 
+        Entrar com Google
+      </md-button>
+    </md-card-actions>
+  </md-card>
+</md-content>

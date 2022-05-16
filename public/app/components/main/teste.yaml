@@ -1,0 +1,25 @@
+- titulo: Português
+  emailProfessor: enzo.picui@gmail.com
+  turma: 1 Informática G1
+  horarios: 
+    - dia: 'segunda'
+      horario: 2
+    - dia: 'segunda'
+      horario: 3
+    - dia: 'quarta'
+      horario: 0
+    - dia: 'quarta'
+      horario: 1
+
+- titulo: Matemática 
+  emailProfessor: enzo.picui@gmail.com
+  turma: 1 Informática G1 
+  horarios: 
+    - dia: 'segunda'
+      horario: 2
+    - dia: 'segunda'
+      horario: 3
+    - dia: 'quarta'
+      horario: 0
+    - dia: 'quarta'
+      horario: 1

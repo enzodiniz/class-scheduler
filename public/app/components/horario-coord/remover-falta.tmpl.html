@@ -1,0 +1,37 @@
+<md-dialog aria-label="Remover falta">
+  <form ng-cloak ng-submit="hide()">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Remover Falta</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-svg-src="app/img/close.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <h2>Deseja remover essa marcação de falta?</h2>
+        <md-progress-linear ng-disabled="!isLoading()"></md-progress-linear>
+        <md-list>
+          <md-list-item class="md-2-line">
+            <img src="{{disciplina.professor.pessoa.photoUrl || 'app/img/profile.png'}}"
+            alt="{{disciplina.professor.pessoa.nome}} foto" class="md-avatar">
+
+            <div class="md-list-item-text">
+              <h3>
+                {{ disciplina.professor.pessoa.nome }}
+                {{ disciplina.professor.pessoa.sobrenome }}
+              </h3>
+              <p>{{ disciplina.titulo }}</p>
+            </div>
+          </md-list-item>
+        </md-list>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button type="submit" class="md-primary md-raised">Remover</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

@@ -1,0 +1,14 @@
+<md-dialog aria-label="Excluir disciplina">
+    <form ng-submit="hide(disciplina.id)" name="ExcluirForm">
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <h2>Tem certeza que quer excluir essa disciplina?</h2>
+                <span>Disciplina: {{ disciplina.titulo }}</span>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions>
+            <md-button ng-click="cancel()">Cancelar</md-button>
+            <md-button type="submit" class="md-warn">Excluir</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

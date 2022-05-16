@@ -1,0 +1,19 @@
+<div role="dialog" aria-label="Informações do usuário logado" ng-class="bodyClass">
+    <md-content md-theme="themeSelected" md-theme-watch>
+        <md-list>
+            <md-list-item href="./#!/perfil" ng-click="close()" class="md-2-line">
+                <img ng-src="{{user.photoUrl}}" class="md-avatar">
+                <div class="md-list-item-text">
+                    <h3>{{ user.nome }} {{ user.sobrenome }}</h3>
+                    <p>{{ user.email }}</p>
+                </div>
+            </md-list-item>
+            <md-list-item ng-click="logout()">
+                <div class="md-avatar">
+                    <md-icon>logout</md-icon>
+                </div>
+                <span>Sair</span>
+            </md-list-item>
+        </md-list>
+    </md-content>
+</div>

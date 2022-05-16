@@ -1,0 +1,55 @@
+body {
+  background-image: url('https://media.gazetadopovo.com.br/2017/03/ebc136c4e48ff4be0f8e5ed02eebdd75-gpMedium.png')
+}
+
+.table-horario {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+@media (max-width: 780px) {
+  .table-horario {
+    width: 800px;
+    border-collapse: collapse;
+  }
+}
+
+@media (max-width: 780px) {
+  .horario-container {
+    overflow-x: scroll;
+  }
+}
+
+.head-table-horario {
+  margin-bottom: 20px;
+}
+
+.label-horario {
+  width: 5%;
+}
+
+.date-table {
+  border: none;
+  color: grey;
+  text-align: center;
+  height: 12px;
+}
+
+.slot-horario-teste {
+  border-bottom: 1px solid grey;
+  border-collapse: collapse;
+  width: 19%;
+  padding: 3px;
+  text-align: center;
+}
+
+
+.btn-form-inline {
+  margin-top: 16px;
+}
+
+@media (max-width: 780px) {
+  .btn-form-inline {
+    margin-top: 0;
+  }
+}

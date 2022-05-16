@@ -1,0 +1,43 @@
+.pessoa-item.ng-enter,
+.pessoa-item.ng-leave,
+.pessoa-item.ng-move
+ {
+  transition: 0.5s linear all;
+}
+
+.pessoa-item.ng-enter {
+  /* height: 0px; */
+  overflow: hidden;
+  /* opacity: 0; */
+  transform: scale(1, 0.2);
+}
+
+.pessoa-item.ng-enter.ng-enter-active {
+  /* height: 80px; */
+  /* opacity: 1; */
+  transform: scale(1);
+}
+
+.pessoa-item.ng-move {
+  /* opacity: 0;
+  height: 2px; */
+  transform: scale(1, 0.2);
+}
+
+.pessoa-item.ng-move.ng-move-active {
+  /* opacity: 1;
+  height: 80px; */
+  transform: scale(1);
+}
+
+.pessoa-item.ng-leave {
+  opacity: 1;
+  height: 80px;
+}
+
+.pessoa-item.ng-leave.ng-leave-active {
+  opacity: 0;
+  height: 0px;
+  margin: 0;
+  padding: 0;
+}

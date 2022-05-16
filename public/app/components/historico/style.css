@@ -1,0 +1,26 @@
+.photo-user {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 7px;
+}
+
+.table-professores {
+    width: 100%;
+}
+
+@media(max-width: 600px) {
+    .table-professores {
+        width: 150%;
+    }
+}
+
+.container-table {
+    overflow-x: auto;
+}
+
+.celula {
+    text-align: center;
+    vertical-align: middle;
+}
+

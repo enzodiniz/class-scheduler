@@ -1,0 +1,81 @@
+<md-dialog aria-label="Detalhes de aula substituída">
+  <form name="justificarForm" ng-submit="hide()">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h4>Aula Substituída</h4>
+
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()" aria-label="Fechar dialog">
+          <md-icon>close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <!-- <div ng-if="isLoading()" layout="row" layout-align="center center"
+        style="height: 150px;">
+          <md-progress-circular md-mode="indeterminate" ng-disabled="!isLoading()"></md-progress-circular>
+        </div> -->
+
+        <!-- <div ng-if="!isLoading()"> -->
+        <div>
+
+          <!-- <div id="substituto-aula">
+            <p>Essa aula foi substituída por: </p>
+            <md-list class="md-dense">
+              <md-list-item>
+                <img src="{{substituto.professor.pessoa.photoUrl}}" alt="" class="md-avatar">
+                <span>
+                  {{substituto.professor.pessoa.nome}}
+                  {{substituto.professor.pessoa.sobrenome}}
+                </span>
+              </md-list-item>
+            </md-list>
+          </div>
+          <md-progress-linear ng-disabled="!isLoading()"></md-progress-linear> -->
+
+          <p>
+            Essa aula foi substituída por:
+
+            <md-progress-linear ng-disabled="!isLoading()"></md-progress-linear>
+
+            <span layout="row" layout-align="center" ng-hide="isLoading()">
+              <img src="{{substituto.professor.pessoa.photoUrl}}"
+              style="height: 20px; width: 20px; margin-right: 3px;">
+
+              {{substituto.professor.pessoa.nome}}
+              {{substituto.professor.pessoa.sobrenome}}
+            </span>
+          </p>
+
+          <md-divider></md-divider>
+
+          <div ng-show="substituicao.motivo">
+            <h4>Motivo da falta</h4>
+            <p>{{substituicao.motivo}}</p>
+          </div>
+
+          <div ng-show="!substituicao.motivo">
+            <p>Você ainda não informou o motivo dessa falta.</p>
+
+            <md-input-container class="md-block">
+              <label for="motivo">Motivo</label>
+
+              <textarea name="motivo" cols="25" rows="2"
+              required ng-model="motivoFalta" md-autofocus></textarea>
+            </md-input-container>
+          </div>
+        </div>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" ng-show="!substituicao.motivo">
+      <md-button ng-click="cancel()">Cancelar</md-button>
+
+      <md-button class="md-primary md-raised" type="submit"
+      ng-disabled="justificarForm.$invalid">
+        Justificar
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

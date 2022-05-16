@@ -1,0 +1,383 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  /*background-color: white;*/
+}
+
+::-webkit-scrollbar {
+
+}
+::-webkit-scrollbar-track {
+  background-color: rgb(65, 65, 65);
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgb(27, 26, 26);
+}
+
+.body-light {
+  background-color: rgb(250, 250, 250);
+}
+.body-dark {
+  background-color: black;
+}
+
+.toolbar-dark {
+    background-color: rgb(100, 100, 100) !important;
+}
+.toolbar-dark-2 {
+    /* background-color: rgb(66, 66, 66) !important; */
+    background-color: rgb(90, 91, 94) !important;
+    color: white !important; 
+}
+
+.title-home-card {
+  text-decoration: none;
+}
+.title-home-card:hover {
+  text-decoration: underline;
+}
+
+.container-user-info {
+    position: fixed;
+    top: 100px;
+    right: 12px;
+}
+.user-info-image {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+.user-info-image:hover {
+  cursor: pointer;
+  box-shadow: 0 0 1em rgba(0, 0, 0, 0.4);
+}
+
+.error2 {
+  padding: 8px;
+  background-color: rgb(255,87,34);
+  color: white;
+  margin: 20px;
+  border-radius: 7px;
+}
+
+@media (max-width: 780px) {
+  .horario {
+    overflow-x: scroll;
+  }
+}
+
+#error-container {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 10px;
+  z-index: 21;
+}
+
+.show-error {
+  position: -webkit-sticky;
+  position: sticky;
+
+  animation-name: _show;
+  animation-duration: 0.8s;
+  animation-fill-mode: forwards;
+  display: flex;
+}
+
+@keyframes _show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.hide-error {
+  position: relative;
+  animation-name: _hide;
+  animation-duration: 0.4s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes _hide {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.loadingAplicationSpan {
+  height: 100%;
+}
+
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.obj-loading {
+  height: 40px;
+  width: 6px;
+  background-color: #303F9F;
+  margin: 0 3px;
+  border-radius: 10px;
+  animation: loading 0.8s infinite;
+}
+
+.obj-loading:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.obj-loading:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.obj-loading:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.obj-loading:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+.obj-loading:nth-child(6) {
+  animation-delay: 0.5s;
+}
+
+.obj-loading:nth-child(7) {
+  animation-delay: 0.6s;
+}
+.obj-loading:nth-child(8) {
+  animation-delay: 0.7s;
+}
+
+@keyframes loading {
+  0% {
+    height: 0px;
+  }
+  50% {
+    height: 40px;
+  }
+  100% {
+    height: 0px;
+  }
+}
+
+.bottom-right {
+  position: fixed;
+  right: 17px;
+  bottom: 12px;
+}
+
+.dialog-with-fab {
+  position: relative;
+}
+
+.fab-in-dialog {
+  position: absolute;
+  right: 2px;
+  bottom: 1px;
+}
+
+.hint {
+  /* Copy styles from ng-messages */
+  font-size: 12px;
+  line-height: 14px;
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
+  /* Set our own color */
+  color: grey;
+}
+
+.slot-horario {
+  height: 80px;
+  overflow: hidden;
+}
+
+/* classe da foto do usuário nos autocomplete */
+.photo-autocomplete {
+  height:30px;
+  width:30px;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+
+.photo {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  margin-right: 3px; }
+
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+
+.desaparece button {
+  opacity: 0;
+}
+.desaparece:hover button, .desaparece button:focus {
+  opacity: 1;
+}
+.desaparece2 button {
+  opacity: 0;
+}
+.desaparece2:hover button {
+  opacity: 1;
+}
+
+.my-btn {
+  border-radius: 8px;
+}
+.select-turmas {
+  min-width: 180px;
+}
+.select-disc {
+  min-width: 200px;
+}
+.label-turma {
+  font-size: 13px;
+}
+
+/* overflows */
+.card-content {
+  overflow: auto;
+}
+.contentHorarios {
+  overflow: auto;
+}
+.segunda md-list-item, .terca md-list-item, .quarta md-list-item,
+.quinta md-list-item,
+.sexta md-list-item {
+  overflow: hidden;
+}
+
+/* .segunda md-card-title, .quarta md-card-title, .sexta md-card-title {
+  background: #D1DEEC
+}
+.terca md-card-title, .quinta md-card-title {
+  background-color: #E3ECF5;
+} */
+
+/* títulos dos cards */
+.segunda md-card-title {
+  /* Background: Azul */
+  background-color: rgb(22, 85, 186);
+
+  /* Texto: Branco */
+  color: rgb(255, 255, 255);
+}
+.terca md-card-title {
+  /* background-color: rgb(255, 245, 145); */ /*amarelo*/
+  /* background-color: rgb(255, 244, 38); /* amarelo escuro */
+  background-color: rgb(255, 152, 79); /* laranja*/
+  color: rgb(255, 255, 255);
+}
+.quarta md-card-title {
+  /* Verde */
+  background-color: rgb(7, 96, 25);
+  color: rgb(255, 255, 255);
+}
+.quinta md-card-title {
+  /* Roxo */
+  background-color: rgb(203, 155, 255);
+  /* background-color: rgb(249, 119, 119); */ /*rosa*/
+  color: rgb(255, 255, 255);
+}
+.sexta md-card-title {
+  /* Cinza */
+  background-color: rgb(68, 68, 68);
+  color: rgb(255, 255, 255);
+}
+
+/* Classes da lista de horário */
+.item-par {
+  /* background-color: rgb(201, 214, 235); */
+  background-color: #D1DEEC;
+}
+.item-impar {
+  /* background-color: rgb(255, 255, 255); */
+  background-color: #E3ECF5;
+}
+
+/* Cor dos ícones do fontawesome igual a dos ícones do material design */
+.icones-lista {
+  color: rgb(119, 119, 119);
+}
+
+/* Classes: Progresso linear */
+.progress-linear .container {
+  display: block;
+  position: relative;
+  width: 100%;
+  border: 2px solid #aad1f9;
+  transition: opacity  0.1s linear;
+  border-top: 0px; }
+
+.progress-linear .bottom-block {
+  display: block;
+  position: relative;
+  background-color: rgba(255, 235, 169, 0.25);
+  height: 85px;
+  width: 100%; }
+
+.progress-linear .bottom-block > span {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 25px;
+  font-size: 0.9em; }
+
+/* Sem essa classe o Toast não funciona em telas que tem barra de rolagem */
+.my-toast {
+  position: fixed;
+}
+
+.subir {
+  animation: fab-subir 0.1s linear forwards;
+}
+
+@keyframes fab-subir {
+  0% {
+    position: fixed;
+    right: 5px;
+    bottom: 12px;
+  }
+
+  100% {
+    position: fixed;
+    right: 5px;
+    bottom: 50px;
+  }
+}
+
+.autocomplete-custom-template .md-autocomplete-suggestion {
+  border-bottom: 1px solid #ccc;
+  height: auto;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  white-space: normal;
+}
+.autocomplete-custom-template .md-autocomplete-suggestion:last-child {
+  border-bottom-width: 0;
+}
+.autocomplete-custom-template .item-title,
+.autocomplete-custom-template .item-metadata {
+  display: block;
+  line-height: 2;
+}
+
+.item-metadata {
+  color: rgb(94, 94, 94);
+}
+
+.custom-container {
+  min-width: 300px !important;
+}

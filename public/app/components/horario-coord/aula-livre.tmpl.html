@@ -1,0 +1,34 @@
+<md-dialog aria-label="Detalhes de aula livre">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Falta</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="cancel()">
+        <md-icon md-svg-src="app/img/close.svg" aria-label="Close dialog"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <div class="md-dialog-content">
+      <div layout="row" layout-align="center" ng-show="isLoading()">
+        <md-progress-circular md-diameter="60" ng-disabled="!isLoading()"></md-progress-circular>
+      </div>
+
+      <md-list ng-hide="isLoading()">
+        <md-list-item class="md-2-line">
+          <img src="{{disciplina.professor.pessoa.photoUrl}}" alt="" class="md-avatar">
+          <div class="md-list-item-text">
+            <h3>
+              {{disciplina.professor.pessoa.nome}}
+              {{disciplina.professor.pessoa.sobrenome}}
+            </h3>
+            <p>{{disciplina.professor.pessoa.email}}</p>
+          </div>
+        </md-list-item>
+        <md-list-item class="md-offset">
+          <span>Motivo da falta: {{substituicao.motivo}}</span>
+        </md-list-item>
+      </md-list>
+    </div>
+  </md-dialog-content>
+</md-dialog>

@@ -1,0 +1,18 @@
+<md-dialog aria-label="Remover subturmas" md-theme="themeSelected" md-theme-watch>
+    <form ng-submit="hide()">
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <p>
+                    Excluir permanentemente as subturmas
+                    {{turma.data.serie}}º de {{turma.data.curso.titulo}} G1
+                    e {{turma.data.serie}}º de {{turma.data.curso.titulo}} G2?
+                </p>
+            </div>
+        </md-dialog-content>
+        
+        <md-dialog-actions>
+            <md-button ng-click="cancel()">Cancelar</md-button>
+            <md-button class="md-warn" md-autofocus type="submit">Excluir</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -1,54 +1,246 @@
-<div ng-controller = "discCtrl as c">
-	<md-card ng-cloak>
-		<md-list ng-cloak="" class="listdemoListControls">
-			<md-toolbar layout="row" class="md-hue-3">
-				<div class="md-toolbar-tools">
-					<span>Disciplinas</span>
-					<span flex></span>
-					<md-button class="md-raised md-primary" ng-click="c.salvarDisciplina($event)">
-						Add disciplina
-					</md-button>
-				</div>
-			</md-toolbar>
-			<md-list-item class="secondary-button-padding" ng-click="null"
-			ng-show="c.disciplinas.length == 0" ng-cloak="">
-				Nenhuma disciplina cadastrada.
-		  </md-list-item>
+<link rel="stylesheet" href="/styles/disciplinas.css">
 
-		  <md-list-item class="md-2-line item-de-lista desaparece" ng-repeat="d in c.disciplinas"
-			ng-click="null" id="{{d.id}}item">
-				<b>{{d.titulo}}</b>&nbsp
-				turma: {{d.turma.serie}}º {{d.turma.curso}} <div class="espaco"></div>
-				professor: {{d.professor.nome}} {{d.professor.sobrenome}}
-				<span flex></span>
+<div ng-cloak ng-controller="discCtrl2 as ctrl" md-theme="ctrl.themeSelected" md-theme-watch>
+  <md-content layout="row" layout-align="center">
+    <form name="queryForm" ng-submit="ctrl.getDisciplinas(ctrl.turmaSelected)" flex-xs="100">
+    <!-- <form name="queryForm" ng-submit="ctrl.getDisciplinas2(ctrl.turmaSelected)" flex-xs="100"> -->
+      <md-card md-theme-watch md-theme="ctrl.themeSelected">
+        <md-card-content>
+          <div layout="row" layout-xs="column">
+            <md-input-container>
+              <label>Período</label>
+              <md-select ng-model="ctrl.periodoSelected" md-on-open="ctrl.loadPeriodos()"
+              required>
+                <md-option><em>Nenhum</em></md-option>
+                <md-option ng-repeat="periodo in ctrl.listaPeriodos" ng-value="periodo">
+                  {{periodo.ano}}.{{periodo.semestre}}
+                </md-option>
+              </md-select>
+            </md-input-container>
 
-				<md-fab-speed-dial md-open="c.isOpen" md-direction="left" ng-class="c.selectedMode"
-				ng-cloak>
-        			<md-fab-trigger>
-          				<md-button id="{{d.id}}btO" class="md-fab md-raised"
-          				aria-label="More" ng-click="c.openMenu(d.id)">
-          					<md-tooltip md-direction="{{c.direction}}">Opções</md-tooltip>
-    						<md-icon md-svg-icon="app/img/options.svg"></md-icon>
-  						</md-button>
-			        </md-fab-trigger>
+            <md-input-container>
+              <label>Curso</label>
+              <md-select ng-model="ctrl.cursoSelected" md-on-open="ctrl.loadCursos()"
+              required>
+                <md-option><em>Nenhum</em></md-option>
+                <md-option ng-repeat="curso in ctrl.listaCursos" ng-value="curso">
+                  {{curso.titulo}}
+                </md-option>
+              </md-select>
+            </md-input-container>
 
-			        <md-fab-actions>
-			        	<md-button id="{{d.id}}btE" aria-label="Editar"
-			        	class="md-fab md-raised md-mini" ng-click="c.editarDisciplina($event, d)">
-			        		<md-tooltip md-direction="bottom">Editar</md-tooltip>
-			            	<md-icon md-svg-src="app/img/editar.svg" aria-label="Editar">
-			            	</md-icon>
-			          	</md-button>
-			          	<md-button aria-label="Excluir" class="md-fab md-raised md-warn md-mini"
-			          	id="{{d.id}}btX" ng-click="c.excluirDisciplina(d.id)">
-			          		<md-tooltip md-direction="bottom">Excluir</md-tooltip>
-			            	<md-icon md-svg-src="app/img/close.svg" aria-label="Excluir">
-			            	</md-icon>
-			          	</md-button>
-			        </md-fab-actions>
-			    </md-fab-speed-dial>
-				<md-divider ng-if="!$last"></md-divider>
-		  </md-list-item>
-		</md-list>
-	</md-card>
+            <md-input-container>
+              <label>Turma</label>
+              <md-select ng-model="ctrl.turmaSelected" md-on-open="ctrl.loadTurmas()"
+              ng-disabled="!ctrl.cursoSelected || !ctrl.periodoSelected" required>
+                <md-option><em>Nenhum</em></md-option>
+                <md-option ng-repeat="turma in ctrl.listaTurmas" ng-value="turma">
+                  {{ turma.serie }}º de {{ turma.curso.titulo }}
+                  <span ng-show="turma.titulo">{{turma.titulo}}</span>
+                </md-option>
+              </md-select>
+            </md-input-container>
+
+            <div layout="column" layout-align="center">
+              <md-button class="md-primary" type="submit" ng-disabled="queryForm.$invalid">
+                <md-icon>search</md-icon>
+                Buscar
+              </md-button>
+            </div>
+          </div>
+        </md-card-content>
+      </md-card>
+    </form>
+  </md-content>
+
+
+  <md-content>
+    <div ng-show="ctrl.loadingHorarios" layout="row" layout-align="space-around">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <md-card ng-show="!ctrl.loadingHorarios">
+      <md-card-content class="horario-container">
+        <table class="table-horario md-dense">
+          <tr class="head-table-horario">
+            <th><span class="material-icons">schedule</span></th>
+            <th>Segunda</th>
+            <th>Terça</th>
+            <th>Quarta</th>
+            <th>Quinta</th>
+            <th>Sexta</th>
+          </tr>
+
+          <tr ng-repeat="horario in ['07:00', '07:50', '08:40', '09:50', '10:40', '11:30',
+          '13:00', '13:50', '14:40', '15:50', '16:40', '18:20', '19:10', '20:00', '20:50']
+          track by $index">
+            <td class="label-horario">
+              <div>
+                {{ horario }}
+              </div>
+            </td>
+
+            <td class="slot-horario-teste">
+              <div ng-show="ctrl.horario[1][$index]" layout="row" layout-align="end">
+                <md-button
+                ng-click="ctrl.showEditDisciplina($event, ctrl.horario[1][$index])">
+                  {{ ctrl.horario[1][$index].titulo }}
+                </md-button>
+                <md-button class="md-icon-button" aria-label="Excluir disciplina"
+                            ng-click="ctrl.showRemoverDisciplina($event, ctrl.horario[1][$index])">
+                    <md-icon>delete_outline</md-icon>
+                </md-button>
+              </div>
+
+              <div ng-show="ctrl.horarioG1[1][$index]" layout="row" layout-align="end">
+                <md-button
+                ng-click="ctrl.showEditDisciplina($event, ctrl.horarioG1[1][$index])">
+                  {{ ctrl.horarioG1[1][$index].titulo }} G1
+                </md-button>
+                <md-button class="md-icon-button" aria-label="Excluir disciplina"
+                           ng-click="ctrl.showRemoverDisciplina($event, ctrl.horarioG1[1][$index])">
+                    <md-icon>delete_outline</md-icon>
+                </md-button>
+              </div>
+              <div ng-show="ctrl.horarioG2[1][$index]" layout="row" layout-align="end">
+                <md-button
+                ng-click="ctrl.showEditDisciplina($event, ctrl.horarioG2[1][$index])">
+                  {{ ctrl.horarioG2[1][$index].titulo }} G2
+                </md-button>
+                <md-button class="md-icon-button" aria-label="Excluir disciplina"
+                           ng-click="ctrl.showRemoverDisciplina($event, ctrl.horarioG2[1][$index])">
+                    <md-icon>delete_outline</md-icon>
+                </md-button>
+              </div>
+            </td>
+
+            <td class="slot-horario-teste">
+              <div ng-show="ctrl.horario[2][$index]" layout="row" layout-align="end">
+                <md-button ng-click="ctrl.showEditDisciplina($event, ctrl.horario[2][$index])">
+                  {{ ctrl.horario[2][$index].titulo }}
+                </md-button>
+                <md-button class="md-icon-button" aria-label="Excluir disciplina"
+                           ng-click="ctrl.showRemoverDisciplina($event, ctrl.horario[2][$index])">
+                    <md-icon>delete_outline</md-icon>
+                </md-button>
+              </div>
+              <div ng-show="ctrl.horarioG1[2][$index]" layout="row" layout-align="end">
+                <md-button ng-click="ctrl.showEditDisciplina($event, ctrl.horarioG1[2][$index])">
+                  {{ ctrl.horarioG1[2][$index].titulo }} G1
+                </md-button>
+                <md-button class="md-icon-button" aria-label="Excluir disciplina"
+                           ng-click="ctrl.showRemoverDisciplina($event, ctrl.horarioG1[2][$index])">
+                    <md-icon>delete_outline</md-icon>
+                </md-button>
+              </div>
+              <div ng-show="ctrl.horarioG2[2][$index]" layout="row" layout-align="end">
+                <md-button ng-click="ctrl.showEditDisciplina($event, ctrl.horarioG2[2][$index])">
+                  {{ ctrl.horarioG2[2][$index].titulo }} G2
+                </md-button>
+                <md-button class="md-icon-button" aria-label="Excluir disciplina"
+                           ng-click="ctrl.showRemoverDisciplina($event, ctrl.horarioG2[2][$index])">
+                    <md-icon>delete_outline</md-icon>
+                </md-button>
+              </div>
+            </td>
+
+            <td class="slot-horario-teste">
+              <div ng-show="ctrl.horario[3][$index]" layout="row" layout-align="end">
+                <md-button ng-click="ctrl.showEditDisciplina($event, ctrl.horario[3][$index])">
+                  {{ ctrl.horario[3][$index].titulo }}
+                </md-button>
+                <md-button class="md-icon-button" aria-label="Excluir disciplina"
+                           ng-click="ctrl.showRemoverDisciplina($event, ctrl.horario[3][$index])">
+                    <md-icon>delete_outline</md-icon>
+                </md-button>
+              </div>
+              <div ng-show="ctrl.horarioG1[3][$index]" layout="row" layout-align="end">
+                <md-button ng-click="ctrl.showEditDisciplina($event, ctrl.horarioG1[3][$index])">
+                  {{ ctrl.horarioG1[3][$index].titulo }} G1
+                </md-button>
+                <md-button class="md-icon-button" aria-label="Excluir disciplina"
+                           ng-click="ctrl.showRemoverDisciplina($event, ctrl.horarioG1[3][$index])">
+                    <md-icon>delete_outline</md-icon>
+                </md-button>
+              </div>
+              <div ng-show="ctrl.horarioG2[3][$index]" layout="row" layout-align="end">
+                <md-button ng-click="ctrl.showEditDisciplina($event, ctrl.horarioG2[3][$index])">
+                  {{ ctrl.horarioG2[3][$index].titulo }} G2
+                </md-button>
+                <md-button class="md-icon-button" aria-label="Excluir disciplina"
+                           ng-click="ctrl.showRemoverDisciplina($event, ctrl.horarioG2[3][$index])">
+                    <md-icon>delete_outline</md-icon>
+                </md-button>
+              </div>
+            </td>
+
+            <td class="slot-horario-teste">
+              <div ng-show="ctrl.horario[4][$index]"layout="row" layout-align="end">
+                <md-button
+                ng-click="ctrl.showEditDisciplina($event, ctrl.horario[4][$index])">
+                  {{ ctrl.horario[4][$index].titulo }}
+                </md-button>
+                <md-button class="md-icon-button" aria-label="Excluir disciplina"
+                           ng-click="ctrl.showRemoverDisciplina($event, ctrl.horario[4][$index])">
+                    <md-icon>delete_outline</md-icon>
+                </md-button>
+              </div>
+              <div ng-show="ctrl.horarioG1[4][$index]"layout="row" layout-align="end">
+                <md-button ng-click="ctrl.showEditDisciplina($event, ctrl.horarioG1[4][$index])">
+                  {{ ctrl.horarioG1[4][$index].titulo }} G1
+                </md-button>
+                <md-button class="md-icon-button" aria-label="Excluir disciplina"
+                           ng-click="ctrl.showRemoverDisciplina($event, ctrl.horarioG1[4][$index])">
+                    <md-icon>delete_outline</md-icon>
+                </md-button>
+              </div>
+              <div ng-show="ctrl.horarioG2[4][$index]"layout="row" layout-align="end">
+                <md-button
+                ng-click="ctrl.showEditDisciplina($event, ctrl.horarioG2[4][$index])">
+                  {{ ctrl.horarioG2[4][$index].titulo }} G2
+                </md-button>
+                <md-button class="md-icon-button" aria-label="Excluir disciplina"
+                           ng-click="ctrl.showRemoverDisciplina($event, ctrl.horarioG2[4][$index])">
+                    <md-icon>delete_outline</md-icon>
+                </md-button>
+              </div>
+            </td>
+
+            <td class="slot-horario-teste">
+              <div ng-show="ctrl.horario[5][$index]" layout="row" layout-align="end">
+                <md-button ng-click="ctrl.showEditDisciplina($event, ctrl.horario[5][$index])">
+                  {{ c.horario[5][$index].titulo }}
+                </md-button>
+                <md-button class="md-icon-button" aria-label="Excluir disciplina"
+                           ng-click="ctrl.showRemoverDisciplina($event, ctrl.horario[5][$index])">
+                    <md-icon>delete_outline</md-icon>
+                </md-button>
+              </div>
+              <div ng-show="ctrl.horarioG1[5][$index]" layout="row" layout-align="end">
+                <md-button ng-click="ctrl.showEditDisciplina($event, ctrl.horarioG1[5][$index])">
+                  {{ ctrl.horarioG1[5][$index].titulo }} G1
+                </md-button>
+                <md-button class="md-icon-button" aria-label="Excluir disciplina"
+                           ng-click="ctrl.showRemoverDisciplina($event, ctrl.horarioG1[5][$index])">
+                    <md-icon>delete_outline</md-icon>
+                </md-button>
+              </div>
+              <div ng-show="ctrl.horarioG2[5][$index]" layout="row" layout-align="end">
+                <md-button ng-click="ctrl.showEditDisciplina($event, ctrl.horarioG2[5][$index])">
+                  {{ ctrl.horarioG2[5][$index].titulo }} G2
+                </md-button>
+                <md-button class="md-icon-button" aria-label="Excluir disciplina"
+                           ng-click="ctrl.showRemoverDisciplina($event, ctrl.horarioG2[5][$index])">
+                    <md-icon>delete_outline</md-icon>
+                </md-button>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </md-card-content>
+    </md-card>
+  </md-content>
+
+  <md-button class="bottom-right md-fab" ng-click="ctrl.showAddDisciplina($event)">
+    <md-icon>add</md-icon>
+  </md-button>
 </div>

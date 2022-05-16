@@ -1,0 +1,187 @@
+<link rel="stylesheet" href="/styles/pessoas.css">
+
+<md-content ng-cloak ng-controller="pessoasCtrl as vm" layout="row" layout-xs="column"
+md-theme="vm.themeSelected" md-theme-watch>
+  <div flex="33" flex-xs="100">
+    <md-card flex md-theme-watch md-theme="vm.themeSelected">
+      <md-card-header>
+        <md-card-avatar>
+          <span class="material-icons" style="font-size: 40px;">people</span>
+        </md-card-avatar>
+        <md-card-header-text>
+          <span class="md-title">Pessoas</span>
+          <span class="md-subhead" ng-show="!vm.buscandoPessoas">{{vm.pessoas.length}} pessoas</span>
+        </md-card-header-text>
+      </md-card-header>
+
+      <md-card-content ng-init="vm.getPessoas()">
+
+        <div layout="row" layout-sm="column" layout-align="space-around"
+        ng-if="vm.loadingPessoas">
+          <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </div>
+
+        <md-list flex>
+          <md-list-item class="md-2-line pessoa-item" ng-repeat="pessoa in vm.pessoas | orderBy: 'fullName'">
+            <img ng-src="{{pessoa.photoUrl || 'app/img/profile.png'}}" class="md-avatar"
+            alt="{{pessoa.nome}}" />
+            <div class="md-list-item-text" layout="column">
+              <h3 md-truncate>{{ pessoa.nome }} {{ pessoa.sobrenome }}</h3>
+              <p md-truncate>{{ pessoa.email }}</p>
+            </div>
+
+            <md-menu>
+              <md-button aria-label="Abrir menu de pessoa" class="md-icon-button"
+              ng-click="vm.openMenu($mdMenu, $event)">
+                <!-- <md-icon md-menu-origin md-font-icon="fas fa-ellipsis-h fa-lg"></md-icon> -->
+                <md-icon md-menu-origin>more_horiz</md-icon>
+              </md-button>
+              <md-menu-content width="4">
+                <md-menu-item>
+                  <md-button ng-click="vm.tornarProfessor(pessoa)">
+                    <md-icon md-menu-align-target>school</md-icon>
+                    Tornar professor
+                  </md-button>
+                </md-menu-item>
+
+                <md-menu-item>
+                  <md-button ng-click="vm.tornarCoordenador(pessoa)">
+                    <!-- <md-icon md-font-icon="fas fa-user-cog fa-lg" md-menu-align-target></md-icon> -->
+                    <md-icon md-menu-align-target>manage_accounts</md-icon>
+                    Tornar coordenador
+                  </md-button>
+                </md-menu-item>
+
+                <md-divider></md-divider>
+
+                <md-menu-item>
+                  <md-button ng-click="vm.showEditPerson(pessoa)">
+                    <md-icon md-menu-align-target>edit</md-icon>
+                    Editar
+                  </md-button>
+                </md-menu-item>
+
+                <md-menu-item>
+                  <md-button ng-click="vm.deletePessoa(pessoa)">
+                    <!-- <md-icon md-font-icon="fas fa-user-minus fa-lg" md-menu-align-target></md-icon> -->
+                    <md-icon md-menu-align-target>delete_outline</md-icon>
+                    Excluir
+                  </md-button>
+                </md-menu-item>
+              </md-menu-content>
+            </md-menu>
+            <md-divider ng-if="!$last" md-inset></md-divider>
+          </md-list-item>
+        </md-list>
+      </md-card-content>
+    </md-card>
+  </div>
+
+
+  <div flex="33" flex-xs="100">
+    <md-card flex md-theme-watch md-theme="vm.themeSelected">
+      <md-card-header>
+        <md-card-avatar>
+          <span class="material-icons" style="font-size: 40px;">manage_accounts</span>
+        </md-card-avatar>
+        <md-card-header-text>
+          <span class="md-title">Coordenadores de Turno</span>
+          <span class="md-subhead" ng-show="!vm.loadingPessoas">{{vm.coordenadores.length}} coordenadores</span>
+        </md-card-header-text>
+      </md-card-header>
+      <md-card-content>
+        <div layout="row" layout-sm="column" layout-align="space-around"
+        ng-if="vm.loadingPessoas">
+          <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </div>
+
+        <md-list flex>
+          <md-list-item class="md-2-line pessoa-item"
+          ng-repeat="coordenador in vm.coordenadores | orderBy:'fullName'">
+            <img ng-src="{{coordenador.photoUrl || 'app/img/profile.png'}}" class="md-avatar"
+            alt="{{coordenador.nome}}" />
+
+            <div class="md-list-item-text" layout="column">
+              <h3 md-truncate>{{ coordenador.fullName }}</h3>
+              <p md-truncate>{{ coordenador.email }}</p>
+            </div>
+
+            <md-menu>
+              <md-button aria-label="Abrir opções do coordenador" class="md-icon-button"
+              ng-click="vm.openMenu($mdMenu, $event)">
+                <md-icon md-menu-origin>more_horiz</md-icon>
+              </md-button>
+              <md-menu-content width="3">
+                <md-menu-item>
+                  <md-button ng-click="vm.excluirCoordenador(coordenador)">
+                    <md-icon md-menu-align-target>person_remove</md-icon>
+                    Remover
+                  </md-button>
+                </md-menu-item>
+              </md-menu-content>
+            </md-menu>
+
+            <md-divider ng-if="!$last" md-inset></md-divider>
+          </md-list-item>
+        </md-list>
+      </md-card-content>
+    </md-card>
+  </div>
+ 
+  <div flex="33" flex-xs="100">
+    <md-card flex md-theme-watch md-theme="vm.themeSelected">
+      <md-card-header>
+        <md-card-avatar>
+          <span class="material-icons" style="font-size: 40px;">school</span>
+        </md-card-avatar>
+        <md-card-header-text>
+          <span class="md-title">Professores</span>
+          <span class="md-subhead" ng-show="!vm.loadingPessoas">{{vm.professores.length}} professores</span>
+        </md-card-header-text>
+      </md-card-header>
+      <md-card-content>
+        <div layout="row" layout-sm="column" layout-align="space-around"
+          ng-if="vm.loadingPessoas">
+          <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </div>
+        <md-list flex>
+          <md-list-item class="md-2-line pessoa-item" 
+            ng-repeat="professor in vm.professores | orderBy: 'fullName'">
+            <img ng-src="{{professor.photoUrl || 'app/img/profile.png'}}"
+            class="md-avatar" alt="{{professor.nome}}" />
+            <div class="md-list-item-text" layout="column">
+              <h3 md-truncate>{{ professor.fullName }}</h3>
+              <p md-truncate>{{ professor.email }}</p>
+            </div>
+
+            <md-menu>
+              <md-button aria-label="Menu de professor" class="md-icon-button"
+              ng-click="vm.openMenu($mdMenu, $event)">
+                <md-icon md-menu-origin>more_horiz</md-icon>
+              </md-button>
+              <md-menu-content width="3">
+                <md-menu-item>
+                  <md-button ng-click="vm.excluirProfessor(professor)">
+                    <md-icon md-menu-align-target>person_remove</md-icon>
+                    Remover
+                  </md-button>
+                </md-menu-item>
+              </md-menu-content>
+            </md-menu>
+
+            <md-divider ng-if="!$last" md-inset></md-divider>
+          </md-list-item>
+        </md-list>
+      </md-card-content>
+    </md-card>
+  </div>
+
+  <md-button class="md-fab bottom-right"
+  ng-click="vm.mostrarAdicionarPessoa($event)"
+  md-theme="vm.themeSelected"
+  md-theme-watch
+  aria-label="Adicionar pessoa">
+    <md-icon>person_add_alt</md-icon>
+    <md-tooltip md-direction="left">Adicionar pessoa</md-tooltip>
+  </md-button>
+</md-content>
