@@ -1,1 +1,6 @@
 firebase-debug.log
+.firebaserc
+tests/node_modules
+tests/ui-debug.log
+tests/firestore-debug.log
+tests/firebase-debug.log

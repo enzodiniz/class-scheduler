@@ -1,122 +1,289 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link rel="stylesheet"  href="/node_modules/angular-material/angular-material.css"> -->
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
-    <title>Class Scheduler</title>
+<html lang="pt">
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/4.6.0/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/4.6.0/firebase-auth.js"></script>
-    <script defer src="/__/firebase/4.6.0/firebase-database.js"></script>
-    <!-- <script defer src="/__/firebase/4.3.0/firebase-messaging.js"></script> -->
-    <script defer src="/__/firebase/4.6.0/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- <script src="https://www.gstatic.com/firebasejs/4.5.1/firebase.js"></script> -->
-    <script defer src="https://www.gstatic.com/firebasejs/4.5.1/firebase-firestore.js"></script>
+  <!-- Favicons -->
+  <link rel="shortcut icon" href="/app/img/favicon.ico">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-animate.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-aria.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular-route.min.js">
-    </script>
-    <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
-    <script defer src="./app/app.module.js"></script>
-    <script defer src="app/controllers/main.controller.js"></script>
-    <script defer src="app/controllers/auth.controller.js"></script>
-    <script defer src="app/controllers/home.controller.js"></script>
-    <script defer src="app/controllers/disc.controller.js"></script>
-    <script defer src="app/controllers/turma.controller.js"></script>
-    <script defer src="app/controllers/prof.controller.js"></script>
-    <script defer src="app/controllers/aula.controller.js"></script>
-    <style type="text/css">
-      .item-de-lista {
-        font-size: 15px;
-      }
-      .item-de-lista:hover {
-        font-size: 16px;
-      }
-      .desaparece button {
-        opacity: 0;
-      }
-      .desaparece:hover button {
-        opacity: 1;
-      }
-      .espaco {
-        margin: 4px;
-      }
-      
-    </style>
-  </head>
-  <body ng-app="class-scheduler" ng-controller="MainController as c" ng-cloak>
+  <!-- Chrome, Firefox and Opera on Android -->
+  <!-- <meta name="theme-color" content="#303F9F">
+  <meta name="application-name" content="Class Scheduler">
+  <meta name="mobile-web-app-capable" content="yes"> -->
 
-    <!-- <md-toolbar>
-      <div class="md-toolbar-tools">
-         <md-button ng-click="" href="http://localhost:5000" class="md-icon-button md-raised">
-            <md-icon md-svg-src="app/img/home.svg"></md-icon>            
-          </md-button>
-          <md-button class="md-raised" ng-click="c.redirecionarTurma()">
-            Turmas
-          </md-button>
-          <md-button class="md-raised" ng-click="c.redirecionarDisc()">
-            Disciplinas
-          </md-button>
-          <md-button class="md-raised" ng-click="c.redirecionarProf()">
-            Professores
-          </md-button>
-          <md-button class="md-raised" ng-click="c.redirecionarAula()">
-            Aulas
-          </md-button>
-          <span flex></span>
-          <md-button class="md-raised md-warn" ng-click="c.logOut()" align="">
-            Sair
-          </md-button>
-      </div>
-    </md-toolbar> -->
+  <!-- IOS  -->
+  <!-- <meta name="apple-mobile-web-app-title" content="Class Scheduler">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#303F9F">
+  <meta name="apple-mobile-web-app-capable" content="yes"> -->
 
-    <!-- Começo da barra de menu -->
-    <div ng-show="c.logado" class="fabToolbardemoBasicUsage">
-      <md-fab-toolbar md-open="c.demo.isOpen" count="c.demo.count"
-      md-direction="c.demo.selectedDirection" ng-mouseenter="c.demo.isOpen=true" 
-      ng-mouseleave="c.demo.isOpen=false">
-        <md-fab-trigger class="align-with-text">
-          <md-button aria-label="menu" class="md-fab md-primary">
-            <md-icon md-svg-src="app/img/menu_48.svg"></md-icon>
-          </md-button>
-        </md-fab-trigger>
+  <!-- <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> -->
 
-        <md-toolbar>
-          <md-fab-actions class="md-toolbar-tools">
-            <md-button ng-click="" href="http://localhost:5000" class="md-icon-button md-raised">
-              <md-icon md-svg-src="app/img/home.svg"></md-icon>            
-            </md-button>
-            <md-button class="md-raised" ng-click="c.redirecionarTurma()">
-              Turmas
-            </md-button>
-            <md-button class="md-raised" ng-click="c.redirecionarDisc()">
-              Disciplinas
-            </md-button>
-            <md-button class="md-raised" ng-click="c.redirecionarProf()">
-              Professores
-            </md-button>
-            <md-button class="md-raised" ng-click="c.redirecionarAula()">
-              Aulas
-            </md-button>
-            <md-button class="md-raised md-warn" ng-click="c.logOut()" align="">
-              Sair
-            </md-button>
-          </md-fab-actions>
-        </md-toolbar>
-      </md-fab-toolbar>
+  <!-- Material Angular style sheet, Font Awesome style sheet -->
+  <!-- <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/1.1.18/angular-material.min.css"> -->
+  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/1.2.2/angular-material.min.css">
+  <link rel="stylesheet" href="resources/css/fontawesome-all.min.css">
+  <link rel="stylesheet" href="/styles/main.css">
+  <link rel="stylesheet" href="/styles/professores.css">
+  <link rel="stylesheet" href="/styles/status.css">
+
+  <!-- fonte da Google -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,500">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <title id="titlePage">Class Scheduler</title>
+
+  <!-- update the version number as needed -->
+  <!-- Firebase App. Tem que ser importado primeiro e é obrigatório -->
+  <script defer src="/__/firebase/4.6.0/firebase-app.js"></script>
+
+  <!-- include only the Firebase features as you need -->
+  <script defer src="/__/firebase/4.6.0/firebase-auth.js"></script>
+  <!-- <script defer src="/__/firebase/4.3.0/firebase-messaging.js"></script> -->
+  <!-- <script defer src="/__/firebase/4.6.0/firebase-storage.js"></script> -->
+  <!-- initialize the SDK after all desired features are loaded -->
+  <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+  <!-- <script defer src="/__/firebase/init.js?useEmulator=true"></script> -->
+
+  <!-- Biblioteca do Cloud Firestore -->
+  <!-- <script defer src="https://www.gstatic.com/firebasejs/4.5.1/firebase-firestore.js"></script> -->
+  <script defer src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+
+  <!-- Blibiotecas do Angular.js -->
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-animate.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-aria.min.js"></script> -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-animate.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-aria.min.js"></script>
+
+  <!-- Biblioteca das messagens de erro do Angular Material -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.min.js"></script>
+
+  <!-- Blibiotecas do Angular Material, do Angular Route e do Angular Fire -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.2.2/angular-material.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.18/angular-material.min.js"></script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular-route.min.js"></script>
+  <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+
+  <!-- App angular.js (módulo) -->
+  <script defer src="app/app.module.js"></script>
+  <script defer src="app/app.dateConfig.js"></script>
+</head>
+
+<body ng-app="class-scheduler" ng-controller="MainController as c" layout="column"
+      md-theme="c.themeSelected" md-theme-watch>
+
+  <div id="loadingAplicationSpan" class="loadingAplicationSpan">
+    <div class="loading">
+      <div class="obj-loading"></div>
+      <div class="obj-loading"></div>
+      <div class="obj-loading"></div>
+      <div class="obj-loading"></div>
+      <div class="obj-loading"></div>
+      <div class="obj-loading"></div>
+      <div class="obj-loading"></div>
+      <div class="obj-loading"></div>
     </div>
-    <!-- Fim da barra de menu -->
-    <!-- Templates -->
-    <div ng-view></div>
-  </body>
+  </div>
+
+  <md-toolbar ng-cloak class="{{c.themeSelected == 'dark' ? 'toolbar-dark-2' : ''}}">
+    <div class="md-toolbar-tools">
+      <md-button ng-click="c.toggleLeft()" class="md-icon-button"
+        aria-label="Mostrar menu" ng-show="c.user">
+        <md-icon>menu</md-icon>
+      </md-button>
+
+      <h2 flex md-truncate>Class Scheduler ─ {{ c.toolbar.titulo }}</h2>
+
+      <!-- Botão para adicionar professores, turmas, disciplinas... -->
+      <md-button ng-click="c.addDoc($event)" ng-cloak class="md-raised md-primary md-hue-2"
+      aria-label="adicionar documento" ng-show="c.loggedIn && c.toolbar.btVisible">
+        <!-- <md-tooltip md-direction="bottom">{{ c.toolbar.tooltipBt }}</md-tooltip> -->
+        <i class="fas fa-plus-circle"></i>
+        <span>{{ c.toolbar.nomeBt }}</span>
+      </md-button>
+
+      <a ng-click="c.showUserInfo2($event)" id="user-info-button" class="show-button">
+        <img ng-src="{{ c.user.photoUrl }}"
+          alt="{{ c.nome }}"
+          class="user-info-image">
+      </a>
+    </div>
+  </md-toolbar>
+
+  <!-- <alert-enzo></alert-enzo> -->
+
+  <!-- <div class="error2" layout="row" layout-align="start center" md-colors="{ ::{background: 'default-warn'} }">
+    <p>Ocorreu um erro</p>
+    <span flex></span>
+    <md-button class="md-icon-button">
+      <md-icon>close</md-icon>
+    </md-button>
+  </div> -->
+
+  <!-- Mensagem de erro -->
+  <md-content layout="row" layout-align="center start" ng-show="c.alert.visible"
+   id="error-container" ng-cloak>
+    <div flex="70" flex-xs="100">
+      <md-card style="border-radius: 20px;" md-theme-watch md-theme="c.themeSelected">
+        <md-toolbar class="md-warn"
+        style="border-top-left-radius: 20px; border-top-right-radius: 20px;">
+          <div class="md-toolbar-tools">
+            <h4 style="color: white;">Ops! Ocorreu um erro!</h4>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="c.hideAlert()">
+              <md-icon md-svg-src="app/img/close.svg" aria-label="Fechar alerta"></md-icon>
+            </md-button>
+          </div>
+        </md-toolbar>
+        <md-card-content class="md-warn">
+          <p>☹️ {{c.alert.message}}</p>
+        </md-card-content>
+      </md-card>
+    </div>
+  </md-content>
+
+  <md-content ng-show="c.carregandoPessoa()" layout="row" layout-align="center center">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </md-content>
+
+  <div class="container" layout="row" flex ng-class="c.bodyClass" ng-cloak>
+    <md-sidenav class="md-sidenav-left" md-component-id="left" md-whiteframe="4"
+    md-theme-watch md-theme="c.themeSelected">
+      <md-toolbar class="{{c.themeSelected == 'dark' ? 'toolbar-dark' : ''}}">
+        <div class="md-toolbar-tools">
+          <md-button ng-click="c.toggleLeft()" class="md-icon-button" aria-label="Ocultar menu">
+            <md-icon md-svg-src="app/img/barras.svg"></md-icon>
+          </md-button>
+          <h2 md-truncate>{{ c.toolbar.titulo }}</h2>
+        </div>
+      </md-toolbar>
+
+      <md-content layout="column" layout-padding>
+
+        <!-- Progresso visível enquanto o usuário está sendo buscado -->
+        <md-progress-linear md-mode="indeterminate" ng-show="c.buscandoPessoa"></md-progress-linear>
+
+        <md-list>
+          <!-- <md-list-item class="md-2-line" href="./#!/perfil" ng-click="c.toggleLeft()">
+            <img src="{{ c.imgUser }}" alt="{{c.nome}}" class="md-avatar">
+            <div class="md-list-item-text">
+              <h3>{{c.user.nome}} {{c.user.sobrenome}}</h3>
+              <p>{{ c.user.email }}</p>
+            </div>
+          </md-list-item> -->
+
+          <md-list-item class="md-2-line" ng-click="c.toggleLeft()" href="./#!/home">
+            <div class="md-avatar">
+              <span class="material-icons" style="font-size: 2em;">home</span>
+            </div>
+            <div class="md-list-item-text">
+              <h3>Home</h3>
+              <p>Tela inicial</p>
+            </div>
+          </md-list-item>
+
+          <md-list-item class="md-2-line md-offset" ng-click="c.toggleLeft()" href="./#!/horario-teste"
+          ng-if="c.user.papeis.includes('professor')">
+            <!-- <div class="md-avatar">
+              <i class="fas fa-table fa-2x"></i>
+            </div> -->
+            <div class="md-list-item-text">
+              <h3>Horário de turma</h3>
+              <p>Visualizar horário de turma. Ocupar aulas vagas</p>
+            </div>
+          </md-list-item>
+
+          <md-list-item class="md-2-line md-offset" ng-click="c.toggleLeft()" href="./#!/minhas-aulas"
+          ng-if="c.user.papeis.includes('professor')">
+            <!-- <div class="md-avatar">
+              <i class="fas fa-table fa-2x"></i>
+            </div> -->
+            <div class="md-list-item-text">
+              <h3>Minhas aulas</h3>
+              <p>Gerenciar suas aulas</p>
+            </div>
+          </md-list-item>
+
+          <md-list-item class="md-2-line md-offset" ng-click="c.toggleLeft()" href="./#!/horario-coord2"
+          ng-if="c.user.papeis.includes('coordenador')">
+            <!-- <div class="md-avatar">
+              <i class="fas fa-table fa-2x"></i>
+            </div> -->
+            <div class="md-list-item-text">
+              <h3>Registrar aula vaga</h3>
+              <p>Registrar aulas vagas, em que os professores faltaram.</p>
+            </div>
+          </md-list-item>
+
+          <md-list-item class="md-2-line" ng-click="c.toggleLeft()" href="./#!/historico"
+          ng-if="c.user.papeis.includes('administrador')">
+            <div class="md-avatar">
+              <span class="material-icons" style="font-size: 2em;">history</span>
+            </div>
+            <div class="md-list-item-text">
+              <h3>Histórico</h3>
+              <p>Consultar o histórico de substituições.</p>
+            </div>
+          </md-list-item>
+
+          <!-- <md-list-item ng-click="c.logOut()" ng-show="c.loggedIn">
+            <div class="md-avatar">
+              <span class="material-icons" style="font-size: 2em;">logout</span>
+            </div>
+            <p>Sair</p>
+          </md-list-item> -->
+        </md-list>
+      </md-content>
+    </md-sidenav>
+
+    <md-content flex ng-view ng-class="c.bodyClass" layout="column"></md-content>
+  </div>
+
+
+  <!-- services -->
+  <script defer src="app/components/services/alert.service.js"></script>
+  <script defer src="app/components/services/auth.service.js"></script>
+  <script defer src="app/components/services/disciplina.service.js"></script>
+  <script defer src="app/components/services/turma.service.js"></script>
+  <script defer src="app/components/services/substituicao.service.js"></script>
+  <script defer src="app/components/services/horario.service.js"></script>
+  <script defer src="app/components/services/professor.service.js"></script>
+  <script defer src="app/components/services/curso.service.js"></script>
+  <script defer src="app/components/services/periodo.service.js"></script>
+  <script defer src="app/components/services/pessoa.service.js"></script>
+  <script defer src="app/components/services/coordenador.service.js"></script>
+  <script defer src="app/components/services/historico.service.js"></script>
+  <script defer src="app/components/services/theme.service.js"></script>
+
+  <!-- controllers -->
+  <script defer src="app/components/main/main.controller.js"></script>
+  <script defer src="app/components/auth/auth.controller.js"></script>
+  <script defer src="app/components/home/home.controller.js"></script>
+  <script defer src="app/components/disciplinas/disciplinas.controller.js"></script>
+  <script defer src="app/components/turmas/turma.controller.js"></script>
+  <script defer src="app/components/cursos/curso.controller.js"></script>
+  <!-- <script defer src="app/components/pessoas/pessoas.controller.js"></script> -->
+  <script defer src="app/components/pessoas/pessoas2.controller.js"></script>
+  <script defer src="app/components/perfil/perfil.controller.js"></script>
+
+  <!-- Coordenador de turno -->
+  <!-- <script defer src="app/components/horario-coord/horario-coord.controller.js"></script> -->
+  <script defer src="app/components/horario-coord/horario-coord-2.controller.js"></script>
+  <!-- <script defer src="app/coordTurno/controllers/horario.controller.js"></script> -->
+  <script defer src="app/components/historico/historico.controller.js"></script>
+
+  <!-- Professor -->
+  <script defer src="app/components/horario-turma/horario-turma-teste.controller.js"></script>
+  <script defer src="app/components/horario-turma/horario-turma-refatorando.controller.js"></script>
+  <script defer src="app/components/minhas-aulas/minhas-aulas.controller.js"></script>
+
+  <script src="app/components/alert/alert.module.js" charset="utf-8" defer></script>
+  <script src="app/components/alert/alert.component.js" charset="utf-8" defer></script>
+</body>
 </html>
